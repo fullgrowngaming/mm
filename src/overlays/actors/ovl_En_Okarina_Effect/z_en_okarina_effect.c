@@ -8,6 +8,11 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 
+void func_8096B104(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void func_8096B174(EnOkarinaEffect* this, GlobalContext* globalCtx);
+
+f32 D_8096B2B0 = 501.0f;
+
 /*
 const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
@@ -22,13 +27,31 @@ const ActorInit En_Okarina_Effect_InitVars = {
 };
 */
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/func_8096B0A0.asm")
+//func_8096B0A0
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc* actionFunc) {
+    this->actionFunc = actionFunc;
+}
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/EnOkarinaEffect_Destroy.asm")
+void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/EnOkarinaEffect_Init.asm")
+void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnOkarinaEffect* this = THIS;
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/func_8096B104.asm")
+    if (globalCtx->kankyoContext.unkF3) {
+        Actor_MarkForDeath(&this->actor);
+    }
+    EnOkarinaEffect_SetupAction(&this->actor, func_8096B104);
+}
+
+void func_8096B104(EnOkarinaEffect* this, GlobalContext *globalCtx) {
+    this->unk144 = 0x50;
+    globalCtx->unk170FA = 0x3C;
+    D_801F4E70 = D_8096B2B0;
+    globalCtx->kankyoContext.unkE3 = 2;
+    func_800FD78C(globalCtx);
+    EnOkarinaEffect_SetupAction(this, func_8096B174);
+}
 
 GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/func_8096B174.asm")
 
