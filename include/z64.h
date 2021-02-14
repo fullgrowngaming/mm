@@ -897,10 +897,10 @@ typedef struct {
     /* 0x89 */ UNK_TYPE1 unk89;
     /* 0x8A */ UNK_TYPE1 unk8A;
     /* 0x8B */ UNK_TYPE1 unk8B;
-    /* 0x8C */ Vec3s unk8C;
-    /* 0x92 */ Vec3s unk92;
-    /* 0x98 */ Vec3s unk98;
-    /* 0x9E */ Vec3s unk9E;
+    /* 0x8C */ s16 unk8C[3];
+    /* 0x92 */ s16 unk92[3];
+    /* 0x98 */ s16 unk98[3];
+    /* 0x9E */ s16 unk9E[3];
     /* 0xA4 */ s16 unkA4;
     /* 0xA6 */ s16 unkA6;
     /* 0xA8 */ UNK_TYPE1 unkA8;
@@ -957,6 +957,7 @@ typedef struct {
     /* 0xF1 */ u8 unkF1;
     /* 0xF2 */ u8 unkF2;
     /* 0xF3 */ u8 unkF3;
+    /* 0xF4 */ char unkF4[0xC];
 } KankyoContext; // size = 0xF4
 
 typedef struct {
@@ -1620,7 +1621,6 @@ struct GlobalContext {
     /* 0x17000 */ u16 unk17000;
     /* 0x17002 */ UNK_TYPE1 pad17002[0x2];
     /* 0x17004 */ KankyoContext kankyoContext;
-    /* 0x170F8 */ char unk170F8[0xC];
     /* 0x17104 */ AnimationContext animationCtx;
     /* 0x17D88 */ SceneContext sceneContext;
     /* 0x186E0 */ RoomContext roomContext;

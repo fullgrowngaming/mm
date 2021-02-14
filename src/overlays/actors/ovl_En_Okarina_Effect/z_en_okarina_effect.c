@@ -42,7 +42,7 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_8096B104(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->unk144 = 0x50;
-    globalCtx->unk170F8[5] = 0x3C;
+    globalCtx->kankyoContext.unkF4[5] = 0x3C;
     D_801F4E70 = 501.0f;
     globalCtx->kankyoContext.unkE3 = 2;
     func_800FD78C(globalCtx);
@@ -58,10 +58,10 @@ void func_8096B174(EnOkarinaEffect* this, GlobalContext* globalCtx) {
 }
 
 void func_8096B1FC(EnOkarinaEffect* this, GlobalContext* globalCtx) {
-    if (globalCtx->unk170F8[5]) {
+    if (globalCtx->kankyoContext.unkF4[5]) {
         if ((globalCtx->state.frames & 3) == 0) {
-            --globalCtx->unk170F8[5];
-            if (globalCtx->unk170F8[5] == 8) {
+            --globalCtx->kankyoContext.unkF4[5];
+            if (globalCtx->kankyoContext.unkF4[5] == 8) {
                 func_800FD858(globalCtx);
             }
         }
