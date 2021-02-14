@@ -10,10 +10,8 @@ void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8096B104(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void func_8096B174(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void func_8096B1FC(EnOkarinaEffect* this, GlobalContext* globalCtx);
 
-f32 D_8096B2B0 = 501.0f;
-
-/*
 const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORTYPE_ITEMACTION,
@@ -23,11 +21,9 @@ const ActorInit En_Okarina_Effect_InitVars = {
     (ActorFunc)EnOkarinaEffect_Init,
     (ActorFunc)EnOkarinaEffect_Destroy,
     (ActorFunc)EnOkarinaEffect_Update,
-    (ActorFunc)NULL
+    (ActorFunc)NULL,
 };
-*/
 
-//func_8096B0A0
 void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc* actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -38,23 +34,44 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOkarinaEffect* this = THIS;
 
-    if (globalCtx->kankyoContext.unkF3) {
+    if (globalCtx->kankyoContext.unkF1) {
         Actor_MarkForDeath(&this->actor);
     }
     EnOkarinaEffect_SetupAction(&this->actor, func_8096B104);
 }
 
-void func_8096B104(EnOkarinaEffect* this, GlobalContext *globalCtx) {
+void func_8096B104(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->unk144 = 0x50;
-    globalCtx->unk170FA = 0x3C;
-    D_801F4E70 = D_8096B2B0;
+    globalCtx->unk170F8[5] = 0x3C;
+    D_801F4E70 = 501.0f;
     globalCtx->kankyoContext.unkE3 = 2;
     func_800FD78C(globalCtx);
     EnOkarinaEffect_SetupAction(this, func_8096B174);
 }
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/func_8096B174.asm")
+void func_8096B174(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+    DECR(this->unk144);
+    if (!globalCtx->unk16D30.unk1EC && !globalCtx->unk17000 && !globalCtx->msgCtx.unk11F10 &&
+        !func_8016A01C(globalCtx) && this->unk144 == 0) {
+        EnOkarinaEffect_SetupAction(this, func_8096B1FC);
+    }
+}
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/func_8096B1FC.asm")
+void func_8096B1FC(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+    if (globalCtx->unk170F8[5]) {
+        if ((globalCtx->state.frames & 3) == 0) {
+            --globalCtx->unk170F8[5];
+            if (globalCtx->unk170F8[5] == 8) {
+                func_800FD858(globalCtx);
+            }
+        }
+    } else {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
 
-GLOBAL_ASM("asm/non_matchings/ovl_En_Okarina_Effect_0x8096B0A0/EnOkarinaEffect_Update.asm")
+void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnOkarinaEffect* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}

@@ -7,11 +7,10 @@ struct EnOkarinaEffect;
 
 typedef void (*EnOkarinaEffectActionFunc)(struct EnOkarinaEffect*, GlobalContext*);
 
-
 typedef struct EnOkarinaEffect {
     /* 0x000 */ Actor actor;
     /* 0x144 */ u16 unk144;
-    /* 0x146 */ char unk_146[0x6];
+    /* 0x146 */ u16 unk146;
     /* 0x148 */ EnOkarinaEffectActionFunc actionFunc;
 } EnOkarinaEffect; // size = 0x14C
 
