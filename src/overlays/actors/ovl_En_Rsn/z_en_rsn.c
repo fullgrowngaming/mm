@@ -37,10 +37,10 @@ extern AnimationHeader D_06009120;
 extern AnimationHeader D_0600788C;
 extern Gfx D_06005458[];
 
-static EnRsn_AnimationStruct animation = { &D_0600788C, 1.0f, 0.0f, 0.0f, 0x00, 0.0f };
+static EnRsn_AnimationStruct animations[] = { {&D_0600788C, 1.0f, 0.0f, 0.0f, 0x00, 0.0f} };
 
 void func_80C25D40(EnRsn* this) {
-    func_800BDC5C(&this->skelAnime, &animation, 0);
+    func_800BDC5C(&this->skelAnime, &animations, 0);
     this->actionFunc = func_80C25D84;
 }
 
