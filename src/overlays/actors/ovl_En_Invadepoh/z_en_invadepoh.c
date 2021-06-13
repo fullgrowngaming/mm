@@ -8,6 +8,21 @@ void EnInvadepoh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Update(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
+void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
+void func_80B47FA8(Actor* thisx, GlobalContext* globalCtx);
+void func_80B481C4(Actor* thisx, GlobalContext* globalCtx);
+void func_80B48620(Actor* thisx, GlobalContext* globalCtx);
+void func_80B48FB0(Actor* thisx, GlobalContext* globalCtx);
+void func_80B49F88(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4A9C8(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4B0C4(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4CE54(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4B8BC(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx);
+void func_80B49B1C(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx);
+
 /*
 const ActorInit En_Invadepoh_InitVars = {
     ACTOR_EN_INVADEPOH,
@@ -21,6 +36,32 @@ const ActorInit En_Invadepoh_InitVars = {
     (ActorFunc)NULL,
 };
 */
+
+extern EnInvadepohInitFunc D_80B4ECB0[]; //init functions
+extern InitChainEntry D_80B4EC24;
+extern InitChainEntry D_80B4EC34;
+extern InitChainEntry D_80B4EC44;
+extern InitChainEntry D_80B4EC54;
+extern InitChainEntry D_80B4EC80;
+extern InitChainEntry D_80B4EC98;
+extern InitChainEntry D_80B4EC68;
+extern ColliderCylinderInit D_80B4E8B0[];
+extern ColliderCylinderInit D_80B4E8DC[];
+extern ColliderCylinderInit D_80B4E908[];
+
+//func_80B468B4-----------
+extern Vec3f D_80B4E934;
+extern f32 D_80B4EE88;
+extern f32 D_80B4EE8C;
+//------------------------
+
+//bss---------------------
+extern UNK_TYPE D_80B4E940;
+
+UNK_TYPE D_80B503F4;
+UNK_TYPE D_80B503F8;
+UNK_TYPE D_80B50404;
+UNK_TYPE D_80B5040A;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B439B0.asm")
 
@@ -122,8 +163,15 @@ const ActorInit En_Invadepoh_InitVars = {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4560C.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45648.asm")
+void func_80B45648(EnInvadepoh* this) {
+    s32 i;
+    s16 phi_s1 = this->actor.cutscene;
 
+    for (i = D_80B50404; i < D_80B5040A; i += 2){
+        D_80B50404 = phi_s1;
+        D_80B50404 = ActorCutscene_GetAdditionalCutscene(this->actor.cutscene);
+    }
+}
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B456A8.asm")
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B457A0.asm")
@@ -154,23 +202,233 @@ const ActorInit En_Invadepoh_InitVars = {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B461DC.asm")
 
+#ifdef NON_MATCHING
+//Matching other than regs, and it's mostly around the loop at the beginning
+//of the function. I tried for a full day to get this to match. It's cursed.
+void func_80B4627C(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    u32 invadepohType = ((s32) this->actor.params >> 8) & 0x7F;
+    u32 i;
+    u8 unk1;
+
+    this->actor.flags |= 0x20;
+    
+    for (i = 1; i < 8; i++){
+        unk1 = globalCtx->setupPathList[invadepohType].unk1;
+        if (1) { } if (1) { }
+        invadepohType = unk1;
+        if (invadepohType == 0xFF){
+            break;
+        }
+    }
+
+    this->unk379 = i;
+    func_80B451A0(this, globalCtx);
+    func_80B45648(this);
+    func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_SWITCH);
+
+    if (D_80B4E940 == 1) {
+        func_80B46DA8(this);
+        return;
+    }
+
+    if (D_80B4E940 == 2) {
+        if (gSaveContext.time < 0x1AD8) {
+            func_80B46DA8(this);
+            return;
+        }
+        func_80B454BC(this, globalCtx);
+        func_80B452EC(this, globalCtx);
+        func_801A89A8(0x800D);
+        func_80B46F88(this);
+        return;
+    }
+
+    if (D_80B4E940 == 3) {
+        if (gSaveContext.entranceIndex == 0x6460) {
+            func_80B47248(this);
+            return;
+        }
+        if (gSaveContext.entranceIndex == 0x6470) {
+            func_80B47248(this);
+            return;
+        }
+        func_80B471C0(this);
+        return;
+    }
+
+    if (D_80B4E940 == 4) {
+        func_80B47304(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4627C.asm")
+#endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46414.asm")
+void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46520.asm")
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC24);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    ActorShape_Init(&this->actor.shape, 6800.0f, func_800B4088, 150.0f);
+    this->actor.shape.shadowAlpha = 0x8C;
+    this->actor.flags = 0x80001010;
+    if (((this->actor.params >> 4) & 0xF) == 13) {
+        this->actor.update = func_80B4D670;
+        this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
+    } else {
+        this->actor.update = func_80B47BAC;
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B4E8B0);
+        this->actor.colChkInfo.mass = 0x28;
+    }
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_UCH);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B465CC.asm")
+void func_80B46520(EnInvadepoh* this, GlobalContext* globalCtx) {
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC34);
+    this->actor.update = func_80B47FA8;
+    Actor_SpawnWithParent(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_INVADEPOH, 0.0f, 0.0f, 0.0f, 0, 0, 0,
+                          0x30);
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_COW);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46644.asm")
+void func_80B465CC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC44);
+    this->actor.update = func_80B481C4;
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_COW);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B468B4.asm")
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 temp;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B469C4.asm")
+    temp = (this->actor.params >> 4) & 0xF;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46A80.asm")
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC54);
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/EnInvadepoh_Init.asm")
+    this->actor.targetMode = (temp == 7 || temp == 0xC) ? 3 : 6;
+
+    func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    if (temp != 4) {
+        ActorShape_Init(&this->actor.shape, 0, func_800B3FC0, 18.0f);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B4E8DC);
+        this->actor.colChkInfo.mass = 0xFF;
+    }
+    if (temp == 4) {
+        this->actor.update = func_80B48620;
+    } else if (temp == 5) {
+        this->actor.update = func_80B48FB0;
+        this->actor.flags = 0x19;
+    } else if (temp == 7) {
+        this->actor.update = func_80B49F88;
+    } else if (temp == 8) {
+        this->actor.update = func_80B4A9C8;
+    } else if (temp == 9) {
+        this->actor.update = func_80B4B0C4;
+    } else {
+        this->actor.update = func_80B4CE54;
+    }
+
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MA1);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+    if (temp == 5) {
+        if (gSaveContext.weekEventReg[0x16] & 0x1) {
+            Actor_MarkForDeath(&this->actor);
+            return;
+        }
+    } else if (temp == 7) {
+        if (gSaveContext.time < 0x4000 && gSaveContext.time >= 0x1800) {
+            Actor_MarkForDeath(&this->actor);
+            return;
+        }
+    } else if (temp != 8) {
+        if (temp == 9) {
+            if (gSaveContext.entranceIndex != 0x6460) {
+                Actor_MarkForDeath(&this->actor);
+                return;
+            }
+        } else if (temp == 0xC) {
+            if (!(gSaveContext.weekEventReg[0x16] & 0x1)) {
+                Actor_MarkForDeath(&this->actor);
+            }
+            D_80B503F4 = &this->actor;
+        }
+    }
+}
+
+void func_80B468B4(EnInvadepoh* this, GlobalContext* globalCtx) {
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC68);
+    this->actor.update = func_80B49B1C;
+    this->actor.draw = func_80B4E3F0;
+    func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
+    if (D_80B4E940 == 1 || gSaveContext.time < 0x1AD8) {
+        this->actor.world.pos.x += D_80B4E934.x;
+        this->actor.world.pos.y += D_80B4E934.y + D_80B4EE88;
+        this->actor.world.pos.z += D_80B4E934.z;
+        func_80B491EC(this);
+        return;
+    }
+    if (D_80B4E940 == 2) {
+        this->actor.world.pos.y += D_80B4EE8C;
+        func_80B49628(this);
+        return;
+    }
+    Actor_MarkForDeath(&this->actor);
+}
+
+void func_80B469C4(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC80);
+    this->actor.update = func_80B4B8BC;
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B4E908);
+    this->actor.colChkInfo.mass = 0x50;
+    ActorShape_Init(&this->actor.shape, 0, func_800B3FC0, 24.0f);
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DOG);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
+
+void func_80B46A80(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    Actor_ProcessInitChain(&this->actor, &D_80B4EC98);
+    this->actor.update = func_80B4C3A0;
+    func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B4E8DC);
+    this->actor.colChkInfo.mass = 0xFE;
+    ActorShape_Init(&this->actor.shape, 0, func_800B3FC0, 18.0f);
+    this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MA2);
+    if (this->unk2F4 < 0) {
+        Actor_MarkForDeath(&this->actor);
+    }
+    if (!(gSaveContext.weekEventReg[0x16] & 1)) {
+        Actor_MarkForDeath(&this->actor);
+    }
+    D_80B503F8 = &this->actor;
+}
+
+void EnInvadepoh_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    D_80B4ECB0[this->actor.params >> 4 & 0xF](this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46BB0.asm")
 
