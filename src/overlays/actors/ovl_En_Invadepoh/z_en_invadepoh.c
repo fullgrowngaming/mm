@@ -37,7 +37,7 @@ const ActorInit En_Invadepoh_InitVars = {
 };
 */
 
-extern EnInvadepohInitFunc D_80B4ECB0[]; //init functions
+extern EnInvadepohInitFunc D_80B4ECB0[]; // init functions
 extern InitChainEntry D_80B4EC24;
 extern InitChainEntry D_80B4EC34;
 extern InitChainEntry D_80B4EC44;
@@ -49,14 +49,13 @@ extern ColliderCylinderInit D_80B4E8B0[];
 extern ColliderCylinderInit D_80B4E8DC[];
 extern ColliderCylinderInit D_80B4E908[];
 
-//func_80B468B4-----------
+// func_80B468B4-----------
 extern Vec3f D_80B4E934;
 extern f32 D_80B4EE88;
 extern f32 D_80B4EE8C;
 //------------------------
 
-//bss---------------------
-extern UNK_TYPE D_80B4E940;
+extern UNK_TYPE4 D_80B4E940;
 
 UNK_TYPE D_80B503F4;
 UNK_TYPE D_80B503F8;
@@ -163,15 +162,8 @@ UNK_TYPE D_80B5040A;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4560C.asm")
 
-void func_80B45648(EnInvadepoh* this) {
-    s32 i;
-    s16 phi_s1 = this->actor.cutscene;
+#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45648.asm")
 
-    for (i = D_80B50404; i < D_80B5040A; i += 2){
-        D_80B50404 = phi_s1;
-        D_80B50404 = ActorCutscene_GetAdditionalCutscene(this->actor.cutscene);
-    }
-}
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B456A8.asm")
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B457A0.asm")
@@ -202,23 +194,19 @@ void func_80B45648(EnInvadepoh* this) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B461DC.asm")
 
-#ifdef NON_MATCHING
-//Matching other than regs, and it's mostly around the loop at the beginning
-//of the function. I tried for a full day to get this to match. It's cursed.
-void func_80B4627C(Actor* thisx, GlobalContext* globalCtx) {
-    EnInvadepoh* this = THIS;
-
-    u32 invadepohType = ((s32) this->actor.params >> 8) & 0x7F;
-    u32 i;
-    u8 unk1;
-
-    this->actor.flags |= 0x20;
+//#ifdef NON_MATCHING
+// Matching other than regs, and it's mostly around the loop at the beginning
+// of the function. I tried for a full day to get this to match. It's cursed.
+void func_80B4627C(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 i;
     
-    for (i = 1; i < 8; i++){
-        unk1 = globalCtx->setupPathList[invadepohType].unk1;
-        if (1) { } if (1) { }
-        invadepohType = unk1;
-        if (invadepohType == 0xFF){
+    this->actor.flags |= 0x20;
+
+    for (i = 1; i < 8; i++) {
+        Path* path = globalCtx->setupPathList;
+        s32 invadepohType = (this->actor.params >> 8) & (u8)~0x80;
+        u8 unk1 = path[invadepohType].unk1;
+        if (unk1 == (invadepohType = 0xFF)) {
             break;
         }
     }
@@ -230,41 +218,32 @@ void func_80B4627C(Actor* thisx, GlobalContext* globalCtx) {
 
     if (D_80B4E940 == 1) {
         func_80B46DA8(this);
-        return;
-    }
-
-    if (D_80B4E940 == 2) {
+    } else if (D_80B4E940 == 2) {
         if (gSaveContext.time < 0x1AD8) {
             func_80B46DA8(this);
-            return;
+        } else {
+            func_80B454BC(this, globalCtx);
+            func_80B452EC(this, globalCtx);
+            func_801A89A8(0x800D);
+            func_80B46F88(this);
         }
-        func_80B454BC(this, globalCtx);
-        func_80B452EC(this, globalCtx);
-        func_801A89A8(0x800D);
-        func_80B46F88(this);
-        return;
-    }
 
-    if (D_80B4E940 == 3) {
+    } else if (D_80B4E940 == 3) {
         if (gSaveContext.entranceIndex == 0x6460) {
             func_80B47248(this);
-            return;
-        }
-        if (gSaveContext.entranceIndex == 0x6470) {
+        } else if (gSaveContext.entranceIndex == 0x6470) {
             func_80B47248(this);
-            return;
+        } else {
+            func_80B471C0(this);
         }
-        func_80B471C0(this);
-        return;
-    }
-
-    if (D_80B4E940 == 4) {
+    } else if (D_80B4E940 == 4) {
         func_80B47304(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4627C.asm")
-#endif
+
+//#else
+//#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4627C.asm")
+//#endif
 
 void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 pad;
