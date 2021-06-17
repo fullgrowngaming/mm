@@ -8,6 +8,18 @@ void EnInvadepoh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Update(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80B46DA8(EnInvadepoh* this);
+void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46E20(EnInvadepoh* this);
+void func_80B46E44(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46EC0(EnInvadepoh* this);
+void func_80B46EE8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46F88(EnInvadepoh* this); 
+void func_80B46FA8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47064(EnInvadepoh* this);
+void func_80B47084(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B470E0(EnInvadepoh* this);
+void func_80B47108(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B471C0(EnInvadepoh* this);
 void func_80B471E0(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B47248(EnInvadepoh* this);
@@ -20,7 +32,7 @@ void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47D30(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47FA8(Actor* thisx, GlobalContext* globalCtx);
-void func_80B48060(Actor* thisx, GlobalContext* globalCtx); // update func
+void func_80B48060(Actor* thisx, GlobalContext* globalCtx);
 void func_80B481C4(Actor* thisx, GlobalContext* globalCtx);
 void func_80B48620(Actor* thisx, GlobalContext* globalCtx);
 void func_80B48FB0(Actor* thisx, GlobalContext* globalCtx);
@@ -31,9 +43,9 @@ void func_80B4CE54(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4B8BC(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx);
 void func_80B49B1C(Actor* thisx, GlobalContext* globalCtx);
-void func_80B4E158(Actor* thisx, GlobalContext* globalCtx); //draw func
+void func_80B4E158(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx);
-void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx); //draw func
+void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Invadepoh_InitVars = {
@@ -49,7 +61,8 @@ const ActorInit En_Invadepoh_InitVars = {
 };
 */
 
-extern EnInvadepohInitFunc D_80B4ECB0[]; // init functions
+extern EnInvadepohInitFunc D_80B4ECB0[];    // init functions
+extern EnInvadepohDestroyFunc D_80B4ECE8[]; // destroy functions
 extern InitChainEntry D_80B4EC24;
 extern InitChainEntry D_80B4EC34;
 extern InitChainEntry D_80B4EC44;
@@ -76,7 +89,7 @@ extern s8 D_80B4E998;
 
 UNK_TYPE D_80B503F4;
 UNK_TYPE D_80B503F8;
-UNK_TYPE D_80B50404;
+UNK_TYPE2 D_80B50404;
 UNK_TYPE D_80B5040A;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B439B0.asm")
@@ -440,29 +453,72 @@ void EnInvadepoh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46D28.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/EnInvadepoh_Destroy.asm")
+void EnInvadepoh_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnInvadepoh* this = THIS;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46DA8.asm")
+    D_80B4ECE8[this->actor.params >> 4 & 0xF](this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46DC8.asm")
+void func_80B46DA8(EnInvadepoh* this) {
+    D_80B4E940 = 1;
+    this->actionFunc = func_80B46DC8;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46E20.asm")
+void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if ((gSaveContext.time < 0x4000) && (gSaveContext.time >= 0x1AAA)) {
+        func_80B454BC(this, globalCtx);
+        func_80B452EC(this, globalCtx);
+        func_80B46E20(this);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46E44.asm")
+void func_80B46E20(EnInvadepoh* this) {
+    D_80B4E940 = 2;
+    this->unk2F0 = 2;
+    this->actionFunc = func_80B46E44;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46EC0.asm")
+void func_80B46E44(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+        return;
+    }
+
+    if (ActorCutscene_GetCanPlayNext(D_80B50404)) {
+        ActorCutscene_StartAndSetUnkLinkFields(D_80B50404, &this->actor);
+        func_80B46EC0(this);
+    } else {
+        ActorCutscene_SetIntentToPlay(D_80B50404);
+    } 
+}
+
+void func_80B46EC0(EnInvadepoh* this) {
+    D_80B4E940 = 2;
+    this->unk2F0 = 0xA0;
+    this->actionFunc = func_80B46EE8;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46EE8.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46F88.asm")
+void func_80B46F88(EnInvadepoh* this) {
+    D_80B4E940 = 2;
+    this->actionFunc = func_80B46FA8;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46FA8.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B47064.asm")
+void func_80B47064(EnInvadepoh* this) {
+    D_80B4E940 = 3;
+    this->actionFunc = func_80B47084;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B47084.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B470E0.asm")
+void func_80B470E0(EnInvadepoh* this) {
+    D_80B4E940 = 3;
+    this->unk2F0 = 0x6E;
+    this->actionFunc = func_80B47108;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B47108.asm")
 

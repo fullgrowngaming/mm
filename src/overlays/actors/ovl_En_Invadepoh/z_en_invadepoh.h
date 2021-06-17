@@ -6,7 +6,7 @@
 struct EnInvadepoh;
 
 typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
-
+typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
 
 typedef struct EnInvadepoh {
