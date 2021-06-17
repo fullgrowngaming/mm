@@ -70,9 +70,9 @@ extern InitChainEntry D_80B4EC54;
 extern InitChainEntry D_80B4EC80;
 extern InitChainEntry D_80B4EC98;
 extern InitChainEntry D_80B4EC68;
-extern ColliderCylinderInit D_80B4E8B0[];
-extern ColliderCylinderInit D_80B4E8DC[];
-extern ColliderCylinderInit D_80B4E908[];
+extern ColliderCylinderInit D_80B4E8B0;
+extern ColliderCylinderInit D_80B4E8DC;
+extern ColliderCylinderInit D_80B4E908;
 extern AnimationHeader D_06004264;
 extern FlexSkeletonHeader D_06004010;
 extern AnimationHeader D_06004E50[];
@@ -90,7 +90,6 @@ extern s8 D_80B4E998;
 UNK_TYPE D_80B503F4;
 UNK_TYPE D_80B503F8;
 UNK_TYPE2 D_80B50404;
-UNK_TYPE D_80B5040A;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B439B0.asm")
 
