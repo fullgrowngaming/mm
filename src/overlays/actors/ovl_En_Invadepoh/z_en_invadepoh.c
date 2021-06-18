@@ -84,7 +84,7 @@ extern FlexSkeletonHeader D_06004010;
 extern AnimationHeader D_06004E50[];
 extern FlexSkeletonHeader D_06001D80[];
 extern FlexSkeletonHeader D_06004C30[];
-extern AnimationHeader D_06004E98[];
+extern AnimationHeader D_06004E98;
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
