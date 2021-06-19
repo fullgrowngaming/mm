@@ -31,6 +31,12 @@ void func_80B473E4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B474DC(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B47600(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B477B4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4ACF0(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4AD60(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4AD3C(EnInvadepoh* this);
+void func_80B4ADCC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4ADB8(EnInvadepoh* this);
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
@@ -52,6 +58,7 @@ void func_80B4E158(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4E1B0(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4E324(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Invadepoh_InitVars = {
@@ -85,6 +92,7 @@ extern AnimationHeader D_06004E50[];
 extern FlexSkeletonHeader D_06001D80[];
 extern FlexSkeletonHeader D_06004C30[];
 extern AnimationHeader D_06004E98;
+extern AnimationHeader D_06002A8C[];
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
@@ -771,11 +779,32 @@ void func_80B481C4(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4827C.asm")
+void func_80B4827C(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B482D4.asm")
+    if (D_80B503F0 == NULL || this->actor.parent == NULL) {
+        Actor_MarkForDeath(&this->actor);
+        return;
+    }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48324.asm")
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+}
+
+void func_80B482D4(EnInvadepoh* this) {
+    this->unk2F0 = 0x28;
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, D_06002A8C, -10.0f);
+    this->actor.draw = NULL;
+    this->actionFunc = func_80B48324;
+}
+
+void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx) {
+    this->unk2F0--;
+    if (this->unk2F0 <= 0) {
+        func_80B4560C(this, globalCtx, 0x332F);
+        this->actor.draw = func_80B4E324;
+        func_80B48374(this);
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48374.asm")
 
@@ -875,15 +904,35 @@ void func_80B481C4(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ABDC.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ACDC.asm")
+void func_80B4ACDC(EnInvadepoh* this) {
+    this->actionFunc = func_80B4ACF0;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ACF0.asm")
+void func_80B4ACF0(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (gSaveContext.weekEventReg[22] & 1) {
+        this->actor.draw = func_80B4E324;
+        this->actor.flags |= 9;
+        func_80B4AD3C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4AD3C.asm")
+void func_80B4AD3C(EnInvadepoh* this) {
+    this->actor.flags |= 0x10000;
+    this->actionFunc = func_80B4AD60;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4AD60.asm")
+void func_80B4AD60(EnInvadepoh* this, GlobalContext *globalCtx) {
+    if (func_800B84D0(&this->actor, globalCtx)) {
+        func_80B4560C(this, globalCtx, 0x3331);
+        func_80B4ADB8(this);
+    } else {
+        func_800B8614(&this->actor, globalCtx, 2000.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ADB8.asm")
+void func_80B4ADB8(EnInvadepoh* this) {
+    this->actionFunc = func_80B4ADCC;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ADCC.asm")
 

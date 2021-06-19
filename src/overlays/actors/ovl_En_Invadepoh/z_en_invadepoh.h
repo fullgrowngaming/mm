@@ -29,7 +29,9 @@ typedef struct EnInvadepoh {
     /* 0x30C */ s32 unk30C;
     /* 0x310 */ char unk310[0x10];
     /* 0x320 */ f32 unk320;
-    /* 0x324 */ char unk324[0x55];
+    /* 0x324 */ char unk324[0x52];
+    /* 0x376 */ s16 unk376;
+    /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
     /* 0x380 */ char unk380[0x40];
 } EnInvadepoh; // size = 0x3C0
