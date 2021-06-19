@@ -33,7 +33,13 @@ typedef struct EnInvadepoh {
     /* 0x376 */ s16 unk376;
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
-    /* 0x380 */ char unk380[0x40];
+    /* 0x37A */ char unk37A[0xF];
+    /* 0x389 */ u8 unk389;
+    /* 0x39A */ u8 unk39A;
+    /* 0x38B */ u8 unk38B;
+    /* 0x38C */ u8 unk38C;
+    /* 0x38D */ u8 unk38D;
+    /* 0x38E */ char unk38E[0x32];
 } EnInvadepoh; // size = 0x3C0
 
 extern const ActorInit En_Invadepoh_InitVars;

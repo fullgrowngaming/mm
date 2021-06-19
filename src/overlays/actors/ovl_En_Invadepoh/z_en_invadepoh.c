@@ -33,10 +33,10 @@ void func_80B47600(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B477B4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4ACF0(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4AD60(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4AD3C(EnInvadepoh* this);
-void func_80B4ADCC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4AD60(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4ADB8(EnInvadepoh* this);
+void func_80B4ADCC(EnInvadepoh* this, GlobalContext* globalCtx);
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
@@ -207,7 +207,10 @@ UNK_TYPE4 D_80B50320[];
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45550.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4560C.asm")
+void func_80B4560C(EnInvadepoh *this, GlobalContext *globalCtx, u16 arg2) {
+    this->unk376 = arg2;
+    func_801518B0(globalCtx, arg2 & 0xFFFF, &this->actor);
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45648.asm")
 
@@ -634,7 +637,18 @@ void EnInvadepoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B47380.asm")
+void func_80B47380(EnInvadepoh* this) {
+    this->collider.base.atFlags &= ~1;
+    this->collider.base.acFlags &= ~1;
+    this->collider.base.ocFlags1 &= ~1;
+    this->actor.flags &= 0x7FFFFFFF;
+    this->unk389 = 0;
+    this->actor.draw = NULL;
+    this->unk38B = 0;
+    this->unk38C = 0;
+    this->unk38D = 0;
+    this->actionFunc = func_80B473E4;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B473E4.asm")
 
