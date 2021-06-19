@@ -944,7 +944,9 @@ typedef struct {
     /* 0x12070 */ UNK_TYPE1 pad12070[0x8];
     /* 0x12078 */ s32 bankRupeesSelected;
     /* 0x1207C */ s32 bankRupees; 
-    /* 0x12080 */ UNK_TYPE1 pad12080[0x58];
+    /* 0x12080 */ UNK_TYPE1 pad12080[0x31];
+    /* 0x120B1 */ u8 unk120B1;
+    /* 0x120B2 */ UNK_TYPE1 pad120B5[0x26];
 } MessageContext; // size = 0x120D8
 
 typedef struct ActorBgMbarChair ActorBgMbarChair;
