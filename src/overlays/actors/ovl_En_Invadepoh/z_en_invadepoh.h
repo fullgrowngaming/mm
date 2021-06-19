@@ -36,7 +36,7 @@ typedef struct EnInvadepoh {
     /* 0x2F4 */ s8 unk2F4;
     /* 0x2F5 */ char unk2F5[0xF];
     /* 0x304 */ s16 unk304;
-    /* 0x306 */ char unk306[0x2];
+    /* 0x306 */ s16 unk306;
     /* 0x308 */ s8 unk308;
     /* 0x309 */ char unk309[0x3];
     /* 0x30C */ s32 unk30C;
