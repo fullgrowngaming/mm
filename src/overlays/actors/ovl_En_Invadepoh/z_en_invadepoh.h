@@ -60,7 +60,7 @@ typedef struct EnInvadepoh {
     /* 0x38B */ u8 unk38B;
     /* 0x38C */ u8 unk38C;
     /* 0x38D */ u8 unk38D;
-    /* 0x38E */ char unk38E[0xE];
+    /* 0x390 */ Vec3f unk390;
     /* 0x39C */ f32 unk39C;
     /* 0x3A0 */ f32 unk3A0;
     /* 0x3A4 */ f32 unk3A4;
