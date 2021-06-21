@@ -169,6 +169,8 @@ extern s8 D_80B4E998;
 extern Vec3f D_80B4ED30[];
 extern Vec3f D_80B4ED6C[];
 
+extern s16 D_80B4EDC0[];
+
 UNK_TYPE D_80B503F0;
 UNK_TYPE D_80B503F4;
 UNK_TYPE D_80B503F8;
@@ -1042,7 +1044,39 @@ void func_80B47FA8(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B48060(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+    s32 pad;
+    s32 temp;
+    s32 pad2;
+    MtxF unkMtx;
+
+    if (D_80B503F0 == NULL || this->actor.parent == NULL) {
+        Actor_MarkForDeath(&this->actor);
+        return;
+    }
+
+    temp = this->actor.params & 7;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_ScaledStepToS(&this->actor.shape.rot, D_80B4EDC0[temp], 50);
+    if (this->actor.child != NULL) {
+        Matrix_Push();
+        SysMatrix_SetStateRotationAndTranslation(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                                 &this->actor.shape.rot);
+        SysMatrix_InsertTranslation(0, 57.0f, -36.0f, MTXMODE_APPLY);
+        SysMatrix_InsertXRotation_s(this->actor.shape.rot.x * -0.7f, MTXMODE_APPLY);
+        SysMatrix_InsertZRotation_s(this->actor.shape.rot.z * -0.7f, MTXMODE_APPLY);
+        SysMatrix_GetStateTranslation(&this->actor.child->world.pos);
+        SysMatrix_CopyCurrentState(&unkMtx);
+        func_8018219C(&unkMtx, &this->actor.child->shape.rot, 0);
+        Matrix_Pop();
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48060.asm")
+#endif
 
 void func_80B481C4(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = THIS;
