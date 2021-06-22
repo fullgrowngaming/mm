@@ -78,6 +78,11 @@ void func_80B47568(EnInvadepoh* this);
 void func_80B478F4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B47938(EnInvadepoh* this);
 void func_80B479E8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4843C(EnInvadepoh* this);
+void func_80B484EC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48588(EnInvadepoh* this);
+void func_80B48610(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48848(EnInvadepoh* this, GlobalContext* globalCtx);
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
@@ -156,6 +161,7 @@ extern AnimationHeader D_06001674;
 extern AnimationHeader D_06001D80;
 extern AnimationHeader D_060006C8;
 extern AnimationHeader D_06000608;
+extern AnimationHeader D_06007328;
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
@@ -170,6 +176,7 @@ extern Vec3f D_80B4ED30[];
 extern Vec3f D_80B4ED6C[];
 
 extern s16 D_80B4EDC0[];
+extern s16 D_80B4EDC8[];
 
 UNK_TYPE D_80B503F0;
 UNK_TYPE D_80B503F4;
@@ -187,9 +194,20 @@ void func_80B43A74(s32 arg0) {
     gSaveContext.roomInf[124][4] = (gSaveContext.roomInf[124][4] & ~0xFF) | arg0 & 0xFF;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43A9C.asm")
+s32 func_80B43A9C(void) {
+    return gSaveContext.roomInf[124][4] & 0xFF;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43AB0.asm")
+s32 func_80B43AB0(void) {
+    s32 ret;
+
+    ret = func_80B43A9C();
+    if (ret < 0xC) {
+        ret++;
+        func_80B43A74(ret);
+    }
+    return ret;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43AF0.asm")
 
@@ -1063,8 +1081,8 @@ void func_80B48060(Actor* thisx, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot, D_80B4EDC0[temp], 50);
     if (this->actor.child != NULL) {
         Matrix_Push();
-        SysMatrix_SetStateRotationAndTranslation(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                                                 &this->actor.shape.rot);
+        SysMatrix_SetStateRotationAndTranslation(this->actor.world.pos.x, this->actor.world.pos.y,
+                                                 this->actor.world.pos.z, &this->actor.shape.rot);
         SysMatrix_InsertTranslation(0, 57.0f, -36.0f, MTXMODE_APPLY);
         SysMatrix_InsertXRotation_s(this->actor.shape.rot.x * -0.7f, MTXMODE_APPLY);
         SysMatrix_InsertZRotation_s(this->actor.shape.rot.z * -0.7f, MTXMODE_APPLY);
@@ -1121,27 +1139,128 @@ void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80B48374(EnInvadepoh* this) {
-    this->unk2F0 = 0x3C;
+    this->unk2F0 = 60;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06002A8C, -10.0f);
     this->actor.draw = func_80B4E324;
     this->actionFunc = func_80B483CC;
 }
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B483CC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (this->unk2F0 == 20) {
+        f32 unkFloat = 0.1f; // required to match
+
+        this->unk34A = 2000;
+        this->unk34C = 0;
+        this->unk34E = 0;
+        this->unk354 = unkFloat;
+        this->unk350 = 1000;
+    }
+
+    this->unk2F0--;
+    if (this->unk2F0 <= 0) {
+        func_80B4843C(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B483CC.asm")
+#endif
 
+//cursed
+#ifdef NON_MATCHING
+void func_80B4843C(EnInvadepoh* this) {
+    this->unk34A = 3000;
+    this->unk34C = 0;
+    this->unk34E = 0;
+    this->unk354 = 0.24f;
+    this->unk350 = 3000;
+    this->unk366 = 15000;
+    this->unk368 = 0.1f;
+    this->unk36C = 2000;
+    this->unk2F0 = 50;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06007328, 2.0f, 0.0f, 0.0f, 0, -5.0f);
+    this->actor.draw = func_80B4E324;
+    this->actionFunc = func_80B484EC;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4843C.asm")
+#endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B484EC.asm")
+void func_80B484EC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (this->unk2F0 == 40) {
+        this->unk34C = 7000;
+    } else if (this->unk2F0 == 30) {
+        this->unk34C = -7000;
+    } else if (this->unk2F0 == 20) {
+        this->unk34C = 7000;
+    } else if (this->unk2F0 == 10) {
+        this->unk34C = 0;
+    }
+    this->unk2F0--;
+    if (this->unk2F0 <= 0) {
+        func_80B48588(this);
+    }
+}
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B48588(EnInvadepoh *this) {
+  this->unk34A = 0;
+  this->unk34C = 0;
+  this->unk34E = 0;
+  this->unk354 = 0.24f;
+  this->unk350 = 5000;
+  this->unk366 = 0;
+  this->unk368 = 0.28f;
+  this->unk36C = 7000;
+  SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06009E58, -10.0f);
+  this->actor.draw = func_80B4E324;
+  this->actionFunc = func_80B48610;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48588.asm")
+#endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48610.asm")
+void func_80B48610(EnInvadepoh* this, GlobalContext* globalCtx) {
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48620.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4873C.asm")
+void func_80B4873C(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
+    
+    if (this->actor.parent == NULL) {
+        Actor_MarkForDeath(&this->actor);
+        return;
+    }
+    this->actionFunc(this, globalCtx);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_80B45CE0(substruct);
+    if (substruct->unk40 != 0) {
+        this->actor.shape.rot.x = -substruct->unk40;
+    }
+}
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B487B4(EnInvadepoh *this) {
+  EnInvadePohStructUnk324 *substruct = &this->EnInvadePohStructUnk324;
+  u32 new_var;
+  this->unk2F0 = Rand_S16Offset(150, 250);
+  new_var = Rand_Next();
+  substruct->unk26 = D_80B4EDC8[new_var >> 0x1E];
+  substruct->unk28 = 0;
+  substruct->unk2A = 0;
+  substruct->unk30 = 0.1f;
+  substruct->unk2C = 800;
+  SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06014088, -10.0f);
+  this->actionFunc = func_80B48848;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B487B4.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48848.asm")
 
@@ -1435,7 +1554,28 @@ void func_80B4ADB8(EnInvadepoh* this) {
     this->actionFunc = func_80B4ADCC;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4ADCC.asm")
+void func_80B4ADCC(EnInvadepoh *this, GlobalContext *globalCtx) {
+    if ((func_80152498(&globalCtx->msgCtx) == 5) && func_80147624(globalCtx)) {
+        if (this->unk376 == 0x3331) {
+            if (gSaveContext.weekEventReg[22] & 2) {
+                func_80B4560C(this, globalCtx, 0x3334);
+                func_80151BB4(globalCtx, 0x1D);
+                func_80151BB4(globalCtx, 5);
+                return;
+            }
+            func_80B4560C(this, globalCtx, 0x3333);
+            return;
+        }
+        if (this->unk376 == 0x3333) {
+            func_80B4AEC0(this);
+            return;
+        }
+        if (this->unk376 == 0x3334) {
+            func_801477B4(globalCtx);
+            func_80B4B024(this);
+        }
+    }
+}
 
 void func_80B4AEC0(EnInvadepoh* this) {
     this->unk2F0 = 2;

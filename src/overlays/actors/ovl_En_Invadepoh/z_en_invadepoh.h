@@ -17,7 +17,11 @@ typedef struct EnInvadePohStructUnk324 {
     /* 0x02C */ u16 unk2C;
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ f32 unk30;
-    /* 0x034 */ char unk34[0x1C];
+    /* 0x034 */ char unk34[0x4];
+    /* 0x038 */ f32 unk38;
+    /* 0x03C */ f32 unk3C;
+    /* 0x040 */ s16 unk40;
+    /* 0x042 */ char unk44[0xE];
 } EnInvadePohStructUnk324; // size = 0x50
 
 typedef struct EnInvadepoh {
@@ -38,20 +42,29 @@ typedef struct EnInvadepoh {
     /* 0x304 */ s16 unk304;
     /* 0x306 */ s16 unk306;
     /* 0x308 */ s8 unk308;
-    /* 0x309 */ char unk309[0x3];
+    /* 0x309 */ s8 unk309;
+    /* 0x30A */ s8 unk30A;
+    /* 0x30B */ s8 unk30B;
     /* 0x30C */ s32 unk30C;
     /* 0x310 */ char unk310[0x10];
     /* 0x320 */ f32 unk320;
     /* 0x324 */ EnInvadePohStructUnk324* EnInvadePohStructUnk324; // not sure if pointer
-    /* 0x328 */ char unk328[0x28];
+    /* 0x328 */ char unk328[0x22];
+    /* 0x34A */ s16 unk34A;
+    /* 0x34C */ s16 unk34C;
+    /* 0x34E */ s16 unk34E;
     /* 0x350 */ u16 unk350;
     /* 0x352 */ char unk352[0x2];
     /* 0x354 */ f32 unk354;
-    /* 0x358 */ char unk358[0x18];
-    /* 0x370 */ u16 unk370;
+    /* 0x358 */ char unk358[0xE];
+    /* 0x366 */ s16 unk366;
+    /* 0x368 */ f32 unk368;
+    /* 0x36C */ s16 unk36C;
+    /* 0x36E */ char unk36E[0x2];
+    /* 0x370 */ s16 unk370;
     /* 0x372 */ char unk372[0x2]; 
     /* 0x374 */ s16 unk374;
-    /* 0x376 */ s16 unk376;
+    /* 0x376 */ u16 unk376;
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
     /* 0x37A */ char unk37A[0xF];
@@ -60,7 +73,7 @@ typedef struct EnInvadepoh {
     /* 0x38B */ u8 unk38B;
     /* 0x38C */ u8 unk38C;
     /* 0x38D */ u8 unk38D;
-    /* 0x390 */ Vec3f unk390;
+    /* 0x390 */ Vec3f unk390; // float on boundary
     /* 0x39C */ f32 unk39C;
     /* 0x3A0 */ f32 unk3A0;
     /* 0x3A4 */ f32 unk3A4;
