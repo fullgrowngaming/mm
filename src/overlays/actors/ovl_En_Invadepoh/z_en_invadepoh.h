@@ -9,19 +9,37 @@ typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
 
+typedef struct EnInvadePohStruct{
+    /* 0x000 */ s32 unk0;
+    /* 0x004 */ s8 unk4;
+    /* 0x005 */ char unk5[0x3];
+    /* 0x008 */ s32 unk8;
+    /* 0x00C */ s8 unkC;
+    /* 0x00D */ s8 unkD;
+    /* 0x00E */ s8 unkE;
+    /* 0x00F */ s8 unkF;
+} EnInvadePohStruct; // size = 0x10;
+
 typedef struct EnInvadePohStructUnk324 {
-    /* 0x000 */ char unk0[0x26];
-    /* 0x026 */ u16 unk26;
-    /* 0x028 */ u16 unk28;
-    /* 0x02A */ u16 unk2A;
-    /* 0x02C */ u16 unk2C;
+    /* 0x000 */ EnInvadePohStruct unk0;
+    /* 0x010 */ EnInvadePohStruct unk10;
+    /* 0x020 */ s16 unk20; //possibly vec3s?
+    /* 0x022 */ s16 unk22;
+    /* 0x024 */ s16 unk24;
+    /* 0x026 */ s16 unk26; //possibly vec3s?
+    /* 0x028 */ s16 unk28;
+    /* 0x02A */ s16 unk2A;
+    /* 0x02C */ s16 unk2C;
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ f32 unk30;
-    /* 0x034 */ char unk34[0x4];
+    /* 0x034 */ f32 unk34;
     /* 0x038 */ f32 unk38;
     /* 0x03C */ f32 unk3C;
     /* 0x040 */ s16 unk40;
-    /* 0x042 */ char unk44[0xE];
+    /* 0x042 */ s16 unk42;
+    /* 0x044 */ f32 unk44;
+    /* 0x048 */ s16 unk48;
+    /* 0x04A */ char unk4A[0x6];
 } EnInvadePohStructUnk324; // size = 0x50
 
 typedef struct EnInvadepoh {
@@ -69,8 +87,8 @@ typedef struct EnInvadepoh {
     /* 0x379 */ s8 unk379;
     /* 0x37A */ char unk37A[0xF];
     /* 0x389 */ u8 unk389;
-    /* 0x38A */ u8 unk38A;
-    /* 0x38B */ u8 unk38B;
+    /* 0x38A */ s8 unk38A;
+    /* 0x38B */ s8 unk38B;
     /* 0x38C */ u8 unk38C;
     /* 0x38D */ u8 unk38D;
     /* 0x390 */ Vec3f unk390; // float on boundary
