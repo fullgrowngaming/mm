@@ -84,6 +84,8 @@ void func_80B48588(EnInvadepoh* this);
 void func_80B48610(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B48848(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B47278(EnInvadepoh* this);
+void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48E4C(EnInvadepoh* this, GlobalContext* globalCtx);
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
@@ -175,6 +177,8 @@ extern s8 D_80B4E998;
 
 extern Vec3f D_80B4ED30[];
 extern Vec3f D_80B4ED6C[];
+
+extern Vec3s D_801D15BC;
 
 extern s16 D_80B4EDC0[];
 extern s16 D_80B4EDC8[];
@@ -368,16 +372,14 @@ void func_80B457A0(EnInvadepoh* this) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45C04.asm")
 
-
-#ifdef NON_MATCHING
-//branch isn't working plus regs
 void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     Vec3f sp3C;
     Vec3s sp34;
+    s16 step;
 
-    sp34.x = substruct->unk26 - substruct->unk20;
-    sp34.y = substruct->unk28 - substruct->unk22;
-    sp34.z = substruct->unk2A - substruct->unk24;
+    sp34.x = substruct->unk26.x - substruct->unk20;
+    sp34.y = substruct->unk26.y - substruct->unk22;
+    sp34.z = substruct->unk26.z - substruct->unk24;
     Math_Vec3s_ToVec3f(&sp3C, &sp34);
     Math_Vec3f_Scale(&sp3C, substruct->unk30);
     Math_Vec3f_ToVec3s(&sp34, &sp3C);
@@ -399,36 +401,21 @@ void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     if (substruct->unk2C < sp34.z) {
         sp34.z = substruct->unk2C;
     }
-    Math_ScaledStepToS(&substruct->unk20, substruct->unk26, sp34.x);
-    Math_ScaledStepToS(&substruct->unk22, substruct->unk28, sp34.y);
-    Math_ScaledStepToS(&substruct->unk24, substruct->unk2A, sp34.z);
+    Math_ScaledStepToS(&substruct->unk20, substruct->unk26.x, sp34.x);
+    Math_ScaledStepToS(&substruct->unk22, substruct->unk26.y, sp34.y);
+    Math_ScaledStepToS(&substruct->unk24, substruct->unk26.z, sp34.z);
     Math_StepToF(&substruct->unk34, substruct->unk38, substruct->unk3C);
 
     if (substruct->unk40 != substruct->unk42) {
-        s16 temp = (substruct->unk42 - substruct->unk40);
-        s16 temp_f16 = temp * substruct->unk44;
-        if (temp_f16 < 0) {
-            temp_f16 = -temp_f16;
-        }
-
-        if (temp_f16 < 0x64) {
-            temp_f16 = 0x64;
-        } else {
-            if (substruct->unk48 < temp_f16) {
-                temp_f16 = substruct->unk48;
-            } else {
-
-            }
-        }
-
-        Math_ScaledStepToS(&substruct->unk40, substruct->unk42, temp_f16);
+        step = substruct->unk42 - substruct->unk40;
+        step *= substruct->unk44;
+        step = ABS(step);
+        step = CLAMP(step, 0x64, substruct->unk48);
+        Math_ScaledStepToS(&substruct->unk40, substruct->unk42, step);
     }
     func_80B45BB8(&substruct->unk0);
     func_80B45BB8(&substruct->unk10);
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45CE0.asm")
-#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45EC8.asm")
 
@@ -1371,11 +1358,12 @@ void func_80B4873C(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B487B4(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
     u32 new_var;
+
     this->unk2F0 = Rand_S16Offset(150, 250);
     new_var = Rand_Next();
-    substruct->unk26 = D_80B4EDC8[new_var >> 0x1E];
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = D_80B4EDC8[new_var >> 0x1E];
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 800;
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06014088, -10.0f);
@@ -1387,11 +1375,65 @@ void func_80B487B4(EnInvadepoh* this) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48848.asm")
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B48948(EnInvadepoh* this) {
+    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
+    f32 rand = Rand_ZeroOne();
+
+    this->unk2F0 = Rand_S16Offset(150, 150);
+    if (rand < 0.5f) {
+        this->unk374 = 0;
+        Math_Vec3s_Copy(&substruct->unk26, &D_801D15BC);
+        substruct->unk30 = 0.1f;
+        substruct->unk2C = 1000;
+    } else if (rand < 0.75f) {
+        this->unk374 = 1;
+        substruct->unk26.x = Rand_S16Offset(0, 2000);
+        substruct->unk26.y = 0;
+        substruct->unk26.z = 0;
+        substruct->unk30 = 0.06f;
+        substruct->unk2C = 1000;
+    } else if (rand < 0.8f) {
+        this->unk374 = 2;
+        substruct->unk26.x = Rand_S16Offset(-2000, 2000);
+        substruct->unk26.y = 0;
+        substruct->unk26.z = 0;
+        substruct->unk30 = 0.05f;
+        substruct->unk2C = 1000;
+    } else {
+        this->unk374 = 3;
+        substruct->unk26.x = 0;
+        substruct->unk26.y = 0;
+        substruct->unk26.z = Rand_S16Offset(-2500, 5000);
+        substruct->unk30 = 0.04f;
+        substruct->unk2C = 1000;
+    }
+
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06009E58, -10.0f);
+    this->actionFunc = func_80B48AD4;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48948.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48AD4.asm")
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B48DE4(EnInvadepoh* this) {
+    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
+
+    this->actor.speedXZ = 0.0f;
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06009E58, -10.0f);
+    this->unk370 = 0;
+    substruct->unk30 = 0.05f;
+    substruct->unk2C = 1200;
+    this->actionFunc = func_80B48E4C;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48DE4.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48E4C.asm")
 
@@ -1515,9 +1557,9 @@ void func_80B49BD0(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06014088, -10.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 800;
     this->actionFunc = func_80B49C38;
@@ -1561,9 +1603,9 @@ void func_80B4A2C0(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06009E58, -10.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 1500;
     this->unk2F0 = Rand_S16Offset(200, 200);
@@ -1583,9 +1625,9 @@ void func_80B4A570(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002A8C, -10.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 800;
     this->actor.flags |= 9;
@@ -1607,9 +1649,9 @@ void func_80B4A614(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06014088, 0.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 800;
     this->actionFunc = func_80B4A67C;
@@ -1846,9 +1888,9 @@ void func_80B4BBE0(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06016720, -6.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 800;
 
@@ -1909,9 +1951,9 @@ void func_80B4C6C8(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06014088, -10.0f);
-    substruct->unk26 = 0;
-    substruct->unk28 = 0;
-    substruct->unk2A = 0;
+    substruct->unk26.x = 0;
+    substruct->unk26.y = 0;
+    substruct->unk26.z = 0;
     substruct->unk30 = 0.1f;
     substruct->unk2C = 0x320;
     this->actionFunc = func_80B4C730;
@@ -1983,7 +2025,52 @@ void func_80B4D3E4(EnInvadepoh* this) {
     this->actionFunc = func_80B4D480;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D480.asm")
+void func_80B4D480(EnInvadepoh* this, GlobalContext* globalCtx) {
+    Actor* temp_v1;
+    s32 phi_t0 = 0;
+    float new_var;
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+    }
+
+    if (this->unk2F0 > 0xA0) {
+        this->actor.draw = 0;
+    } else {
+        this->actor.draw = func_80B4DB14;
+        if (1) {}
+
+        if ((this->unk2F0 < 0x69) && (this->unk2F0 >= 0x64)) {
+            this->actor.gravity = -1.0f;
+            Math_SmoothStepToS(&this->actor.shape, 0x2000, 8, 0x320, 0x28);
+        } else {
+            this->actor.gravity = 0.7f;
+            Math_SmoothStepToS(&this->actor.shape, 0, 8, 0x320, 0x28);
+        }
+
+        this->actor.velocity.y += this->actor.gravity;
+        this->actor.velocity.y *= 0.92f;
+        if (this->unk2F0 > 0x50) {
+            this->actor.world.pos.y += this->actor.velocity.y;
+        } else {
+            phi_t0 =
+                Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 850.0f, fabsf(this->actor.velocity.y));
+        }
+
+        this->unk306 = 0.98f * ((new_var = this->unk304 * (-0.06f)) + this->unk306);
+        temp_v1 = this->actor.child;
+        this->actor.shape.rot.y += this->unk306;
+        if (temp_v1 != 0) {
+            temp_v1->world.pos.x = this->actor.world.pos.x;
+            temp_v1->world.pos.y = this->actor.world.pos.y - 30.0f;
+            temp_v1->world.pos.z = this->actor.world.pos.z;
+            temp_v1->shape.rot.y = this->actor.shape.rot.y & 0xFFFF;
+        }
+    }
+
+    if ((this->unk2F0 <= 0) || (phi_t0 != 0)) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D670.asm")
 

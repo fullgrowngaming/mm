@@ -26,9 +26,7 @@ typedef struct EnInvadePohStructUnk324 {
     /* 0x020 */ s16 unk20; //possibly vec3s?
     /* 0x022 */ s16 unk22;
     /* 0x024 */ s16 unk24;
-    /* 0x026 */ s16 unk26; //possibly vec3s?
-    /* 0x028 */ s16 unk28;
-    /* 0x02A */ s16 unk2A;
+    /* 0x026 */ Vec3s unk26;
     /* 0x02C */ s16 unk2C;
     /* 0x02E */ u16 unk2E;
     /* 0x030 */ f32 unk30;
@@ -81,7 +79,8 @@ typedef struct EnInvadepoh {
     /* 0x36E */ char unk36E[0x2];
     /* 0x370 */ s16 unk370;
     /* 0x372 */ char unk372[0x2]; 
-    /* 0x374 */ s16 unk374;
+    /* 0x374 */ s8 unk374;
+    /* 0x375 */ s8 unk375;
     /* 0x376 */ u16 unk376;
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
