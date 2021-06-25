@@ -168,6 +168,8 @@ extern AnimationHeader D_06000608;
 extern AnimationHeader D_06007328;
 extern Gfx* D_80B4E984[];
 extern Gfx* D_80B4E96C[];
+extern Gfx* D_80B4E944[];
+extern Gfx* D_80B4E958[];
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
@@ -188,8 +190,10 @@ extern s16 D_80B4EDC8[];
 extern s16 D_80B4ED20[];
 
 extern Gfx D_04023210[];
+extern Gfx D_060003B0[];
 
 extern Vec3f D_80B4EE24;
+extern Vec3f D_80B4EE30;
 
 // bss---------------------
 MtxF D_80B502A0;
@@ -2104,7 +2108,8 @@ void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx) {
     func_80B4D7B8(globalCtx);
 }
 
-s32 func_80B4D9D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+s32 func_80B4D9D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+                  Gfx** gfx) {
     return 0;
 }
 
@@ -2141,11 +2146,12 @@ s32 func_80B4E120(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B4E158(Actor *thisx, GlobalContext *globalCtx) {
+void func_80B4E158(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = THIS;
 
     func_8012C5B0(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80B4E120, NULL, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80B4E120, NULL, &this->actor);
 }
 
 void func_80B4E1B0(Actor* thisx, GlobalContext* globalCtx) {
@@ -2156,11 +2162,43 @@ void func_80B4E1B0(Actor* thisx, GlobalContext* globalCtx) {
                      NULL, &this->actor);
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E200.asm")
+s32 func_80B4E200(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    if (limbIndex == 14) {
+        EnInvadepoh* this = THIS; // both of these needed to match
+        rot->x += this->unk344.y;
+        rot->y += this->unk344.z;
+        rot->z += this->unk344.x;
+    } else if (limbIndex == 13) {
+        EnInvadepoh* this = THIS; // both of these needed to match
+        rot->x += (s16)(this->unk358 * this->unk344.y);
+        rot->z += this->unk364;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E2AC.asm")
+void func_80B4E2AC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnInvadepoh* this = THIS;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E324.asm")
+    if (limbIndex == 19) {
+        OPEN_DISPS(globalCtx->state.gfxCtx);
+        gSPDisplayList(POLY_OPA_DISP++, D_060003B0);
+        CLOSE_DISPS(globalCtx->state.gfxCtx);
+    } else if (limbIndex == 14) {
+        SysMatrix_MultiplyVector3fByState(&D_80B4EE30, &this->actor.focus.pos);
+    }
+}
+
+void func_80B4E324(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C28C(globalCtx->state.gfxCtx);
+    gSPSegment(POLY_OPA_DISP++, 0x09, D_80B4E958[this->unk343]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, D_80B4E944[this->unk333]);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80B4E200, func_80B4E2AC, &this->actor);
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
 
 // cursed but almost matching (issue is arguments of the last two function calls)
 #ifdef NON_MATCHING
@@ -2227,7 +2265,7 @@ void func_80B4E660(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80B4E6E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 9) {
         EnInvadepoh* this = THIS; // both of these needed to match
-        rot->x += this->unk344.y; 
+        rot->x += this->unk344.y;
         rot->y += this->unk344.z;
         rot->z += this->unk344.x;
     } else if (limbIndex == 2) {
