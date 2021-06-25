@@ -340,9 +340,13 @@ void func_80B452EC(EnInvadepoh* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B452EC.asm")
 #endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B453F4.asm")
+void func_80B453F4(EnInvadepoh* this, GlobalContext *globalCtx, s32 arg2) {
+    Actor_SpawnWithParent(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_INVADEPOH, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0, 0, 0, (arg2 & 7) | 0x20);
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45460.asm")
+void func_80B45460(EnInvadepoh* this, GlobalContext *globalCtx) {
+    Actor_SpawnWithParent(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_INVADEPOH, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0, 0, 0, 0x40);
+}
 
 void func_80B454BC(EnInvadepoh* this, GlobalContext* globalCtx) {
     D_80B503F0 = Actor_Spawn(&globalCtx->actorCtx, globalCtx, 512, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -2103,7 +2107,7 @@ void func_80B4D670(Actor* thisx, GlobalContext* globalCtx) {
             func_80B453F4(this, globalCtx, invadepohType);
             func_80B4D15C(this);
         } else {
-            func_80B45460(this, globalCtx, invadepohType);
+            func_80B45460(this, globalCtx);
             func_80B4D3E4(this);
         }
     }
