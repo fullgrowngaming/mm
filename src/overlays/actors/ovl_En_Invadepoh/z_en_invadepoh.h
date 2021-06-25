@@ -91,7 +91,7 @@ typedef struct EnInvadepoh {
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
     /* 0x37A */ char unk37A[0xF];
-    /* 0x389 */ u8 unk389;
+    /* 0x389 */ u8 unk389; // color
     /* 0x38A */ s8 unk38A;
     /* 0x38B */ s8 unk38B;
     /* 0x38C */ u8 unk38C;

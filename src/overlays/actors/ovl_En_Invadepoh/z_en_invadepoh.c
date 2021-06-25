@@ -170,6 +170,8 @@ extern Gfx* D_80B4E984[];
 extern Gfx* D_80B4E96C[];
 extern Gfx* D_80B4E944[];
 extern Gfx* D_80B4E958[];
+extern AnimatedMaterial D_80B503FC;
+extern AnimatedMaterial D_80B50400;
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
@@ -830,7 +832,22 @@ void func_80B470E0(EnInvadepoh* this) {
     this->actionFunc = func_80B47108;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B47108.asm")
+void func_80B47108(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (this->unk2F0 == 0x64) {
+        func_801A3098(0x19);
+    }
+    this->unk2F0--;
+    if (this->unk2F0 <= 0) {
+        globalCtx->nextEntranceIndex = 0x6460;
+        gSaveContext.unk_3F4A = 0;
+        globalCtx->unk18875 = 0x14;
+        globalCtx->unk1887F = 0x49;
+        gSaveContext.nextTransition = 0x48;
+        D_801BDAA0 = 1;
+        D_801BDA9C = 0;
+        func_80B47248(this);
+    }
+}
 
 void func_80B471C0(EnInvadepoh* this) {
     D_80B4E940 = 3;
@@ -935,7 +952,7 @@ void func_80B474DC(EnInvadepoh* this, GlobalContext* globalCtx) {
     if (this->unk320 > 0.0f) {
         Actor_SetScale(&this->actor, 0.01f);
         func_80B4516C(this);
-        func_80B46118(&this->actor.world);
+        func_80B46118(&this->actor.world.pos);
         func_80B47568(this);
     }
 }
@@ -2136,7 +2153,132 @@ void func_80B4D9F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
+// cursed
+#ifdef NON_MATCHING
+void func_80B4DB14(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+    GraphicsContext* spCC;
+    Gfx* spBC;
+    GraphicsContext* spB8;
+    f32 sp80;
+    f32 sp7C;
+    f32 sp78;
+    f32 sp74;
+    GraphicsContext* sp6C;
+    Gfx* sp54;
+    u32 sp4C;
+    Gfx* temp_s0;
+    Gfx* temp_s0_2;
+    Gfx* temp_s0_3;
+    Gfx* temp_s0_4;
+    Gfx* temp_s0_5;
+    Gfx* temp_v0;
+    Gfx* temp_v0_2;
+    Gfx* temp_v0_3;
+    Gfx* temp_v0_5;
+    Gfx* temp_v1;
+    Gfx* temp_v1_2;
+    Gfx* temp_v1_3;
+    Gfx* temp_v1_4;
+    Gfx* temp_v1_5;
+    Gfx* temp_v1_6;
+    Gfx* temp_v1_7;
+    Gfx* temp_v1_8;
+    GraphicsContext* temp_a0;
+    GraphicsContext* temp_a2;
+    GraphicsContext* temp_v0_4;
+    f32 temp_f14;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C2DC(globalCtx->state.gfxCtx);
+    Matrix_Push();
+    if (this->unk38B != 0) {
+        if (this->unk389 == 0xFF) {
+            func_8012C28C(globalCtx->state.gfxCtx);
+            AnimatedMat_Draw(globalCtx, &D_80B50400);
+            Scene_SetRenderModeXlu(globalCtx, 0, 1);
+            gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
+            POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                              this->skelAnime.dListCount, func_80B4D9D8, func_80B4D9F4, &this->actor,
+                                              POLY_OPA_DISP);
+        } else {
+            AnimatedMat_Draw(globalCtx, &D_80B50400);
+            Scene_SetRenderModeXlu(globalCtx, 1, 2);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->unk389);
+            POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                              this->skelAnime.dListCount, func_80B4D9D8, func_80B4D9F4, &this->actor,
+                                              POLY_XLU_DISP);
+        }
+        if (this->unk38D != 0) {
+            AnimatedMat_Draw(globalCtx, &D_80B503FC);
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 255, 240, 180, 100, 60);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0,
+                           0x69); // 0x69 placeholder for this->unk38D * 0.5882353f & 0xFF | ~0xFF
+            SysMatrix_InsertMatrix(&D_80B502A0, MTXMODE_NEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, 0x06000080);
+            SysMatrix_InsertMatrix(&D_80B502E0, MTXMODE_NEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, 0x06000080);
+        }
+    }
+    if (this->unk38C != 0) {
+        SysMatrix_SetStateRotationAndTranslation(this->actor.world.pos.x, this->actor.world.pos.y + 68.0f,
+                                                 this->actor.world.pos.z, &this->actor.shape);
+        Matrix_Scale(this->unk390.x, this->unk390.y, this->unk390.z, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP, 0x06000720);
+    }
+    if (this->unk38B != 0) {
+        temp_v0_4 = globalCtx->state.gfxCtx;
+        sp6C = temp_v0_4;
+        temp_v0_5 = func_8012C868(temp_v0_4->polyXlu.p);
+        temp_v0_5->words.w1 = 0x80;
+        temp_v0_5->words.w0 = 0xE3001803;
+
+        temp_s0 = temp_v0_5 + 8;
+        temp_s0->words.w0 = 0xFCFF97FF;
+        temp_s0->words.w1 = 0xFF2DFEFF;
+
+        temp_s0_2 = temp_s0 + 8;
+        SysMatrix_InsertMatrix(&globalCtx->unk187FC, MTXMODE_NEW);
+        SysMatrix_GetStateTranslationAndScaledZ(60.0f, &sp80);
+        sp74 = thisx->world.pos.x + sp80;
+        temp_f14 = thisx->world.pos.y + sp84 + 68.0f;
+        sp78 = temp_f14;
+        sp7C = thisx->world.pos.z + sp88;
+        SysMatrix_InsertTranslation(sp74, temp_f14, sp7C, 0);
+        Matrix_Scale(0.25f, 0.25f, 0.25f, MTXMODE_APPLY);
+
+        temp_s0_3 = temp_s0_2 + 8;
+        temp_s0_2->words.w0 = 0xDE000000;
+        temp_s0_2->words.w1 = 0x4029CB0;
+
+        temp_s0_3->words.w1 = ((thisx->unk389 * D_80B4F078) & 0xFF) | 0xF0B46400;
+        temp_s0_3->words.w0 = 0xFA000000;
+
+        temp_s0_4 = temp_s0_3 + 8;
+        temp_s0_4->words.w0 = 0xDA380003;
+        sp54 = temp_s0_4;
+        temp_s0_5 = temp_s0_4 + 8;
+        temp_s0_4->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx);
+        temp_s0_5->words.w1 = 0x4029CF0;
+        temp_s0_5->words.w0 = 0xDE000000;
+        sp6C->polyXlu.p = temp_s0_5 + 8;
+        if ((thisx->unk389 >= 0x81) && (func_80B456A8(globalCtx, &sp74) != 0)) {
+            func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp74.unk0,
+                          sp74.unk4, sp74.unk8, 10.0f, 9.0f, 0, 0);
+        }
+    }
+    Matrix_Pop();
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4DB14.asm")
+#endif
 
 s32 func_80B4E120(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 5) {
