@@ -189,7 +189,11 @@ extern s16 D_80B4ED20[];
 
 extern Gfx D_04023210[];
 
+extern Vec3f D_80B4EE24;
+
 // bss---------------------
+MtxF D_80B502A0;
+MtxF D_80B502E0;
 EnInvadepoh* D_80B50320[]; // not sure if this should be Actor* or EnInvadepoh* array
 u8 D_80B50340[];
 UNK_TYPE1 D_80B50348;
@@ -2100,17 +2104,49 @@ void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx) {
     func_80B4D7B8(globalCtx);
 }
 
-s32 func_80B4D9D8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 func_80B4D9D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D9F4.asm")
+void func_80B4D9F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    EnInvadepoh* this = THIS;
+
+    if ((limbIndex == 12) && (this->unk38D != 0)) {
+        Matrix_Push();
+        SysMatrix_InsertZRotation_s(-0x53ED, MTXMODE_APPLY);
+        Matrix_RotateY(-0x3830, MTXMODE_APPLY);
+        Matrix_Scale(1.0f, 1.0f, 1.5f, MTXMODE_APPLY);
+        SysMatrix_CopyCurrentState(&D_80B502A0);
+        Matrix_Pop();
+    } else if ((limbIndex == 13) && (this->unk38D != 0)) {
+        Matrix_Push();
+        SysMatrix_InsertZRotation_s(-0x53ED, MTXMODE_APPLY);
+        Matrix_RotateY(-0x47D0, MTXMODE_APPLY);
+        Matrix_Scale(1.0f, 1.0f, 1.5f, MTXMODE_APPLY);
+        SysMatrix_CopyCurrentState(&D_80B502E0);
+        Matrix_Pop();
+    }
+    if (limbIndex == 11) {
+        SysMatrix_MultiplyVector3fByState(&D_80B4EE24, &this->actor.focus.pos);
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4DB14.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E120.asm")
+s32 func_80B4E120(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    if (limbIndex == 5) {
+        EnInvadepoh* this = THIS;
+        rot->x -= this->actor.shape.rot.x;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E158.asm")
+void func_80B4E158(Actor *thisx, GlobalContext *globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    func_8012C5B0(globalCtx->state.gfxCtx);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80B4E120, NULL, &this->actor);
+}
 
 void func_80B4E1B0(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = THIS;
