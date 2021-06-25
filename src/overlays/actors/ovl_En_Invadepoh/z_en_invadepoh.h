@@ -65,14 +65,19 @@ typedef struct EnInvadepoh {
     /* 0x310 */ char unk310[0x10];
     /* 0x320 */ f32 unk320;
     /* 0x324 */ EnInvadePohStructUnk324* EnInvadePohStructUnk324; // not sure if pointer
-    /* 0x328 */ char unk328[0x22];
+    /* 0x328 */ char unk328[0xB];
+    /* 0x333 */ s8 unk333;
+    /* 0x334 */ char unk334[0xF];
+    /* 0x343 */ s8 unk343;
+    /* 0x344 */ Vec3s unk344;
     /* 0x34A */ s16 unk34A;
     /* 0x34C */ s16 unk34C;
     /* 0x34E */ s16 unk34E;
     /* 0x350 */ u16 unk350;
     /* 0x352 */ char unk352[0x2];
     /* 0x354 */ f32 unk354;
-    /* 0x358 */ char unk358[0xE];
+    /* 0x358 */ f32 unk358;
+    /* 0x35C */ char unk35A[0xA];
     /* 0x366 */ s16 unk366;
     /* 0x368 */ f32 unk368;
     /* 0x36C */ s16 unk36C;

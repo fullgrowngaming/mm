@@ -166,6 +166,8 @@ extern AnimationHeader D_06001D80;
 extern AnimationHeader D_060006C8;
 extern AnimationHeader D_06000608;
 extern AnimationHeader D_06007328;
+extern Gfx* D_80B4E984[];
+extern Gfx* D_80B4E96C[];
 
 // func_80B468B4-----------
 extern Vec3f D_80B4E934;
@@ -185,8 +187,10 @@ extern s16 D_80B4EDC0[];
 extern s16 D_80B4EDC8[];
 extern s16 D_80B4ED20[];
 
+extern Gfx D_04023210[];
+
 // bss---------------------
-EnInvadepoh* D_80B50320[];
+EnInvadepoh* D_80B50320[]; // not sure if this should be Actor* or EnInvadepoh* array
 u8 D_80B50340[];
 UNK_TYPE1 D_80B50348;
 Actor* D_80B503F0;
@@ -303,25 +307,37 @@ s32 func_80B4516C(EnInvadepoh* this) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B451A0.asm")
 
+#ifdef NON_MATCHING
+// regs
 void func_80B452EC(EnInvadepoh* this, GlobalContext* globalCtx) {
-    s32 i = 0;
-    u8 phi_s2 = (this->actor.params >> 8) & 0x7F;
+    s32 phi_s2;
+    s32 i;
+
+    phi_s2 = (this->actor.params >> 8) & 0x7F;
 
     for (i = 0; i < this->unk379; i++) {
         D_80B50320[i] =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x200, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, 0, 0, (i & 7) | ((phi_s2 << 8) & 0x7F00) | 0x10);
+                        this->actor.world.pos.z, 0, 0, 0, (phi_s2 & 7) | ((phi_s2 << 8) & 0x7F00) | 0x10);
+        if (1) {}
         if (phi_s2 != 0xFF) {
-            phi_s2 = globalCtx->setupPathList[i].unk1;
+            Path* path = &globalCtx->setupPathList[phi_s2];
+            phi_s2 = path->unk1;
         }
     }
 }
+#else
+#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B452EC.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B453F4.asm")
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45460.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B454BC.asm")
+void func_80B454BC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    D_80B503F0 = Actor_Spawn(&globalCtx->actorCtx, globalCtx, 512, this->actor.world.pos.x, this->actor.world.pos.y,
+                             this->actor.world.pos.z, 0, 0, 0, 0x60);
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45518.asm")
 
@@ -343,6 +359,7 @@ void func_80B45648(EnInvadepoh* this) {
 }
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B456A8.asm")
+s32 func_80B456A8(GlobalContext* globalCtx, Vec3f* vec);
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -2109,16 +2126,95 @@ void func_80B4E1B0(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E324.asm")
 
+// cursed but almost matching (issue is arguments of the last two function calls)
+#ifdef NON_MATCHING
+void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx) {
+    Vec3f sp5C;
+
+    Matrix_Push();
+    SysMatrix_InsertMatrix(&globalCtx->unk187FC, MTXMODE_NEW);
+    SysMatrix_GetStateTranslationAndScaledZ(200.0f, &sp5C);
+    Matrix_Pop();
+    sp5C.x += thisx->world.pos.x;
+    sp5C.y += thisx->world.pos.y;
+    sp5C.z += thisx->world.pos.z;
+    func_80B45518(&sp5C);
+    SysMatrix_NormalizeXYZ(&globalCtx->unk187FC);
+    SysMatrix_InsertZRotation_s(((EnInvadepoh*)thisx)->unk304, MTXMODE_APPLY);
+
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C2DC(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0x80, 0xFF, 0xFF, 0x00, 0xB4);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x32, 0x00, 0x00);
+    gSPDisplayList(POLY_XLU_DISP++, D_04023210);
+
+    if (func_80B456A8(globalCtx, &sp5C)) {
+        func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp5C.x, sp5C.y,
+                      sp5C.z, 20.0f, 9.0f, 0.0f, 0.0f);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E3F0.asm")
+#endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E5B0.asm")
+s32 func_80B4E5B0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7)) {
+        EnInvadepoh* this = THIS;
+        rot->x += this->unk344.x;
+        rot->y += this->unk344.y;
+        rot->z += this->unk344.z;
+    }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E61C.asm")
+    return 0;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E660.asm")
+void func_80B4E61C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    if (limbIndex == 5) {
+        SysMatrix_GetStateTranslationAndScaledY(20.0f, &thisx->focus.pos);
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E6E4.asm")
+void func_80B4E660(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E784.asm")
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C28C(globalCtx->state.gfxCtx);
+    gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 200, 0);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80B4E5B0, func_80B4E61C, &this->actor);
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E7BC.asm")
+s32 func_80B4E6E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    if (limbIndex == 9) {
+        EnInvadepoh* this = THIS; // both of these needed to match
+        rot->x += this->unk344.y; 
+        rot->y += this->unk344.z;
+        rot->z += this->unk344.x;
+    } else if (limbIndex == 2) {
+        EnInvadepoh* this = THIS; // both of these needed to match
+        rot->x += (s16)(this->unk358 * this->unk344.y);
+    }
+    return 0;
+}
+
+void func_80B4E784(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    if (limbIndex == 9) {
+        SysMatrix_GetStateTranslation(&thisx->focus.pos);
+    }
+}
+
+void func_80B4E7BC(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C28C(globalCtx->state.gfxCtx);
+    gSPSegment(POLY_OPA_DISP++, 0x09, D_80B4E984[this->unk343]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, D_80B4E96C[this->unk333]);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80B4E6E4, func_80B4E784, &this->actor);
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
