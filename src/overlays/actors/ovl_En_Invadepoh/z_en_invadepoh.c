@@ -353,7 +353,13 @@ void func_80B454BC(EnInvadepoh* this, GlobalContext* globalCtx) {
                              this->actor.world.pos.z, 0, 0, 0, 0x60);
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45518.asm")
+void func_80B45518(Vec3f* vec) {
+    MtxF* sysMatrix = SysMatrix_GetCurrentState();
+
+    sysMatrix->wx = vec->x;
+    sysMatrix->wy = vec->y;
+    sysMatrix->wz = vec->z;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45550.asm")
 
