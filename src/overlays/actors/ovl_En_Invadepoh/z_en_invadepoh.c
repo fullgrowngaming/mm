@@ -1,4 +1,5 @@
 #include "z_en_invadepoh.h"
+#include "../ovl_En_Door/z_en_door.h"
 
 #define FLAGS 0x00000010
 
@@ -364,8 +365,23 @@ void func_80B45518(Vec3f* vec) {
     sysMatrix->wz = vec->z;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45550.asm")
-s32 func_80B45550(EnInvadepoh* this, GlobalContext* globalCtx, f32 arg2, UNK_TYPE arg3);
+s32 func_80B45550(EnInvadepoh* this, GlobalContext* globalCtx, f32 arg2, s32 arg3) {
+    s32 pad;
+    EnDoor* doorIterator = globalCtx->actorCtx.actorList[ACTORCAT_DOOR].first;
+    s32 retVal = false;
+
+    while (doorIterator) {
+        if ((doorIterator->actor.id == ACTOR_EN_DOOR) && (doorIterator->actor.update != NULL) &&
+            (doorIterator->actor.room == this->actor.room) &&
+            Math3D_DistanceSquared(&doorIterator->actor.world.pos, &this->actor.world.pos) < arg2) {
+            doorIterator->unk1A7 = arg3;
+            retVal = true;
+            break;
+        }
+        doorIterator = doorIterator->actor.next;
+    }
+    return retVal;
+}
 
 void func_80B4560C(EnInvadepoh* this, GlobalContext* globalCtx, u16 arg2) {
     this->unk376 = arg2;
@@ -382,8 +398,29 @@ void func_80B45648(EnInvadepoh* this) {
     }
 }
 
+// cursed
+#ifdef NON_MATCHING
+s32 func_80B456A8(GlobalContext* globalCtx, Vec3f* vec) {
+    Vec3f multDest;
+    f32 wDest;
+    int new_var;
+    func_800B4EDC(globalCtx, vec, &multDest, &wDest);
+    if (((multDest.z > 1.0f) && (fabsf(multDest.x * wDest) < 1.0f)) && (fabsf(multDest.y * wDest) < 1.0f)) {
+        f32 wX = ((multDest.x * wDest) * 160.0f) + 160.0f;
+        f32 wY = ((multDest.y * wDest) * (-120.0f)) + 120.0f;
+        f32 wZ = ((multDest.z * ((0, wDest))) * 16352.0f) + 16352.0f;
+        new_var = wZ;
+        new_var = new_var < func_80178A94(wX, wY);
+        if (new_var) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B456A8.asm")
-s32 func_80B456A8(GlobalContext* globalCtx, Vec3f* vec);
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1446,7 +1483,28 @@ void func_80B487B4(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B487B4.asm")
 #endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48848.asm")
+void func_80B48848(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Math_StepToF(&this->actor.speedXZ, 1.6f, 0.1f);
+    if (func_80B44B84(this, globalCtx, this->actor.speedXZ, 50.0f)) {
+        func_80B44514(this);
+        this->unk370 = 0xC8;
+        this->actor.speedXZ *= 0.25f;
+    } else {
+        Math_StepToS(&this->unk370, 0x7D0, 0x46);
+    }
+    func_80B43E6C(this, 6, this->unk370, 0x46);
+    if ((this->actor.flags & 0x40) == 0x40) {
+        if ((func_801378B8(&this->skelAnime, 0.0f)) || (func_801378B8(&this->skelAnime, 7.0f))) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_ROMANI_WALK);
+        }
+    }
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+        return;
+    }
+    func_80B48948(this);
+}
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1490,7 +1548,71 @@ void func_80B48948(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48948.asm")
 #endif
 
+//cursed
+#ifdef NON_MATCHING
+void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx) {
+    EnInvadePohStructUnk324* substruct;
+    s16 temp_v1;
+    s16 temp_f18;
+    s32 temp_v1_3;
+    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    if (func_80B44B84(this, globalCtx, this->actor.speedXZ, 50.0f)) {
+        func_80B44514(this);
+    }
+
+    if (this->unk374 == 0) {
+        if ((this->actor.xzDistToPlayer < 350.0f) && ((globalCtx->gameplayFrames & 0x60) != 0)) {
+            temp_v1 =
+                Math_Vec3f_Pitch(&this->actor.focus,
+                                 &((ActorPlayer*)globalCtx->actorCtx.actorList[ACTORCAT_PLAYER].first)->base.focus) *
+                0.85f;
+            temp_v1 -= this->actor.shape.rot.x;
+            this->EnInvadePohStructUnk324->unk26.x = CLAMP(temp_v1, -0x9C4, 0x9C4);
+            temp_f18 = ((float)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) * 0.7f;
+            this->EnInvadePohStructUnk324->unk26.y = CLAMP(temp_f18, -0x1F40, 0x1F40);
+        }
+
+        substruct->unk26.x = 0;
+    } else {
+        substruct->unk26.y = 0;
+    }
+
+    if (this->unk2F0 > 0) {
+        if (((this->unk2F0 & 0x1F) == 0) && (Rand_ZeroOne() < 0.3f)) {
+            temp_v1_3 = Rand_Next();
+            temp_v1_3 = temp_v1_3 % 4;
+            if (temp_v1_3 != this->unk374) {
+                this->unk374 = temp_v1_3;
+                if (this->unk374 == 0) {
+                    Math_Vec3s_Copy(&substruct->unk26, &D_801D15BC);
+                    substruct->unk30 = 0.07f;
+                } else if (this->unk374 == 1) {
+                    substruct->unk26.x = Rand_S16Offset(0x3E8, 0x3E8);
+                    substruct->unk26.y = Rand_S16Offset(-0x3E8, 0x7D0);
+                    substruct->unk26.z = Rand_S16Offset(-0x320, 0x640);
+                    substruct->unk30 = 0.06f;
+                } else if (this->unk374 == 2) {
+                    substruct->unk26.x = Rand_S16Offset(-0x7D0, 0x3E8);
+                    substruct->unk26.y = Rand_S16Offset(-0x3E8, 0x7D0);
+                    substruct->unk26.z = Rand_S16Offset(-0x320, 0x640);
+                    substruct->unk30 = 0.05f;
+                } else {
+                    substruct->unk26.x = Rand_S16Offset(-0x3E8, 0x7D0);
+                    substruct->unk26.y = Rand_S16Offset(-0x7D0, 0xFA0);
+                    substruct->unk26.z = Rand_S16Offset(-0x7D0, 0xFA0);
+                    substruct->unk30 = 0.04f;
+                }
+            }
+        }
+
+        this->unk2F0--;
+    } else {
+        func_80B487B4(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48AD4.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1735,7 +1857,7 @@ void func_80B4A614(EnInvadepoh* this) {
 
 void func_80B4A67C(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 pad;
-    
+
     Math_StepToF(&this->actor.speedXZ, 5.0f, 1.0f);
     if (func_80B44B84(this, globalCtx, this->actor.speedXZ, 50.0f)) {
         func_80B44640(this);
