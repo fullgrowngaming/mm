@@ -1548,7 +1548,7 @@ void func_80B48948(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48948.asm")
 #endif
 
-//cursed
+// cursed
 #ifdef NON_MATCHING
 void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx) {
     EnInvadePohStructUnk324* substruct;
@@ -1694,7 +1694,35 @@ void func_80B49628(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49628.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B49670(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f sp30;
+
+    sp30.x = this->actor.home.pos.x;
+    sp30.y = this->actor.home.pos.y + 1500.0f;
+    sp30.z = this->actor.home.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world, &sp30), 0xA, 0xBB8, 0x64);
+    if ((globalCtx->gameplayFrames & 0x3F) < 0xE) {
+        Math_StepToF(&this->actor.speedXZ, 5.0f, 1.0f);
+    } else {
+        this->actor.speedXZ *= 0.97f;
+    }
+    if (sp30.y < this->actor.world.pos.y) {
+        this->actor.gravity = -0.5f;
+    } else {
+        this->actor.gravity = 2.0f;
+    }
+    this->actor.velocity.y *= 0.97f;
+    Actor_SetVelocityAndMoveYRotationAndGravity(&this->actor);
+    if (D_80B4E940 == 3) {
+        func_80B499BC(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49670.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1710,7 +1738,33 @@ void func_80B497A4(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B497A4.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B497EC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f sp30;
+
+    sp30.x = this->actor.home.pos.x + D_80B4E934.x;
+    sp30.y = this->actor.home.pos.y + D_80B4E934.y + 400.0f;
+    sp30.z = this->actor.home.pos.z + D_80B4E934.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world, &sp30), 4, 0x1F40, 0x64);
+    Math_StepToF(&this->actor.speedXZ, 70.0f, 3.0f);
+    if (sp30.y < this->actor.world.pos.y) {
+        this->actor.gravity = -2.0f;
+    } else {
+        this->actor.gravity = 2.0f;
+    }
+    this->actor.velocity.y *= 0.97f;
+    Actor_SetVelocityAndMoveYRotationAndGravity(&this->actor);
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+        return;
+    }
+    func_80B49904(this);
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B497EC.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1726,7 +1780,21 @@ void func_80B49904(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49904.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B4994C(EnInvadepoh* this, GlobalContext* globalCtx) {
+    Math_StepToF(&this->actor.speedXZ, 150.0f, 4.0f);
+    this->actor.velocity.y *= 0.95f;
+    Actor_SetVelocityAndMoveYRotationAndGravity(&this->actor);
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+    } else {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4994C.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1742,9 +1810,53 @@ void func_80B499BC(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B499BC.asm")
 #endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49A00.asm")
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B49A00(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f sp30;
 
+    sp30.x = this->actor.home.pos.x;
+    sp30.y = this->actor.home.pos.y + 800.0f;
+    sp30.z = this->actor.home.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world, &sp30), 4, 0x1F40, 0x64);
+    Math_StepToF(&this->actor.speedXZ, 30.0f, 3.0f);
+    this->actor.velocity.y *= 0.98f;
+    if (sp30.y < this->actor.world.pos.y) {
+        this->actor.gravity = -0.5f;
+    } else {
+        this->actor.gravity = 2.0f;
+    }
+    Actor_SetVelocityAndMoveYRotationAndGravity(&this->actor);
+    func_800B78B8(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+    } else {
+        func_80B497A4(this);
+    }
+}
+#else
+#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49A00.asm")
+#endif
+
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B49B1C(Actor *thisx, GlobalContext *globalCtx) {
+    EnInvadepoh* this = THIS;
+    f32 temp;
+
+    this->actionFunc(this, globalCtx);
+    this->unk3A8 += this->unk3AA;
+    Math_StepToF(&this->unk39C, this->unk3A0, this->unk3A4);
+    temp = Math_SinS(this->unk3A8) * this->unk39C + 1.0f; //required
+    Actor_SetScale(&this->actor, 0.27f * temp);
+    Math_StepToS(&this->unk306, 0x258, 8);
+    this->actor.world.rot.y += this->unk306;
+    this->unk304 += 0x258;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49B1C.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
