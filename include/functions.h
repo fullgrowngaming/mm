@@ -2712,7 +2712,7 @@ UNK_TYPE func_8013BC6C(SkelAnime* skelAnime, UNK_PTR arg1, s32 arg2);
 // void func_8013C068(UNK_TYPE1 param_1, UNK_TYPE1 param_2, UNK_TYPE1 param_3, UNK_TYPE1 param_4, UNK_TYPE4 param_5);
 // void func_8013C624(UNK_TYPE1 param_1, UNK_TYPE1 param_2, UNK_TYPE1 param_3, UNK_TYPE1 param_4, UNK_TYPE4 param_5, UNK_TYPE4 param_6);
 // void func_8013C8B8(void);
-// void func_8013C964(UNK_TYPE1 param_1, UNK_TYPE1 param_2, UNK_TYPE1 param_3, UNK_TYPE1 param_4, UNK_TYPE1 param_5, UNK_TYPE4 param_6);
+void func_8013C964(Actor* actor, GlobalContext *globalCtx, f32 param_3, f32 param_4, UNK_TYPE1 param_5, UNK_TYPE2 param_6);
 // void func_8013CC2C(void);
 // void func_8013CD64(UNK_TYPE1 param_1, UNK_TYPE1 param_2, UNK_TYPE1 param_3, UNK_TYPE1 param_4, UNK_TYPE1 param_5, UNK_TYPE4 param_6, UNK_TYPE4 param_7);
 // void func_8013CF04(void);
