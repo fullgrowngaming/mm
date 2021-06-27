@@ -1814,7 +1814,7 @@ u32 func_800FE4B8(GlobalContext* globalCtx);
 // void func_800FE590(void);
 // void func_800FE5D0(void);
 // UNK_TYPE4 func_800FE610(void);
-// void func_800FE620(void);
+UNK_TYPE func_800FE620(GlobalContext* globalCtx);
 // void func_800FE658(void);
 // UNK_TYPE4 func_800FE6F8(UNK_TYPE4 param_1, s16 param_2, s16 param_3);
 // void func_800FE778(void);

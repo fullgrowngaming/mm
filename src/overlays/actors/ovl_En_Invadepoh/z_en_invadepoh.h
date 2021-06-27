@@ -23,9 +23,7 @@ typedef struct EnInvadePohStruct{
 typedef struct EnInvadePohStructUnk324 {
     /* 0x000 */ EnInvadePohStruct unk0;
     /* 0x010 */ EnInvadePohStruct unk10;
-    /* 0x020 */ s16 unk20; //possibly vec3s?
-    /* 0x022 */ s16 unk22;
-    /* 0x024 */ s16 unk24;
+    /* 0x020 */ Vec3s unk20;
     /* 0x026 */ Vec3s unk26;
     /* 0x02C */ s16 unk2C;
     /* 0x02E */ u16 unk2E;
@@ -37,7 +35,9 @@ typedef struct EnInvadePohStructUnk324 {
     /* 0x042 */ s16 unk42;
     /* 0x044 */ f32 unk44;
     /* 0x048 */ s16 unk48;
-    /* 0x04A */ char unk4A[0x6];
+    /* 0x04A */ char unk4A[0x2];
+    /* 0x04C */ s16 unk4C;
+    /* 0x04E */ char unk4E[0x2];
 } EnInvadePohStructUnk324; // size = 0x50
 
 typedef struct EnInvadepoh {
@@ -64,27 +64,7 @@ typedef struct EnInvadepoh {
     /* 0x30C */ s32 unk30C;
     /* 0x310 */ char unk310[0x10];
     /* 0x320 */ f32 unk320;
-    /* 0x324 */ EnInvadePohStructUnk324* EnInvadePohStructUnk324; // not sure if pointer
-    /* 0x328 */ char unk328[0xB];
-    /* 0x333 */ s8 unk333;
-    /* 0x334 */ char unk334[0xF];
-    /* 0x343 */ s8 unk343;
-    /* 0x344 */ Vec3s unk344;
-    /* 0x34A */ s16 unk34A;
-    /* 0x34C */ s16 unk34C;
-    /* 0x34E */ s16 unk34E;
-    /* 0x350 */ u16 unk350;
-    /* 0x352 */ char unk352[0x2];
-    /* 0x354 */ f32 unk354;
-    /* 0x358 */ f32 unk358;
-    /* 0x35C */ char unk35A[0x8];
-    /* 0x364 */ s16 unk364;
-    /* 0x366 */ s16 unk366;
-    /* 0x368 */ f32 unk368;
-    /* 0x36C */ s16 unk36C;
-    /* 0x36E */ char unk36E[0x2];
-    /* 0x370 */ s16 unk370;
-    /* 0x372 */ char unk372[0x2]; 
+    /* 0x324 */ EnInvadePohStructUnk324 EnInvadePohStructUnk324; // not sure if pointer
     /* 0x374 */ s8 unk374;
     /* 0x375 */ s8 unk375;
     /* 0x376 */ u16 unk376;
@@ -107,6 +87,8 @@ typedef struct EnInvadepoh {
     /* 0x3BC */ s8 unk3BC;
     /* 0x3BD */ char unk3BD[0x3];
 } EnInvadepoh; // size = 0x3C0
+
+//look at en_ma_yts for inspiration for improvements
 
 extern const ActorInit En_Invadepoh_InitVars;
 
