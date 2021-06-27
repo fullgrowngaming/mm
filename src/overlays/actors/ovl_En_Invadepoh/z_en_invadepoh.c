@@ -2066,7 +2066,36 @@ void func_80B49DA0(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49DA0.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+//all temps and separate operations are required
+#ifdef NON_MATCHING
+void func_80B49DFC(EnInvadepoh* this, GlobalContext* globalCtx) {
+    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
+    ActorPlayer* player = PLAYER;
+    s16 temp_v1;
+    s16 diff;
+    
+    Math_StepToS(&this->EnInvadePohStructUnk324.unk4C, 0x7D0, 0x1F4);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, this->EnInvadePohStructUnk324.unk4C,
+                       0x28);
+    temp_v1 = (Math_Vec3f_Pitch(&this->actor.focus, &player->base.focus) * 0.85f);
+    temp_v1 -= this->actor.shape.rot.x;
+    substruct->unk26.x = CLAMP(temp_v1, -0xBB8, 0xBB8);
+    diff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
+    temp_v1 = diff;
+    temp_v1 *= 0.7f;
+    substruct->unk26.y = CLAMP(temp_v1, -0x1F40, 0x1F40);
+    if (func_800B867C(&this->actor, globalCtx)) {
+        if (this->actor.textId == 0x332D) {
+            gSaveContext.weekEventReg[54] |= 0x10;
+            this->actor.textId = 0x332E;
+        }
+        func_80B49BD0(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49DFC.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B49F88.asm")
 
@@ -2078,7 +2107,36 @@ void func_80B4A168(EnInvadepoh* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4A1B8.asm")
+void func_80B4A1B8(Actor *thisx, GlobalContext *globalCtx) {
+    s32 pad;
+    EnInvadepoh* this = THIS;
+    s32 sp2C;
+    s32 temp_v0;
+
+    sp2C = (this->actor.flags & 0x40) == 0x40;
+    temp_v0 = func_800B84D0(&this->actor, globalCtx);
+
+    if (temp_v0) {
+        func_80151BB4(globalCtx, 5);
+        func_80B49DA0(this);
+    }
+    this->actionFunc(this, globalCtx);
+    if (sp2C != 0) {
+        if (this->actor.update != NULL) {
+            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            func_80B45CE0(&this->EnInvadePohStructUnk324);
+            if (this->actionFunc != func_80B49DFC) {
+                if (!temp_v0) {
+                    if (this->actor.isTargeted) {
+                        func_800B8614(&this->actor, globalCtx, 350.0f);
+                    }
+                }
+            }
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colCheckCtx, &this->collider.base);
+        }
+    }
+}
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
