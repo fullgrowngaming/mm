@@ -17,7 +17,10 @@ typedef struct EnBjt {
     /* 0x1E0 */ Vec3s limbDrawTbl[7];
     /* 0x20A */ Vec3s transitionDrawTbl[7];
     /* 0x234 */ u16 unk234;
-    /* 0x236 */ char unk236[0x1A];
+    /* 0x236 */ char unk236[0xA];
+    /* 0x240 */ s16 unk240;
+    /* 0x242 */ char unk242[0xA];
+    /* 0x24C */ EnBjtActionFunc otherFunc;
     /* 0x250 */ s32 unk250;
     /* 0x254 */ char unk254[0x8];
 } EnBjt; // size = 0x25C

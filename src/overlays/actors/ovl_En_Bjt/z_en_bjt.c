@@ -9,7 +9,10 @@ void EnBjt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBjt_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBjt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80BFD6BC(EnBjt* this, GlobalContext* globalCtx);
+void func_80BFDA48(EnBjt* this, GlobalContext* globalCtx);
 void func_80BFDAE8(EnBjt* this, GlobalContext* globalCtx);
+
 
 /*
 const ActorInit En_Bjt_InitVars = {
@@ -43,25 +46,20 @@ extern CollisionCheckInfoInit2 D_80BFDF74;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Bjt_0x80BFD2E0/func_80BFD6BC.asm")
 
-void func_80BFD8F0(EnBjt* this, GlobalContext* globalCtx) {
-    ?32 sp1C;
-    Actor* temp_a0;
-    u16* temp_a0_2;
+s32 func_80BFD8F0(EnBjt* this, GlobalContext* globalCtx) {
+    s32 retVal = false;
 
-    temp_a0 = arg0;
-    if ((arg0->unk234 & 7) != 0) {
-        sp1C = 0;
-        arg0 = arg0;
-        if (func_800B84D0(temp_a0, arg1) != 0) {
-            temp_a0_2 = arg0 + 0x234;
-            arg0->unk234 = (u16) (arg0->unk234 | 8);
-            arg0 = arg0;
-            func_8013AED4(temp_a0_2, (u16)0U, (u16)7U);
-            arg0->unk24C = &func_80BFD6BC;
-            arg0->unk240 = (u16)0;
-            arg0->unk188 = &func_80BFDA48;
+    if ((this->unk234 & 7)) {
+        if (func_800B84D0(&this->actor, globalCtx)) {
+            this->unk234 |= 8;
+            func_8013AED4(&this->unk234, 0, 7);
+            this->otherFunc = func_80BFD6BC;
+            this->unk240 = 0;
+            this->actionFunc = func_80BFDA48;
+            retVal = true;
         }
     }
+    return retVal;
 }
 
 
