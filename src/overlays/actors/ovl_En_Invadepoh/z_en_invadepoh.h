@@ -69,7 +69,9 @@ typedef struct EnInvadepoh {
     /* 0x376 */ u16 unk376;
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
-    /* 0x37A */ char unk37A[0xF];
+    /* 0x37A */ char unk37A[0x2];
+    /* 0x37C */ f32 unk37C;
+    /* 0x380 */ char unk380[0x9];
     /* 0x389 */ u8 unk389; // color
     /* 0x38A */ s8 unk38A;
     /* 0x38B */ s8 unk38B;
