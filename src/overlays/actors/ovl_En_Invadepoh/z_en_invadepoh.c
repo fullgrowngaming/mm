@@ -354,7 +354,8 @@ void func_80B446D0(EnInvadepoh* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44A90.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44B78.asm")
+void func_80B44B78(EnInvadepoh* this) {
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44B84.asm")
 s32 func_80B44B84(EnInvadepoh* this, GlobalContext* globalCtx, f32 arg2, f32 arg3);
