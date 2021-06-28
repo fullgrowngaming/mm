@@ -51,7 +51,7 @@ typedef struct EnInvadepoh {
     /* 0x2EC */ EnInvadepohActionFunc actionFunc;
     /* 0x2F0 */ s16 unk2F0;
     /* 0x2F2 */ s16 unk2F2;
-    /* 0x2F4 */ s8 unk2F4;
+    /* 0x2F4 */ s8 unk2F4; // object index
     /* 0x2F5 */ char unk2F5[0xF];
     /* 0x304 */ s16 unk304;
     /* 0x306 */ s16 unk306;
@@ -75,7 +75,7 @@ typedef struct EnInvadepoh {
     /* 0x389 */ u8 unk389; // color
     /* 0x38A */ s8 unk38A;
     /* 0x38B */ s8 unk38B;
-    /* 0x38C */ u8 unk38C;
+    /* 0x38C */ s8 unk38C;
     /* 0x38D */ u8 unk38D;
     /* 0x390 */ Vec3f unk390; // float on boundary
     /* 0x39C */ f32 unk39C;

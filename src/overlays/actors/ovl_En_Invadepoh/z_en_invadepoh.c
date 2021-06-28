@@ -122,7 +122,8 @@ void func_80B4DB14(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4D760(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4A168(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4873C(Actor* thisx, GlobalContext* globalCtx);
-
+void func_80B490F0(Actor* thisx, GlobalContext* globalCtx);
+void func_80B4AB8C(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_Invadepoh_InitVars = {
     ACTOR_EN_INVADEPOH,
@@ -200,6 +201,8 @@ extern s16 D_80B4ED20[];
 
 extern Gfx D_04023210[];
 extern Gfx D_060003B0[];
+extern Gfx D_04029CB0[];
+extern Gfx D_04029CF0[];
 
 extern Vec3f D_80B4EE24;
 extern Vec3f D_80B4EE30;
@@ -259,18 +262,17 @@ s32 func_80B43AB0(void) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43E6C.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43F0C.asm")
-
-/*void func_80B43F0C(EnInvadepoh* this) {
-    Vec3s* arr = this->unk30C;
-    s8 index = this->unk309;
+void func_80B43F0C(EnInvadepoh* this) {
+    s32 pad;
+    Vec3s* arr = &this->unk30C[this->unk309];
+    s32 pad2;
     Vec3f sp28;
     Vec3f sp1C;
 
-    Math_Vec3s_ToVec3f(&sp28, &arr[index]);
-    Math_Vec3s_ToVec3f(&sp1C, &arr[index + 1]);
+    Math_Vec3s_ToVec3f(&sp28, &arr[0]);
+    Math_Vec3s_ToVec3f(&sp1C, &arr[1]);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&sp28, &sp1C);
-}*/
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43F70.asm")
 f32 func_80B43F70(EnInvadepoh* this);
@@ -1758,7 +1760,32 @@ void func_80B48E4C(EnInvadepoh* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48E4C.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B48FB0(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk2F4)) {
+        this->actor.objBankIndex = this->unk2F4;
+        Actor_SetObjectSegment(globalCtx, &this->actor);
+        func_80B44F58();
+        this->actor.update = func_80B490F0;
+        this->actor.draw = func_80B4E324;
+        this->actor.textId = 0x3330;
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06013928, &D_06009E58, this->limbDrawTable,
+                         this->transitionDrawTable, 23);
+        func_80B45C04(&this->EnInvadePohStructUnk324, &D_80B4EA90, 6, &D_80B4EB00, 2, &D_801D15BC, 0x64, 0.03f, 0.3f,
+                      0.03f);
+        func_80B444F4(this, globalCtx);
+        func_80B4407C(this, 0);
+        func_800B4AEC(globalCtx, &this->actor, 50.0f);
+        func_80B4516C(this);
+        func_80B487B4(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B48FB0.asm")
+#endif
 
 void func_80B490F0(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -2473,9 +2500,56 @@ void func_80B4A81C(EnInvadepoh* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4A81C.asm")
 #endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4A9C8.asm")
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B4A9C8(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+    s32 pad[2];
+    s32 sp38;
 
-void func_80B4AB8C(EnInvadepoh* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk2F4)) {
+        sp38 = gSaveContext.time;
+        this->actor.objBankIndex = this->unk2F4;
+        Actor_SetObjectSegment(globalCtx, &this->actor);
+        func_80B44F58();
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06013928, &D_06014088, this->limbDrawTable,
+                         this->transitionDrawTable, 23);
+        func_80B45C04(&this->EnInvadePohStructUnk324, &D_80B4EA90, 1, &D_80B4EB00, 1, &D_801D15BC, 0x64, 0.03f, 0.3f,
+                      0.03f);
+        func_80B44620(this, globalCtx);
+        if ((sp38 < 0x1800) || (sp38 >= 0x4000)) {
+            this->unk309 = 0;
+            this->actor.update = func_80B4AB8C;
+        } else {
+            this->unk309 = this->unk308;
+            this->actor.update = func_80B4ABDC;
+            this->actor.draw = func_80B4E324;
+            func_80B4A2C0(this);
+        }
+
+        func_80B4407C(this, this->unk309);
+        func_80B43F0C(this);
+        func_800B4AEC(globalCtx, &this->actor, 50.0f);
+        func_80B4516C(this);
+        if (gSaveContext.weekEventReg[21] & 0x20) {
+            if (gSaveContext.weekEventReg[54] & 0x10) {
+                this->actor.textId = 0x332E;
+            } else {
+                this->actor.textId = 0x332D;
+            }
+
+        } else {
+            this->actor.textId = 0x332C;
+        }
+    }
+}
+#else
+#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4A9C8.asm")
+#endif
+
+void func_80B4AB8C(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = THIS;
+
     if ((gSaveContext.time < 0x4000) && (gSaveContext.time >= 0x1800)) {
         this->actor.update = func_80B4ABDC;
         this->actor.draw = func_80B4E324;
@@ -2952,37 +3026,8 @@ void func_80B4D9F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 #ifdef NON_MATCHING
 void func_80B4DB14(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = THIS;
-    GraphicsContext* spCC;
-    Gfx* spBC;
-    GraphicsContext* spB8;
-    f32 sp80;
-    f32 sp7C;
-    f32 sp78;
-    f32 sp74;
-    GraphicsContext* sp6C;
-    Gfx* sp54;
-    u32 sp4C;
-    Gfx* temp_s0;
-    Gfx* temp_s0_2;
-    Gfx* temp_s0_3;
-    Gfx* temp_s0_4;
-    Gfx* temp_s0_5;
-    Gfx* temp_v0;
-    Gfx* temp_v0_2;
-    Gfx* temp_v0_3;
-    Gfx* temp_v0_5;
-    Gfx* temp_v1;
-    Gfx* temp_v1_2;
-    Gfx* temp_v1_3;
-    Gfx* temp_v1_4;
-    Gfx* temp_v1_5;
-    Gfx* temp_v1_6;
-    Gfx* temp_v1_7;
-    Gfx* temp_v1_8;
-    GraphicsContext* temp_a0;
-    GraphicsContext* temp_a2;
-    GraphicsContext* temp_v0_4;
-    f32 temp_f14;
+    Vec3f sp80;
+    Vec3f sp74;
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_8012C2DC(globalCtx->state.gfxCtx);
@@ -3028,44 +3073,28 @@ void func_80B4DB14(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP, 0x06000720);
     }
     if (this->unk38B != 0) {
-        temp_v0_4 = globalCtx->state.gfxCtx;
-        sp6C = temp_v0_4;
-        temp_v0_5 = func_8012C868(temp_v0_4->polyXlu.p);
-        temp_v0_5->words.w1 = 0x80;
-        temp_v0_5->words.w0 = 0xE3001803;
-
-        temp_s0 = temp_v0_5 + 8;
-        temp_s0->words.w0 = 0xFCFF97FF;
-        temp_s0->words.w1 = 0xFF2DFEFF;
-
-        temp_s0_2 = temp_s0 + 8;
+        Gfx* dl = func_8012C868(POLY_XLU_DISP);
+        gSPSetOtherMode(dl++, G_SETOTHERMODE_H, 4, 4, 0x00000080);
+        gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                          PRIMITIVE, 0);
         SysMatrix_InsertMatrix(&globalCtx->unk187FC, MTXMODE_NEW);
         SysMatrix_GetStateTranslationAndScaledZ(60.0f, &sp80);
-        sp74 = thisx->world.pos.x + sp80;
-        temp_f14 = thisx->world.pos.y + sp84 + 68.0f;
-        sp78 = temp_f14;
-        sp7C = thisx->world.pos.z + sp88;
-        SysMatrix_InsertTranslation(sp74, temp_f14, sp7C, 0);
+        sp74.x = thisx->world.pos.x + sp80.x;
+        sp74.y = thisx->world.pos.y + sp80.y + 68.0f;
+        sp74.z = thisx->world.pos.z + sp80.z;
+        SysMatrix_InsertTranslation(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(0.25f, 0.25f, 0.25f, MTXMODE_APPLY);
 
-        temp_s0_3 = temp_s0_2 + 8;
-        temp_s0_2->words.w0 = 0xDE000000;
-        temp_s0_2->words.w1 = 0x4029CB0;
+        gSPDisplayList(POLY_XLU_DISP++, &D_04029CB0);
 
-        temp_s0_3->words.w1 = ((thisx->unk389 * D_80B4F078) & 0xFF) | 0xF0B46400;
-        temp_s0_3->words.w0 = 0xFA000000;
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 3);
 
-        temp_s0_4 = temp_s0_3 + 8;
-        temp_s0_4->words.w0 = 0xDA380003;
-        sp54 = temp_s0_4;
-        temp_s0_5 = temp_s0_4 + 8;
-        temp_s0_4->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx);
-        temp_s0_5->words.w1 = 0x4029CF0;
-        temp_s0_5->words.w0 = 0xDE000000;
-        sp6C->polyXlu.p = temp_s0_5 + 8;
-        if ((thisx->unk389 >= 0x81) && (func_80B456A8(globalCtx, &sp74) != 0)) {
-            func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp74.unk0,
-                          sp74.unk4, sp74.unk8, 10.0f, 9.0f, 0, 0);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, &D_04029CF0);
+
+        if ((this->unk389 >= 0x81) && func_80B456A8(globalCtx, &sp74)) {
+            func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp74, 10.0f,
+                          9.0f, 0, 0);
         }
     }
     Matrix_Pop();
@@ -3137,39 +3166,34 @@ void func_80B4E324(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx);
 }
 
-// cursed but almost matching (issue is arguments of the last two function calls)
-#ifdef NON_MATCHING
 void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad[2];
     Vec3f sp5C;
 
     Matrix_Push();
     SysMatrix_InsertMatrix(&globalCtx->unk187FC, MTXMODE_NEW);
     SysMatrix_GetStateTranslationAndScaledZ(200.0f, &sp5C);
     Matrix_Pop();
+    if (0) {}
     sp5C.x += thisx->world.pos.x;
     sp5C.y += thisx->world.pos.y;
     sp5C.z += thisx->world.pos.z;
     func_80B45518(&sp5C);
     SysMatrix_NormalizeXYZ(&globalCtx->unk187FC);
     SysMatrix_InsertZRotation_s(((EnInvadepoh*)thisx)->unk304, MTXMODE_APPLY);
-
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_8012C2DC(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), (0x00 | 0x02) | 0x00);
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0x80, 0xFF, 0xFF, 0x00, 0xB4);
     gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x32, 0x00, 0x00);
     gSPDisplayList(POLY_XLU_DISP++, D_04023210);
-
     if (func_80B456A8(globalCtx, &sp5C)) {
-        func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp5C.x, sp5C.y,
-                      sp5C.z, 20.0f, 9.0f, 0.0f, 0.0f);
+        func_800F9824(globalCtx, &globalCtx->kankyoContext, &globalCtx->view, globalCtx->state.gfxCtx, sp5C, 20.0f,
+                      9.0f, 0, 0);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx);
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4E3F0.asm")
-#endif
 
 s32 func_80B4E5B0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7)) {
