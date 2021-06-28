@@ -241,7 +241,9 @@ typedef struct {
     /* 0x3CE */ s8 unk3CE;
     /* 0x3CF */ UNK_TYPE1 pad3CF[0x361];
     /* 0x730 */ Actor* unk730;
-    /* 0x734 */ UNK_TYPE1 pad734[0x338];
+    /* 0x734 */ UNK_TYPE1 pad734[0x10C];
+    /* 0x840 */ s32 unk840;
+    /* 0x844 */ UNK_TYPE1 pad844[0x228];
     /* 0xA6C */ u32 stateFlags1;
     /* 0xA70 */ u32 unkA70;
     /* 0xA74 */ u32 unkA74;

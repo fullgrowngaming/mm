@@ -43,10 +43,8 @@ typedef struct EnInvadePohStructUnk324 {
 typedef struct EnInvadepoh {
     /* 0x000 */ Actor actor;
     /* 0x144 */ SkelAnime skelAnime;
-    /* 0x188 */ Vec3s limbDrawTable[14];
-    /* 0x1DC */ char unk1AC[0x36];
-    /* 0x212 */ Vec3s transitionDrawTable[14];
-    /* 0x266 */ char unk266[0x36];
+    /* 0x188 */ Vec3s limbDrawTable[23];
+    /* 0x212 */ Vec3s transitionDrawTable[23];
     /* 0x29C */ s8 unk29C;
     /* 0x29D */ char unk29D[0x3];
     /* 0x2A0 */ ColliderCylinder collider;
@@ -61,7 +59,9 @@ typedef struct EnInvadepoh {
     /* 0x309 */ s8 unk309;
     /* 0x30A */ s8 unk30A;
     /* 0x30B */ s8 unk30B;
-    /* 0x30C */ Vec3s unk30C[3];
+    /* 0x30C */ Vec3s* unk30C;
+    /* 0x310 */ f32 unk310;
+    /* 0x314 */ char unk314[0xC];
     /* 0x320 */ f32 unk320;
     /* 0x324 */ EnInvadePohStructUnk324 EnInvadePohStructUnk324; // not sure if pointer
     /* 0x374 */ s8 unk374;
