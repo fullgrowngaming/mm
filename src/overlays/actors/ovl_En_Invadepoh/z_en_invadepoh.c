@@ -124,6 +124,7 @@ void func_80B4A168(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4873C(Actor* thisx, GlobalContext* globalCtx);
 void func_80B490F0(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4AB8C(Actor* thisx, GlobalContext* globalCtx);
+
 /*
 const ActorInit En_Invadepoh_InitVars = {
     ACTOR_EN_INVADEPOH,
@@ -180,11 +181,9 @@ extern Gfx* D_80B4E958[];
 extern AnimatedMaterial D_80B503FC;
 extern AnimatedMaterial D_80B50400;
 
-// func_80B468B4-----------
 extern Vec3f D_80B4E934;
 extern f32 D_80B4EE88;
 extern f32 D_80B4EE8C;
-//------------------------
 
 extern s32 D_80B4E940;
 extern s8 D_80B4E998;
@@ -274,8 +273,31 @@ void func_80B43F0C(EnInvadepoh* this) {
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&sp28, &sp1C);
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43F70.asm")
-f32 func_80B43F70(EnInvadepoh* this);
+f32 func_80B43F70(EnInvadepoh* this) {
+    f32 new_var;
+    s32 pad;
+    Vec3f sp54;
+    Vec3f sp48;
+    Vec3s* temp_s0;
+    f32 temp_f20;
+    s32 i;
+    s32 temp_s4;
+
+    temp_s4 = this->unk308 + 1;
+    temp_s0 = this->unk30C;
+    temp_f20 = 0.0f;
+    Math_Vec3s_ToVec3f(&sp48, temp_s0);
+    temp_s0++;
+    for (i = 1; i < temp_s4; i++) {
+        Math_Vec3f_Copy(&sp54, &sp48);
+        Math_Vec3s_ToVec3f(&sp48, temp_s0);
+        new_var = Math3D_Distance(&sp54, &sp48);
+        temp_s0++;
+        temp_f20 += new_var;
+    }
+
+    return temp_f20;
+}
 
 void func_80B44024(EnInvadepoh* this, GlobalContext* globalCtx) {
     Path* path;
@@ -2932,11 +2954,75 @@ void func_80B4CFFC(EnInvadepoh* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D054.asm")
+void func_80B4D054(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnInvadepoh* this = THIS;
+    s32 sp2C;
+    s32 temp_v0;
+
+    sp2C = (this->actor.flags & 0x40) == 0x40;
+    temp_v0 = func_800B84D0(thisx, globalCtx);
+    if (temp_v0) {
+        func_80151BB4(globalCtx, 5);
+        func_80B4CAB0(this);
+    }
+    this->actionFunc(this, globalCtx);
+    if (sp2C != 0) {
+        if (this->actor.update != NULL) {
+            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            func_80B45CE0(&this->EnInvadePohStructUnk324);
+            if (this->actionFunc != func_80B4CB0C) {
+                if (!temp_v0) {
+                    if (this->actor.isTargeted) {
+                        func_800B8614(thisx, globalCtx, 350.0f);
+                    }
+                }
+            }
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colCheckCtx, &this->collider.base);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D15C.asm")
 
+// ISMATCHING: Move rodata once all funcs match
+//JANK - fix later 
+#ifdef NON_MATCHING
+void func_80B4D290(Actor* thisx, GlobalContext* globalCtx) {
+    EnInvadepoh* this = (EnInvadepoh*)thisx;
+    f32 sp28;
+    f32 temp_f10;
+    Actor* temp_v1;
+    if (D_80B503F0 == 0) {
+        Actor_MarkForDeath(&this->actor);
+        return;
+    }
+
+    Math_StepToF(&this->actor.velocity.y, 15.0f, this->unk300);
+    sp28 = Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 850.0f, 0.2f, this->actor.velocity.y,
+                              0.01f);
+    this->unk304 += 0x2BC;
+    this->actor.world.pos.x = (Math_SinS(this->unk304) * 80.0f) + this->actor.home.pos.x;
+    temp_f10 = Math_CosS(this->unk304) * 80.0f;
+    this->EnInvadePohStructUnk324.unk4C += this->EnInvadePohStructUnk324.unk4E;
+    temp_v1 = this->actor.child;
+    this->actor.shape.rot.y += this->EnInvadePohStructUnk324.unk4C;
+    this->actor.world.pos.z = this->actor.home.pos.z + ((0, temp_f10));
+    if (this->actor.child != 0) {
+        this->actor.child->world.pos.x = this->actor.world.pos.x;
+        temp_v1->world.pos.y = this->actor.world.pos.y - 38.0f;
+        temp_v1->world.pos.z = this->actor.world.pos.z;
+        temp_v1->shape.rot.y = this->actor.shape.rot.y;
+    }
+
+    if (sp28 < 5.0f) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D290.asm")
+#endif
 
 void func_80B4D3E4(EnInvadepoh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06001674);
@@ -3087,7 +3173,7 @@ void func_80B4DB14(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPDisplayList(POLY_XLU_DISP++, &D_04029CB0);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 3);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 3); // 3 is placeholder, look at asm for more info
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, &D_04029CF0);
