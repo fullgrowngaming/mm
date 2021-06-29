@@ -62,7 +62,7 @@ typedef struct EnInvadepoh {
     /* 0x30B */ s8 unk30B;
     /* 0x30C */ Vec3s* unk30C;
     /* 0x310 */ f32 unk310;
-    /* 0x314 */ char unk314[0xC];
+    /* 0x314 */ Vec3f unk314;
     /* 0x320 */ f32 unk320;
     /* 0x324 */ EnInvadePohStructUnk324 EnInvadePohStructUnk324; // not sure if pointer
     /* 0x374 */ s8 unk374;
