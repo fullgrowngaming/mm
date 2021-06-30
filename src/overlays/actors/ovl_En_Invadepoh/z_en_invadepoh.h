@@ -52,7 +52,9 @@ typedef struct EnInvadepoh {
     /* 0x2F0 */ s16 unk2F0;
     /* 0x2F2 */ s16 unk2F2;
     /* 0x2F4 */ s8 unk2F4; // object index
-    /* 0x2F5 */ char unk2F5[0xB];
+    /* 0x2F5 */ char unk2F5[0x3];
+    /* 0x2F8 */ f32 unk2F8;
+    /* 0x2FC */ char unk2FC[0x4];
     /* 0x300 */ f32 unk300;
     /* 0x304 */ s16 unk304; // angle of some sort
     /* 0x306 */ s16 unk306;
