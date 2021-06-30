@@ -91,6 +91,7 @@ void func_80B49404(EnInvadepoh* this);
 void func_80B4A570(EnInvadepoh* this);
 void func_80B4C1BC(EnInvadepoh* this);
 void func_80B4D290(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4CC70(EnInvadepoh* this);
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
@@ -181,7 +182,7 @@ extern AnimationHeader D_060006C8;
 extern AnimationHeader D_06000608;
 extern AnimationHeader D_06007328;
 extern AnimationHeader D_060080F0;
-extern AnimationHeader D_06015C28;
+extern FlexSkeletonHeader D_06015C28;
 extern Gfx* D_80B4E984[];
 extern Gfx* D_80B4E96C[];
 extern Gfx* D_80B4E944[];
@@ -3195,27 +3196,27 @@ void func_80B4C218(EnInvadepoh* this, GlobalContext* globalCtx) {
 #endif
 
 #ifdef NON_MATCHING
-// cursed, regs
+//cursed
 void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
-    EnInvadepoh* this = THIS;
-
+    EnInvadepoh* this = (EnInvadepoh*)thisx;
+    s32 new_var;
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk2F4)) {
-
         s32 sp38 = gSaveContext.time;
         if (!gSaveContext.time) {}
-        this->actor.objBankIndex = this->unk2F4;
 
+        this->actor.objBankIndex = this->unk2F4;
         Actor_SetObjectSegment(globalCtx, &this->actor);
         func_80B44FEC();
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06015C28, &D_06016720, this->limbDrawTable,
                          this->transitionDrawTable, 22);
-        func_80B45C04(&this->EnInvadePohStructUnk324, &D_80B4EBDC, 1, &D_80B4EC08, 0, &D_801D15BC, 0x64, 0.03f, 0.3f,
+        func_80B45C04(&this->EnInvadePohStructUnk324, D_80B4EBDC, 1, D_80B4EC08, 0, &D_801D15BC, 0x64, 0.03f, 0.3f,
                       0.03f);
         this->actor.textId = 0x33CD;
-        if (sp38 < 0xD5A0) {
+        new_var = sp38;
+        if (sp38 = new_var < 0xD5A0) {
             this->unk304 = -0x8000;
             this->unk2F8 = 40.0f;
-        } else if (sp38 >= 0xD7D4) {
+        } else if (new_var >= 0xD7D4) {
             this->unk304 = -0x4800;
             this->unk2F8 = 20.0f;
         } else {
@@ -3223,10 +3224,10 @@ void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
             this->unk2F8 = 40.0f;
         }
 
-        if (sp38 >= 0x4000 && sp38 < 0xD573) {
+        if ((new_var >= 0x4000) && (new_var < 0xD573)) {
             this->actor.update = func_80B4C568;
-            this->actor.draw = NULL;
-        } else if ((sp38 >= 0xD573) && (sp38 < 0xD800)) {
+            this->actor.draw = 0;
+        } else if ((new_var >= 0xD573) && (new_var < 0xD800)) {
             this->actor.update = func_80B4C5C0;
             this->actor.draw = func_80B4E7BC;
             func_80B4BBE0(this);
@@ -3296,7 +3297,90 @@ void func_80B4C6C8(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4C6C8.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+// kinda jank
+void func_80B4C730(EnInvadepoh* this, GlobalContext* globalCtx) {
+    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
+    EnInvadepoh* sp68;
+    s32 phi_a2;
+    s32 temp_v1_3;
+    s16 temp_v1_4;
+    s32 temp_v0_2;
+    Vec3f sp4C;
+    Vec3f sp40;
+    s16 diff;
+    s8 temp_v1;
+    s16 sp3A;
+    s8 temp_v0;
+    sp68 = D_80B503F8;
+    func_80B44700(this);
+    func_80B44EFC(this, globalCtx);
+    func_80B43E6C(this, 6, 0x7D0, 0x64);
+    if (1) {} // required to match, also in the other function above that looks like this one
+    temp_v1 = this->unk309;
+    temp_v0 = this->unk308;
+    phi_a2 = temp_v0 - 1;
+    if (temp_v1 < temp_v0) {
+        phi_a2 = temp_v1;
+    } else if (temp_v1_3) { // fake match probably
+    }
+
+    Math_Vec3s_ToVec3f(&sp4C, &this->unk30C[phi_a2]);
+    Math_Vec3s_ToVec3f(&sp40, &this->unk30C[phi_a2 + 1]);
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&sp4C, &sp40), 5, 0x7D0, 0x64);
+    if ((this->unk309 == 0) || (this->unk309 + 1 == this->unk308)) {
+        if (this->unk378 == 0) {
+            temp_v0_2 = func_800FE620(globalCtx);
+            if (temp_v0_2 > 0) {
+                temp_v0_2 = (REG(15) * -23.0f / temp_v0_2) - 0.5f;
+                this->unk378 = func_80B45550(this, globalCtx, SQ(80.0f), temp_v0_2);
+            }
+        }
+
+        this->actor.flags &= -0xA;
+    } else {
+        this->unk378 = 0;
+        this->actor.flags |= 9;
+    }
+
+    temp_v1_3 = globalCtx->gameplayFrames & 0x7F;
+    if ((temp_v1_3 & 0x40) != 0) {
+        sp3A = Math_Vec3f_Yaw(&this->actor.world, &sp68->actor.world);
+        if (temp_v1_3 == 0x40) {
+            this->EnInvadePohStructUnk324.unk4C = 0;
+        }
+
+        Math_StepToS(&this->EnInvadePohStructUnk324.unk4C, 0x7D0, 0x28);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, sp3A, 6, this->EnInvadePohStructUnk324.unk4C, 0x28);
+        temp_v1_4 = Math_Vec3f_Pitch(&this->actor.focus.pos, &sp68->actor.focus.pos);
+        temp_v1_4 *= 0.85f;
+        temp_v1_4 -= this->actor.shape.rot.x;
+        substruct->unk26.x = CLAMP(temp_v1_4, -0xBB8, 0xBB8);
+        diff = (s16)(sp3A - this->actor.shape.rot.y);
+        temp_v1_4 = diff;
+        temp_v1_4 *= 0.7f;
+        substruct->unk26.y = CLAMP(temp_v1_4, -0x1F40, 0x1F40);
+    }
+
+    if ((this->actor.flags & 0x40) == 0x40) {
+        if (func_801378B8(&this->skelAnime, 0.0f) || func_801378B8(&this->skelAnime, 7.0f)) {
+            Audio_PlayActorSound2(&this->actor, 0x3ABE);
+        }
+    }
+
+    if (0.9999f <= this->unk320) {
+        Actor_MarkForDeath(&this->actor);
+        return;
+    }
+
+    if ((sp68 != 0) && (sp68->actionFunc == func_80B4C058)) {
+        func_80B4CC70(this);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4C730.asm")
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -3463,7 +3547,7 @@ void func_80B4D054(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-//stack, plus function looks like trash also
+// stack, plus function looks like trash also
 void func_80B4D15C(EnInvadepoh* this) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
     f32 new_var3;
@@ -3547,7 +3631,65 @@ void func_80B4D3E4(EnInvadepoh* this) {
     this->actionFunc = func_80B4D480;
 }
 
+#ifdef NON_MATCHING
+// cursed
+void func_80B4D480(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 sp2C;
+    float new_var2;
+    f32 new_var3;
+    s16 temp_v0;
+    s16 temp_v0_2;
+    EnInvadepoh* new_var;
+    Actor* temp_v1;
+    s32 phi_t0 = 0;
+    if (this->unk2F0 > 0) {
+        this->unk2F0--;
+    }
+
+    new_var = this;
+    if (this->unk2F0 > 0xA0) {
+        this->actor.draw = 0;
+    } else {
+        this->actor.draw = func_80B4DB14;
+        if ((new_var->unk2F0 < 0x69) && (new_var->unk2F0 >= 0x64)) {
+            new_var->actor.gravity = -1.0f;
+            phi_t0 = 0;
+            Math_SmoothStepToS(&new_var->actor.shape.rot.x, 0x2000, 8, 0x320, 0x28);
+        } else {
+            new_var->actor.gravity = 0.7f;
+            phi_t0 = 0;
+            Math_SmoothStepToS(&new_var->actor.shape.rot.x, 0, 8, 0x320, 0x28);
+        }
+
+        new_var->actor.velocity.y += new_var->actor.gravity;
+        new_var->actor.velocity.y = new_var->actor.velocity.y * 0.92f;
+        if (new_var->unk2F0 > 0x50) {
+            new_var->actor.world.pos.y += new_var->actor.velocity.y;
+        } else {
+            phi_t0 = Math_StepToF(&new_var->actor.world.pos.y, (0, new_var->actor.home.pos.y + 850.0f),
+                                  fabsf(new_var->actor.velocity.y));
+            if (!temp_v1) {}
+        }
+
+        temp_v1 = new_var->actor.child;
+        new_var2 = (new_var->unk304 * (-0.06f)) + new_var->unk306;
+        new_var->unk306 = new_var2 * 0.98f;
+        new_var->actor.shape.rot.y += new_var->unk306;
+        if (temp_v1 != 0) {
+            temp_v1->world.pos.x = (new_var3 = new_var->actor.world.pos.x);
+            temp_v1->world.pos.y = new_var->actor.world.pos.y - 30.0f;
+            temp_v1->world.pos.z = new_var->actor.world.pos.z;
+            temp_v1->shape.rot.y = new_var->actor.shape.rot.y;
+        }
+    }
+
+    if ((new_var->unk2F0 <= 0) || (phi_t0 != 0)) {
+        Actor_MarkForDeath(&this->actor);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D480.asm")
+#endif
 
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
