@@ -211,6 +211,7 @@ extern Gfx D_04023210[];
 extern Gfx D_060003B0[];
 extern Gfx D_04029CB0[];
 extern Gfx D_04029CF0[];
+extern Gfx D_0402E510[];
 
 extern Vec3f D_80B4EE24;
 extern Vec3f D_80B4EE30;
@@ -228,6 +229,7 @@ MtxF D_80B502E0;
 EnInvadepoh* D_80B50320[0x8]; // not sure if this should be Actor* or EnInvadepoh* array
 u8 D_80B50340[0x8];
 UNK_TYPE1 D_80B50348;
+unkStruct_80B50350 D_80B50350[0xA];
 Actor* D_80B503F0;
 Actor* D_80B503F4; // possibly an EnInvadepoh* pointer but probably not since 3F0 above is def an Actor*
 Actor* D_80B503F8;
@@ -3196,7 +3198,7 @@ void func_80B4C218(EnInvadepoh* this, GlobalContext* globalCtx) {
 #endif
 
 #ifdef NON_MATCHING
-//cursed
+// cursed
 void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = (EnInvadepoh*)thisx;
     s32 new_var;
@@ -3724,7 +3726,42 @@ void func_80B4D760(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+// ISMATCHING: Move rodata once all funcs match
+// JANK - fix later
+#ifdef NON_MATCHING
+void func_80B4D7B8(GlobalContext* globalCtx) {
+    s32 temp_v0;
+    u32 temp_s5;
+    u32 temp_s6;
+    unkStruct_80B50350* phi_s2;
+    s32 i;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx);
+    func_8012C2DC(globalCtx->state.gfxCtx); 
+    phi_s2 = D_80B50350; for (i = 0; i < 10; i++) { // SAME LINE MEMES ???
+        if (phi_s2->unk1 > 0) {
+            temp_v0 = globalCtx->gameplayFrames;
+            temp_s5 = (temp_v0 + ((0x10 * i) & 0xFFu)) & 0x7F; // not sure about all this
+            temp_s6 = (temp_v0 * -0xF) & 0xFF;
+            SysMatrix_InsertTranslation(phi_s2->unk4.x, phi_s2->unk4.y, phi_s2->unk4.z, MTXMODE_NEW);
+            Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, phi_s2->unk2);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x32, 0x00, 0x00);
+            temp_v0 = globalCtx->gameplayFrames; // required ???
+            gSPSegment(POLY_XLU_DISP++, 0x08,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, temp_s5, 0, 0x20, 0x40, 1, 0, temp_s6, 0x20, 0x40));
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, &D_0402E510);
+        }
+        phi_s2++;
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D7B8.asm")
+#endif
 
 void func_80B4D9B4(Actor* thisx, GlobalContext* globalCtx) {
     func_80B4D7B8(globalCtx);

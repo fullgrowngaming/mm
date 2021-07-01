@@ -9,6 +9,13 @@ typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
 
+typedef struct unkStruct_80B50350{
+    /* 0x000 */ char unk0[0x1];
+    /* 0x001 */ s8 unk1;
+    /* 0x002 */ u8 unk2;
+    /* 0x004 */ Vec3f unk4; //boundary 
+} unkStruct_80B50350; // size = 0x10;
+
 typedef struct EnInvadePohStruct{
     /* 0x000 */ s32 unk0;
     /* 0x004 */ s8 unk4;
@@ -36,8 +43,8 @@ typedef struct EnInvadePohStructUnk324 {
     /* 0x044 */ f32 unk44;
     /* 0x048 */ s16 unk48;
     /* 0x04A */ char unk4A[0x2];
-    /* 0x04C */ s16 unk4C;
-    /* 0x04E */ s16 unk4E;
+    /* 0x04C */ s16 unk4C; // pitch
+    /* 0x04E */ s16 unk4E; // yaw
 } EnInvadePohStructUnk324; // size = 0x50
 
 typedef struct EnInvadepoh {
@@ -92,8 +99,13 @@ typedef struct EnInvadepoh {
     /* 0x3BD */ char unk3BD[0x3];
 } EnInvadepoh; // size = 0x3C0
 
-//look at en_ma_yts for inspiration for improvements
-
 extern const ActorInit En_Invadepoh_InitVars;
 
 #endif // Z_EN_INVADEPOH_H
+
+//look at en_ma_yts for inspiration for improvements
+
+/* TO-DO:
+-clean up jank functions
+-look into structs and make sure they make sense
+*/
