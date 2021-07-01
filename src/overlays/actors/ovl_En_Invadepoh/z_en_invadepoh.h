@@ -8,9 +8,10 @@ struct EnInvadepoh;
 typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
+typedef void (*OtherFunc)(struct unkStruct_80B50350*);
 
 typedef struct unkStruct_80B50350{
-    /* 0x000 */ char unk0[0x1];
+    /* 0x000 */ s8 unk0;
     /* 0x001 */ s8 unk1;
     /* 0x002 */ u8 unk2;
     /* 0x004 */ Vec3f unk4; //boundary 
@@ -73,7 +74,7 @@ typedef struct EnInvadepoh {
     /* 0x310 */ f32 unk310;
     /* 0x314 */ Vec3f unk314;
     /* 0x320 */ f32 unk320;
-    /* 0x324 */ EnInvadePohStructUnk324 EnInvadePohStructUnk324; // not sure if pointer
+    /* 0x324 */ EnInvadePohStructUnk324 EnInvadePohStructUnk324;
     /* 0x374 */ s8 unk374;
     /* 0x375 */ s8 unk375;
     /* 0x376 */ u16 unk376;
@@ -108,4 +109,6 @@ extern const ActorInit En_Invadepoh_InitVars;
 /* TO-DO:
 -clean up jank functions
 -look into structs and make sure they make sense
+-make sure including en_door.h is okay as is"
+-rename OtherFunc
 */

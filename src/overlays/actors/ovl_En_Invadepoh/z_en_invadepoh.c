@@ -148,6 +148,7 @@ const ActorInit En_Invadepoh_InitVars = {
 
 extern EnInvadepohInitFunc D_80B4ECB0[];    // init functions
 extern EnInvadepohDestroyFunc D_80B4ECE8[]; // destroy functions
+extern OtherFunc D_80B4EC20[];
 extern InitChainEntry D_80B4EC24;
 extern InitChainEntry D_80B4EC34;
 extern InitChainEntry D_80B4EC44;
@@ -623,11 +624,51 @@ void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45EC8.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46118.asm")
+s32 func_80B46118(Vec3f* actorPos) {
+    unkStruct_80B50350* phi_v1;
+    s32 i;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B46184.asm")
+    for (phi_v1 = D_80B50350, i = 0; i < 10; phi_v1++, i++) {
+        if (phi_v1->unk1 <= 0) {
+            phi_v1->unk0 = 0;
+            phi_v1->unk1 = 0x28;
+            Math_Vec3f_Copy(&phi_v1->unk4, actorPos);
+            phi_v1->unk2 = 0;
+            return true;
+        }
+    }
+    return false;
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B461DC.asm")
+void func_80B46184(unkStruct_80B50350* unkStruct) {
+    if (unkStruct->unk1 > 0x14) {
+        if (unkStruct->unk2 < 0x7D) {
+            unkStruct->unk2 += 0xA;
+        } else {
+            unkStruct->unk2 = 0x87;
+        }
+    } else if (unkStruct->unk2 > 0xD) {
+        unkStruct->unk2 -= 0xD;
+
+    } else {
+        unkStruct->unk2 = 0;
+    }
+}
+
+s32 func_80B461DC(void) {
+    s32 phi_s4 = false;
+    unkStruct_80B50350* phi_s0;
+    s32 i;
+
+    for (phi_s0 = D_80B50350, i = 0; i < 10; phi_s0++, i++) {
+        if (phi_s0->unk1 > 0) {
+            D_80B4EC20[phi_s0->unk0](phi_s0);
+            phi_s0->unk1--;
+            phi_s4 = true;
+        }
+    }
+    return phi_s4;
+}
 
 void func_80B4627C(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 invadepohType;
@@ -889,7 +930,7 @@ void func_80B46CF4(EnInvadepoh* this, GlobalContext* globalCtx) {
 
 void func_80B46D28(EnInvadepoh* this, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    if (!this) {} // required to match?
+    if (!this) {} // required to match
     if (this->actor.child != NULL) {
         this->actor.child->parent = NULL;
     }
@@ -3737,8 +3778,8 @@ void func_80B4D7B8(GlobalContext* globalCtx) {
     s32 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
-    func_8012C2DC(globalCtx->state.gfxCtx); 
-    phi_s2 = D_80B50350; for (i = 0; i < 10; i++) { // SAME LINE MEMES ???
+    func_8012C2DC(globalCtx->state.gfxCtx);
+    for (phi_s2 = D_80B50350, i = 0; i < 10; phi_s2++, i++) {
         if (phi_s2->unk1 > 0) {
             temp_v0 = globalCtx->gameplayFrames;
             temp_s5 = (temp_v0 + ((0x10 * i) & 0xFFu)) & 0x7F; // not sure about all this
@@ -3755,7 +3796,6 @@ void func_80B4D7B8(GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, &D_0402E510);
         }
-        phi_s2++;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx);
 }
