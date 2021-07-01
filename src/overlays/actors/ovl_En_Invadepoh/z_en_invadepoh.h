@@ -9,6 +9,7 @@ typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*OtherFunc)(struct unkStruct_80B50350*);
+typedef void (*OtherSubstructFunc)(struct EnInvadePohStruct*);
 
 typedef struct unkStruct_80B50350{
     /* 0x000 */ s8 unk0;
@@ -111,4 +112,5 @@ extern const ActorInit En_Invadepoh_InitVars;
 -look into structs and make sure they make sense
 -make sure including en_door.h is okay as is"
 -rename OtherFunc
+-look into phi_s0 = D_80B50350 stuff
 */
