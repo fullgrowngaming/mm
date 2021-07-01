@@ -44,8 +44,8 @@ typedef struct EnInvadePohStructUnk324 {
     /* 0x044 */ f32 unk44;
     /* 0x048 */ s16 unk48;
     /* 0x04A */ char unk4A[0x2];
-    /* 0x04C */ s16 unk4C; // pitch
-    /* 0x04E */ s16 unk4E; // yaw
+    /* 0x04C */ s16 unk4C;
+    /* 0x04E */ s16 unk4E;
 } EnInvadePohStructUnk324; // size = 0x50
 
 typedef struct EnInvadepoh {

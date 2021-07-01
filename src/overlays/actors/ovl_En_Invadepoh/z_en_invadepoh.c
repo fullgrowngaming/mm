@@ -224,6 +224,9 @@ extern s32 D_80B4EC08[];
 
 extern VecSph D_80B4EE0C[3];
 
+extern Color_RGBA8 D_80B4EC18;
+extern Color_RGBA8 D_80B4EC1C;
+
 // bss---------------------
 MtxF D_80B502A0;
 MtxF D_80B502E0;
@@ -270,12 +273,37 @@ s32 func_80B43AB0(void) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43AF0.asm")
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43B80.asm")
+s32 func_80B43B80(EnInvadepoh* this);
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43BC8.asm")
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43DD4.asm")
+void func_80B43DD4(EnInvadepoh* this, s16 arg1, s16 arg2) {
+    s32 pad;
+    Vec3s* arr = &this->unk30C[this->unk309];
+    s32 pad2;
+    Vec3f sp30;
+    Vec3f sp24;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43E6C.asm")
+    if (this->unk309 != this->unk308) {
+        Math_Vec3s_ToVec3f(&sp30, &arr[0]);
+        Math_Vec3s_ToVec3f(&sp24, &arr[1]);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&sp30, &sp24) + arg2, arg1);
+    }
+}
+
+void func_80B43E6C(EnInvadepoh* this, s16 arg1, s16 arg2, s16 arg3) {
+    s32 pad;
+    Vec3s* arr = &this->unk30C[this->unk309];
+    s32 pad2;
+    Vec3f sp38;
+    Vec3f sp2C;
+    
+    if (this->unk309 != this->unk308) {
+        Math_Vec3s_ToVec3f(&sp38, &arr[0]);
+        Math_Vec3s_ToVec3f(&sp2C, &arr[1]);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&sp38, &sp2C), arg1, arg2, arg3);
+    }
+}
 
 void func_80B43F0C(EnInvadepoh* this) {
     s32 pad;
@@ -332,7 +360,31 @@ void func_80B4407C(EnInvadepoh* this, s32 arg1) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44234.asm")
 s32 func_80B44234(EnInvadepoh* this, Vec3f* vec);
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+void func_80B442E4(EnInvadepoh* this) {
+    s32 pad;
+    s32 sp18 = gSaveContext.time;
+    s32 temp_v1_2 = sp18 - func_80B43A24(this->actor.params & 7);
+
+    if (D_80B4E940 == 1) {
+        this->unk320 = 0.0f;
+    } else if (D_80B4E940 == 2) {
+        if (temp_v1_2 < 0) {
+            this->unk320 = 0.0f;
+        } else {
+            this->unk320 = temp_v1_2 * 0.00027777779f;
+            if (this->unk320 > 1.0f) {
+                this->unk320 = 1.0f;
+            }
+        }
+    }
+
+    this->unk309 = func_80B43B80(this);
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B442E4.asm")
+#endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B443A0.asm")
 
@@ -622,7 +674,46 @@ void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     func_80B45BB8(&substruct->unk10);
 }
 
+//cursed
+#ifdef NON_MATCHING
+void func_80B45EC8(EnInvadepoh* this, GlobalContext* globalCtx, s32 arg2) {
+    Vec3f spA8;
+    Vec3f sp9C;
+    Vec3f sp90;
+    f32 temp_f20;
+    volatile short new_var2;
+    f32 temp_f22;
+    f32 temp_f6;
+    f32* new_var;
+    f32 temp_f8;
+    f32 temp_s0;
+    s32 i;
+    s32 phi_s0;
+
+    temp_f22 = -0.025f;
+    for (i = 0; i < arg2; i++) {
+        temp_s0 = phi_s0 + (65536.0f / arg2);
+        temp_f20 = (Rand_ZeroOne() * 0.5f) + 0.5f;
+        spA8.x = Math_SinS(temp_s0) * temp_f20;
+        spA8.z = Math_CosS(temp_s0) * temp_f20;
+        temp_f8 = Rand_ZeroOne() * 16.0f;
+        temp_f6 = ((Rand_ZeroOne() * 16.0f) + (spA8.z * 30.0f)) - 8.0f;
+        sp90.x = sp9C.x * temp_f22;
+        sp90.y = sp9C.y * temp_f22;
+        sp90.z = temp_f6 * temp_f22;
+        spA8.x = (spA8.x * 100.0f) + this->actor.world.pos.x;
+        spA8.y = ((Rand_ZeroOne() * 180.0f) + this->actor.world.pos.y) - 90.0f;
+        spA8.z = (spA8.z * 100.0f) + this->actor.world.pos.z;
+        sp9C.x = (temp_f8 + (spA8.x * 30.0f)) - 8.0f;
+        sp9C.y = -8.0f;
+        sp9C.z = temp_f6; 
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &spA8, &sp9C, &sp90, &D_80B4EC18, &D_80B4EC1C, 0x1770, -0x28);
+        phi_s0 = temp_s0;
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45EC8.asm")
+#endif
 
 s32 func_80B46118(Vec3f* actorPos) {
     unkStruct_80B50350* phi_v1;
@@ -1156,7 +1247,7 @@ void func_80B47478(EnInvadepoh* this) {
 void func_80B474DC(EnInvadepoh* this, GlobalContext* globalCtx) {
     func_80B442E4(this);
     func_80B447C0(this, globalCtx);
-    func_80B43DD4(&this->actor, 800, 0);
+    func_80B43DD4(this, 800, 0);
     if (this->unk320 > 0.0f) {
         Actor_SetScale(&this->actor, 0.01f);
         func_80B4516C(this);
