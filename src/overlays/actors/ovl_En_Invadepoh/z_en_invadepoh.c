@@ -247,8 +247,18 @@ Actor* D_80B503F8;
 UNK_TYPE2 D_80B50404[0x4];
 Actor* D_80B5040C;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B439B0.asm")
-s32 func_80B439B0(s32 arg0, s32 arg1);
+void func_80B439B0(s32 arg0, s32 arg1) {
+    arg1 -= 0x1AAA;
+    if (arg1 < 0) {
+        arg1 = 0;
+    }
+
+    if ((arg0 & 1) == 0) {
+        gSaveContext.roomInf[124][arg0 >> 1] = (gSaveContext.roomInf[124][arg0 >> 1] & 0xFFFF0000) | (arg1 & 0xFFFF);
+    } else {
+        gSaveContext.roomInf[124][arg0 >> 1] = (gSaveContext.roomInf[124][arg0 >> 1] & 0xFFFF) | ((arg1 & 0xFFFF) << 0x10);
+    }
+}
 
 s32 func_80B43A24(s32 arg0) {
     u32 phi_v1;
@@ -284,7 +294,7 @@ void func_80B43AF0(s32 arg0) {
 
     if (((CURRENT_DAY == 1) && (currentTime >= 0x1AAA)) && (currentTime < 0x3800)) {
         new_var2 = 0xC - func_80B43A9C();
-        func_80B439B0(arg0, (currentTime + (long)(new_var2 * 25.0f))); // mandatory long cast?
+        func_80B439B0(arg0, ((s32)currentTime + (s32)(new_var2 * 25.0f)));
     }
 }
 
