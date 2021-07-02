@@ -256,7 +256,8 @@ void func_80B439B0(s32 arg0, s32 arg1) {
     if ((arg0 & 1) == 0) {
         gSaveContext.roomInf[124][arg0 >> 1] = (gSaveContext.roomInf[124][arg0 >> 1] & 0xFFFF0000) | (arg1 & 0xFFFF);
     } else {
-        gSaveContext.roomInf[124][arg0 >> 1] = (gSaveContext.roomInf[124][arg0 >> 1] & 0xFFFF) | ((arg1 & 0xFFFF) << 0x10);
+        gSaveContext.roomInf[124][arg0 >> 1] =
+            (gSaveContext.roomInf[124][arg0 >> 1] & 0xFFFF) | ((arg1 & 0xFFFF) << 0x10);
     }
 }
 
@@ -276,7 +277,7 @@ void func_80B43A74(s32 arg0) {
 }
 
 s32 func_80B43A9C(void) {
-    return gSaveContext.roomInf[124][4] & 0xFF;
+    return (gSaveContext.roomInf[124][4] >> 0) & 0xFF;
 }
 
 s32 func_80B43AB0(void) {
@@ -290,16 +291,26 @@ s32 func_80B43AB0(void) {
 
 void func_80B43AF0(s32 arg0) {
     s32 currentTime = gSaveContext.time;
-    s32 new_var2;
 
     if (((CURRENT_DAY == 1) && (currentTime >= 0x1AAA)) && (currentTime < 0x3800)) {
-        new_var2 = 0xC - func_80B43A9C();
-        func_80B439B0(arg0, ((s32)currentTime + (s32)(new_var2 * 25.0f)));
+        s32 new_var2 = (0xC - func_80B43A9C()) * 25.0f;
+
+        func_80B439B0(arg0, currentTime + new_var2);
     }
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43B80.asm")
-s32 func_80B43B80(EnInvadepoh* this);
+s32 func_80B43B80(EnInvadepoh* this) {
+    s32 i;
+    s32 temp = this->unk308 - 1;
+
+    for (i = 0; i < temp; i++) {
+        if (this->unk37C[i] > this->unk320) {
+            break;
+        }
+    }
+
+    return i;
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43BC8.asm")
 
@@ -1167,7 +1178,7 @@ void func_80B46DA8(EnInvadepoh* this) {
 }
 
 void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.time < 0x4000) && (gSaveContext.time >= 0x1AAA)) {
+    if ((gSaveContext.time < CLOCK_TIME(6,0)) && (gSaveContext.time >= CLOCK_TIME(2,30))) {
         func_80B454BC(this, globalCtx);
         func_80B452EC(this, globalCtx);
         func_80B46E20(this);
@@ -2569,7 +2580,7 @@ void func_80B49F88(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B4A168(Actor* thisx, GlobalContext* globalCtx) {
     EnInvadepoh* this = THIS;
 
-    if ((gSaveContext.time < 0x4000) && (gSaveContext.time >= 0x1555)) {
+    if ((gSaveContext.time < CLOCK_TIME(6, 0)) && (gSaveContext.time >= CLOCK_TIME(2, 0))) {
         this->actor.update = func_80B4A1B8;
         this->actor.draw = func_80B4E324;
         func_80B49BD0(this);

@@ -67,7 +67,7 @@ typedef struct EnInvadepoh {
     /* 0x300 */ f32 unk300;
     /* 0x304 */ s16 unk304; // angle of some sort
     /* 0x306 */ s16 unk306;
-    /* 0x308 */ s8 unk308;
+    /* 0x308 */ s8 unk308; // size of unk37C?
     /* 0x309 */ s8 unk309;
     /* 0x30A */ s8 unk30A;
     /* 0x30B */ s8 unk30B;
@@ -82,8 +82,8 @@ typedef struct EnInvadepoh {
     /* 0x378 */ s8 unk378;
     /* 0x379 */ s8 unk379;
     /* 0x37A */ char unk37A[0x2];
-    /* 0x37C */ f32 unk37C;
-    /* 0x380 */ char unk380[0x9];
+    /* 0x37C */ f32 unk37C[3];
+    /* 0x388 */ char unk388[0x1];
     /* 0x389 */ u8 unk389; // color
     /* 0x38A */ s8 unk38A;
     /* 0x38B */ s8 unk38B;
