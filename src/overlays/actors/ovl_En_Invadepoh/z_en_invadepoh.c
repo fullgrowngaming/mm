@@ -248,6 +248,7 @@ UNK_TYPE2 D_80B50404[0x4];
 Actor* D_80B5040C;
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B439B0.asm")
+s32 func_80B439B0(s32 arg0, s32 arg1);
 
 s32 func_80B43A24(s32 arg0) {
     u32 phi_v1;
@@ -277,7 +278,15 @@ s32 func_80B43AB0(void) {
     return ret;
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43AF0.asm")
+void func_80B43AF0(s32 arg0) {
+    s32 currentTime = gSaveContext.time;
+    s32 new_var2;
+
+    if (((CURRENT_DAY == 1) && (currentTime >= 0x1AAA)) && (currentTime < 0x3800)) {
+        new_var2 = 0xC - func_80B43A9C();
+        func_80B439B0(arg0, (currentTime + (long)(new_var2 * 25.0f))); // mandatory long cast?
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43B80.asm")
 s32 func_80B43B80(EnInvadepoh* this);
@@ -449,7 +458,7 @@ void func_80B446D0(EnInvadepoh* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-//not matching, jank code -> mtc1 zero position off
+// not matching, jank code -> mtc1 zero position off
 void func_80B44700(EnInvadepoh* this) {
     f32 temp_f0;
     s32 new_var;
@@ -459,12 +468,12 @@ void func_80B44700(EnInvadepoh* this) {
         this->unk320 = 0.0f;
         return;
     }
-    
+
     if ((gSaveContext.time > 0xD7E0) || (gSaveContext.time < 0x4000)) {
         this->unk320 = 1.0f;
         return;
     }
-    
+
     new_var = 0xFFFF2AAB;
     temp_f0 = (gSaveContext.time + new_var) * 0.0015337423f;
     this->unk320 = temp_f0;
@@ -558,10 +567,10 @@ void func_80B44F58(void) {
 
     if (D_80B4E968 == 0) {
         D_80B4E968 = 1;
-        for (phi_s0 = D_80B4E944, i = 0; i < 5; i++, phi_s0++){
+        for (phi_s0 = D_80B4E944, i = 0; i < 5; i++, phi_s0++) {
             phi_s0 = Lib_SegmentedToVirtual(phi_s0);
         }
-        for (phi_s0 = D_80B4E958, i = 0; i < 4; i++, phi_s0++){
+        for (phi_s0 = D_80B4E958, i = 0; i < 4; i++, phi_s0++) {
             phi_s0 = Lib_SegmentedToVirtual(phi_s0);
         }
     }
