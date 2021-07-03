@@ -23,8 +23,7 @@ typedef struct EnInvadePohStruct{
     /* 0x004 */ s8 unk4;
     /* 0x005 */ char unk5[0x3];
     /* 0x008 */ s32 unk8; // pointer to another struct
-    /* 0x00C */ s8 unkC;
-    /* 0x00D */ s8 unkD;
+    /* 0x00C */ s16 unkC;
     /* 0x00E */ s8 unkE;
     /* 0x00F */ s8 unkF;
 } EnInvadePohStruct; // size = 0x10;

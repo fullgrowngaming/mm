@@ -93,6 +93,7 @@ void func_80B4C1BC(EnInvadepoh* this);
 void func_80B4D290(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4CC70(EnInvadepoh* this);
 
+void func_80B468B4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx);
 void func_80B47D30(Actor* thisx, GlobalContext* globalCtx);
@@ -132,37 +133,49 @@ void func_80B4BA30(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4C568(Actor* thisx, GlobalContext* globalCtx);
 void func_80B4CFFC(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80B4627C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46520(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B465CC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B468B4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B469C4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46A80(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx);
+
+void func_80B46BB0(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46BC0(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C08(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C34(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C50(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C50(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C7C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C50(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C50(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C50(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46C94(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46CC0(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46CF4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46D28(EnInvadepoh* this, GlobalContext* globalCtx);
+
+void func_80B46184(unkStruct_80B50350* unkStruct);
+
 s32 func_80B450C0(f32* arg0, f32* arg1, f32 arg2, f32 arg3, f32 arg4);
 s32 func_80B4516C(EnInvadepoh* this);
 
-/*
-const ActorInit En_Invadepoh_InitVars = {
-    ACTOR_EN_INVADEPOH,
-    ACTORCAT_PROP,
-    FLAGS,
-    GAMEPLAY_KEEP,
-    sizeof(EnInvadepoh),
-    (ActorFunc)EnInvadepoh_Init,
-    (ActorFunc)EnInvadepoh_Destroy,
-    (ActorFunc)EnInvadepoh_Update,
-    (ActorFunc)NULL,
-};
-*/
+void func_80B45A4C(EnInvadePohStruct* s);
+void func_80B45A94(EnInvadePohStruct* s);
+void func_80B45B1C(EnInvadePohStruct* s);
 
-extern EnInvadepohInitFunc D_80B4ECB0[];    // init functions
-extern EnInvadepohDestroyFunc D_80B4ECE8[]; // destroy functions
-extern OtherFunc D_80B4EC20[];
-extern OtherSubstructFunc D_80B4EC0C[];
-extern InitChainEntry D_80B4EC24;
-extern InitChainEntry D_80B4EC34;
-extern InitChainEntry D_80B4EC44;
-extern InitChainEntry D_80B4EC54;
-extern InitChainEntry D_80B4EC80;
-extern InitChainEntry D_80B4EC98;
-extern InitChainEntry D_80B4EC68;
-extern ColliderCylinderInit D_80B4E8B0;
-extern ColliderCylinderInit D_80B4E8DC;
-extern ColliderCylinderInit D_80B4E908;
+extern AnimatedMaterial* D_80B503FC;
+extern AnimatedMaterial* D_80B50400;
+extern AnimatedMaterial D_06000560;
+extern AnimatedMaterial D_06000550;
 extern AnimationHeader D_06004264;
 extern FlexSkeletonHeader D_06004010;
 extern FlexSkeletonHeader D_06004E50;
@@ -188,51 +201,499 @@ extern AnimationHeader D_06000608;
 extern AnimationHeader D_06007328;
 extern AnimationHeader D_060080F0;
 extern FlexSkeletonHeader D_06015C28;
-extern Gfx* D_80B4E984[];
-extern Gfx* D_80B4E96C[];
-extern Gfx* D_80B4E944[];
-extern Gfx* D_80B4E958[];
-extern AnimatedMaterial* D_80B503FC;
-extern AnimatedMaterial* D_80B50400;
-extern AnimatedMaterial D_06000560;
-extern AnimatedMaterial D_06000550;
 
-extern Vec3f D_80B4E934;
-extern f32 D_80B4EE88;
-extern f32 D_80B4EE8C;
-
-extern s32 D_80B4E940;
-extern s32 D_80B4E968;
-extern s8 D_80B4E998;
-
-extern Vec3f D_80B4ED30[];
-extern Vec3f D_80B4ED6C[];
-extern Vec3f D_80B4EDD0[];
-
-extern Vec3s D_801D15BC;
-
-extern s16 D_80B4EDC0[];
-extern s16 D_80B4EDC8[];
-extern s16 D_80B4ED20[];
-
+extern Gfx D_0600FFC8[];
+extern Gfx D_060107C8[];
+extern Gfx D_06010FC8[];
+extern Gfx D_060117C8[];
+extern Gfx D_06011FC8[];
+extern Gfx D_060127C8[];
+extern Gfx D_06012BC8[];
+extern Gfx D_06012FC8[];
+extern Gfx D_060133C8[];
+extern Gfx D_06011AD8[];
+extern Gfx D_060122D8[];
+extern Gfx D_06012AD8[];
+extern Gfx D_060132D8[];
+extern Gfx D_06013AD8[];
+extern Gfx D_060142D8[];
+extern Gfx D_06014AD8[];
+extern Gfx D_06014ED8[];
+extern Gfx D_060152D8[];
+extern Gfx D_060156D8[];
 extern Gfx D_04023210[];
 extern Gfx D_060003B0[];
 extern Gfx D_04029CB0[];
 extern Gfx D_04029CF0[];
 extern Gfx D_0402E510[];
 
-extern Vec3f D_80B4EE24;
-extern Vec3f D_80B4EE30;
+extern Vec3s D_801D15BC;
 
-extern s32 D_80B4EA90[];
-extern s32 D_80B4EB00[];
-extern s32 D_80B4EBDC[];
-extern s32 D_80B4EC08[];
+typedef struct {
+    /* 0x00 */ s8* unk00;
+    /* 0x04 */ s8 unk04;
+} unkstruct_invadepoh_0; // size = 0x05
 
-extern VecSph D_80B4EE0C[3];
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ f32 unk04;
+} unkstruct_invadepoh_1; // size = 0x08
 
-extern Color_RGBA8 D_80B4EC18;
-extern Color_RGBA8 D_80B4EC1C;
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ unkstruct_invadepoh_0* unk04;
+} unkstruct_invadepoh_2; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ unkstruct_invadepoh_0* unk04;
+    /* 0x08 */ s8 unk08;
+    /* 0x0C */ unkstruct_invadepoh_1* unk0C;
+} unkstruct_invadepoh_3; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ unkstruct_invadepoh_0* unk04;
+    /* 0x08 */ s8 unk08;
+    /* 0x0C */ unkstruct_invadepoh_1* unk0C;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ s16 unk12;
+} unkstruct_invadepoh_4; // size = 0x14
+
+typedef union unkstruct_invadepoh_union {
+    struct {
+        /* 0x0 */ s8 unk00;
+        /* 0x4 */ unkstruct_invadepoh_0* unk04;
+    } unkstruct_invadepoh_5;
+    unkstruct_invadepoh_2 unk_struct_2_elem;
+    unkstruct_invadepoh_3 unk_struct_3_elem;
+    unkstruct_invadepoh_4 unk_struct_4_elem;
+} unkstruct_invadepoh_union;
+
+typedef struct {
+    /* 0x00 */ f32 unk00;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+} unkstruct_80B4EE0C; // size = 0x08
+
+const ActorInit En_Invadepoh_InitVars = {
+    ACTOR_EN_INVADEPOH,
+    ACTORCAT_PROP,
+    FLAGS,
+    GAMEPLAY_KEEP,
+    sizeof(EnInvadepoh),
+    (ActorFunc)EnInvadepoh_Init,
+    (ActorFunc)EnInvadepoh_Destroy,
+    (ActorFunc)EnInvadepoh_Update,
+    (ActorFunc)NULL,
+};
+
+static ColliderCylinderInit D_80B4E8B0 = {
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK4,
+        { 0xF7CFFFFF, 0x00, 0x04 },
+        { 0x00003820, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 40, 95, 10, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80B4E8DC = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 18, 46, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80B4E908 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 13, 19, 0, { 0, 0, 0 } },
+};
+
+static f32 D_80B4E934 = 216.0f;
+static f32 D_80B4E938 = -20.0f;
+static f32 D_80B4E93C = 1395.0f;
+
+static s32 D_80B4E940 = 0;
+
+static Gfx* D_80B4E944[] = {
+    D_0600FFC8, D_060107C8, D_06010FC8, D_060117C8, D_06011FC8,
+};
+
+static Gfx* D_80B4E958[] = {
+    D_060127C8,
+    D_06012BC8,
+    D_06012FC8,
+    D_060133C8,
+};
+
+static s8 D_80B4E968 = 0;
+
+static Gfx* D_80B4E96C[] = {
+    D_06011AD8, D_060122D8, D_06012AD8, D_060132D8, D_06013AD8, D_060142D8,
+};
+
+static Gfx* D_80B4E984[] = {
+    D_06014AD8,
+    D_06014ED8,
+    D_060152D8,
+    D_060156D8,
+};
+
+static s8 D_80B4E994 = 0;
+
+static s8 D_80B4E998 = NULL;
+
+static s8 D_80B4E99C[] = { 0 };
+
+static s8 D_80B4E9A0[] = { 0, 1, 2, 0 };
+
+static s8 D_80B4E9A4[] = { 0, 1, 2, 1, 0 };
+
+static s8 D_80B4E9AC[] = { 0, 1, 2, 2, 1, 0 };
+
+static s8 D_80B4E9B4[] = {
+    0, 1, 2, 1, 0, 1, 2, 0,
+};
+
+static s8 D_80B4E9BC[] = { 1 };
+
+static s8 D_80B4E9C0[] = { 3 };
+
+static unkstruct_invadepoh_0 D_80B4E9C4 = { D_80B4E99C, 1 };
+
+static unkstruct_invadepoh_0 D_80B4E9CC = { D_80B4E9A0, 4 };
+
+static unkstruct_invadepoh_0 D_80B4E9D4 = { D_80B4E9A4, 5 };
+
+static unkstruct_invadepoh_0 D_80B4E9DC = { D_80B4E9AC, 6 };
+
+static unkstruct_invadepoh_0 D_80B4E9E4 = { D_80B4E9B4, 8 };
+
+static unkstruct_invadepoh_0 D_80B4E9EC = { D_80B4E9BC, 1 };
+
+static unkstruct_invadepoh_0 D_80B4E9F4 = { D_80B4E9C0, 1 };
+
+static unkstruct_invadepoh_2 D_80B4E9FC = { 0, &D_80B4E9C4 };
+
+static unkstruct_invadepoh_1 D_80B4EA04[] = {
+    { 2, 0.5f },
+    { 3, 0.9f },
+    { 4, 0.97f },
+    { 5, 1.0f },
+};
+
+static unkstruct_invadepoh_1 D_80B4EA24[] = {
+    { 1, 1.0f },
+};
+
+static unkstruct_invadepoh_4 D_80B4EA2C = { 2, &D_80B4E9C4, 4, D_80B4EA04, 0x28, 0x3c };
+
+static unkstruct_invadepoh_3 D_80B4EA40 = {
+    1,
+    &D_80B4E9CC,
+    1,
+    D_80B4EA24,
+};
+
+static unkstruct_invadepoh_3 D_80B4EA50 = {
+    1,
+    &D_80B4E9D4,
+    1,
+    D_80B4EA24,
+};
+
+static unkstruct_invadepoh_3 D_80B4EA60 = {
+    1,
+    &D_80B4E9DC,
+    1,
+    D_80B4EA24,
+};
+
+static unkstruct_invadepoh_3 D_80B4EA70 = {
+    1,
+    &D_80B4E9E4,
+    1,
+    D_80B4EA24,
+};
+
+static unkstruct_invadepoh_2 D_80B4EA80 = {
+    0,
+    &D_80B4E9EC,
+};
+
+static unkstruct_invadepoh_2 D_80B4EA88 = {
+    0,
+    &D_80B4E9F4,
+};
+
+static unkstruct_invadepoh_union* D_80B4EA90[] = {
+    &D_80B4E9FC, &D_80B4EA2C, &D_80B4EA40, &D_80B4EA50, &D_80B4EA60, &D_80B4EA70, &D_80B4EA80, &D_80B4EA88,
+};
+
+static s8 D_80B4EAB0[] = { 0 };
+
+static s8 D_80B4EAB4[] = { 1 };
+
+static s8 D_80B4EAB8[] = { 2 };
+
+static s8 D_80B4EABC[] = { 3 };
+
+static unkstruct_invadepoh_0 D_80B4EAC0 = { D_80B4EAB0, 1 };
+
+static unkstruct_invadepoh_0 D_80B4EAC8 = { D_80B4EAB4, 1 };
+
+static unkstruct_invadepoh_0 D_80B4EAD0 = { D_80B4EAB8, 1 };
+
+static unkstruct_invadepoh_0 D_80B4EAD8 = { D_80B4EABC, 1 };
+
+static unkstruct_invadepoh_2 D_80B4EAE0 = { 0, &D_80B4EAC0 };
+
+static unkstruct_invadepoh_2 D_80B4EAE8 = { 0, &D_80B4EAC8 };
+
+static unkstruct_invadepoh_2 D_80B4EAF0 = { 0, &D_80B4EAD0 };
+
+static unkstruct_invadepoh_2 D_80B4EAF8 = { 0, &D_80B4EAD8 };
+
+static unkstruct_invadepoh_union* D_80B4EB00[] = {
+    &D_80B4EAE0,
+    &D_80B4EAE8,
+    &D_80B4EAF0,
+    &D_80B4EAF8,
+};
+
+static s8 D_80B4EB10[] = { 0 };
+
+static s8 D_80B4EB14[] = { 0, 1, 2, 0 };
+
+static s8 D_80B4EB18[] = { 0, 1, 2, 1, 0 };
+
+static s8 D_80B4EB20[] = { 0, 1, 2, 2, 1, 0 };
+
+static s8 D_80B4EB28[] = { 0, 1, 2, 1, 0, 1, 2, 0 };
+
+static unkstruct_invadepoh_0 D_80B4EB30 = { D_80B4EB10, 1 };
+
+static unkstruct_invadepoh_0 D_80B4EB38 = { D_80B4EB14, 4 };
+
+static unkstruct_invadepoh_0 D_80B4EB40 = { D_80B4EB18, 5 };
+
+static unkstruct_invadepoh_0 D_80B4EB48 = { D_80B4EB20, 6 };
+
+static unkstruct_invadepoh_0 D_80B4EB50 = { D_80B4EB28, 8 };
+
+static unkstruct_invadepoh_2 D_80B4EB58 = { 0, &D_80B4EB30 };
+
+static unkstruct_invadepoh_1 D_80B4EB60[] = {
+    { 2, 0.5f },
+    { 3, 0.9f },
+    { 4, 0.95f },
+    { 5, 1.0f },
+};
+
+static unkstruct_invadepoh_1 D_80B4EB80[] = {
+    { 1, 1.0f },
+};
+
+static unkstruct_invadepoh_4 D_80B4EB88 = { 2, &D_80B4EB30, 4, D_80B4EB60, 0x28, 0x3C };
+
+static unkstruct_invadepoh_3 D_80B4EB9C = {
+    1,
+    &D_80B4EB38,
+    1,
+    D_80B4EB80,
+};
+
+static unkstruct_invadepoh_3 D_80B4EBAC = {
+    1,
+    &D_80B4EB40,
+    1,
+    D_80B4EB80,
+};
+
+static unkstruct_invadepoh_3 D_80B4EBBC = {
+    1,
+    &D_80B4EB48,
+    1,
+    D_80B4EB80,
+};
+
+static unkstruct_invadepoh_3 D_80B4EBCC = {
+    1,
+    &D_80B4EB50,
+    1,
+    D_80B4EB80,
+};
+
+static unkstruct_invadepoh_union* D_80B4EBDC[] = {
+    &D_80B4EB58, &D_80B4EB88, &D_80B4EB9C, &D_80B4EBAC, &D_80B4EBBC, &D_80B4EBCC,
+};
+
+static s8 D_80B4EBF4[] = { 0 };
+
+static unkstruct_invadepoh_0 D_80B4EBF8 = { D_80B4EBF4, 1 };
+
+static unkstruct_invadepoh_2 D_80B4EC00 = { 0, &D_80B4EBF8 };
+
+static unkstruct_invadepoh_union* D_80B4EC08[] = { &D_80B4EC00 };
+
+static void* D_80B4EC0C[] = {
+    func_80B45A4C,
+    func_80B45A94,
+    func_80B45B1C,
+};
+
+static Color_RGBA8 D_80B4EC18 = { 0xFF, 0xFF, 0xC8, 0xFF };
+
+static Color_RGBA8 D_80B4EC1C = { 0xFF, 0xC8, 0x00, 0x00 };
+
+static OtherFunc D_80B4EC20[] = { func_80B46184 };
+
+static InitChainEntry D_80B4EC24[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC34[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC44[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC54[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_CONTINUE),  ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC68[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE), ICHAIN_VEC3S(shape, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -100, ICHAIN_CONTINUE),       ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC80[] = {
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 50, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 50, ICHAIN_CONTINUE),
+    ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 4, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 7, ICHAIN_STOP),
+};
+
+static InitChainEntry D_80B4EC98[] = {
+    ICHAIN_F32(uncullZoneForward, 20000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 150, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
+};
+
+static EnInvadepohInitFunc D_80B4ECB0[] = {
+    func_80B4627C, func_80B46414, func_80B46520, func_80B465CC, func_80B46644, func_80B46644, func_80B468B4,
+    func_80B46644, func_80B46644, func_80B46644, func_80B469C4, func_80B46A80, func_80B46644, func_80B46414,
+};
+
+static EnInvadepohDestroyFunc D_80B4ECE8[] = {
+    func_80B46BB0, func_80B46BC0, func_80B46C08, func_80B46C34, func_80B46C50, func_80B46C50, func_80B46C7C,
+    func_80B46C50, func_80B46C50, func_80B46C50, func_80B46C94, func_80B46CC0, func_80B46CF4, func_80B46D28,
+};
+
+static s16 D_80B4ED20[] = {
+    0x0082, 0x007D, 0x0073, 0x0064, 0x0050, 0x004E, 0x004C, 0x004A,
+};
+
+static Vec3f D_80B4ED30[] = {
+    { 0.01f, 0.01f, 0.01f }, { 0.02f, 0.01f, 0.005f }, { -0.01f, 0.0f, 0.0f },
+    { 0.01f, 0.01f, 0.01f }, { 0.005f, 0.01f, 0.02f },
+};
+
+static Vec3f D_80B4ED6C[] = {
+    { 0.0005f, 0.0279999990016f, 0.01f },    { -0.01f, 0.0f, 0.0f }, { -0.01f, 0.0f, 0.0f },
+    { 0.016f, 0.0004f, 0.01f },    { -0.01f, 0.0f, 0.0f }, { 0.0005f, 0.0005f, 0.0005f },
+    { 0.0002f, 0.0002f, 0.0002f },
+};
+
+static s16 D_80B4EDC0[] = { 0xE0C0, 0xE890, 0xD508 };
+
+static s16 D_80B4EDC8[] = {
+    0xF8F8,
+    0xFC18,
+    0x0000,
+    0x07D0,
+};
+
+static Vec3f D_80B4EDD0[] = {
+    { -1813.0f, 374.0f, 1900.0f }, { 2198.0f, 153.0f, 3365.0f }, { -1434.0f, 262.0f, 3365.0f },
+    { -393.0f, 396.0f, 1084.0f },  { 0.0f, 1500.0f, 0.0f },
+};
+
+static unkstruct_80B4EE0C D_80B4EE0C[] = {
+    { 0.08f, 0x02BC, 0xFFF6 },
+    { 0.09f, 0x012C, 0xFFFB },
+    { 0.05f, 0x0190, 0x0000 },
+};
+
+static Vec3f D_80B4EE24 = {
+    2000.0f,
+    1000.0f,
+    0.0f,
+};
+
+static Vec3f D_80B4EE30 = {
+    400.0f,
+    270.0f,
+    0.0f,
+};
 
 // bss---------------------
 MtxF D_80B502A0;
@@ -504,6 +965,7 @@ void func_80B44540(EnInvadepoh* this, GlobalContext* globalCtx) {
     this->unk310 = func_80B43F70(this);
 }
 
+// ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
 void func_80B44570(EnInvadepoh* this) {
     s32 temp_v0 = gSaveContext.time;
@@ -668,7 +1130,7 @@ s32 func_80B450C0(f32* x, f32* z, f32 otherX, f32 otherZ, f32 speed) {
     f32 temp_f12;
     f32 temp_f14;
     f32 temp_f0;
-    
+
     temp_f12 = otherX - *x;
     temp_f14 = otherZ - *z;
     temp_f0 = Math3D_XZLength(temp_f12, temp_f14);
@@ -852,8 +1314,7 @@ EnInvadepoh* func_80B458D8(void);
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45BB8.asm")
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45C04.asm")
-void func_80B45C04(EnInvadePohStructUnk324* substruct, s32* arg1, s32 arg2, s32* arg3, s32 arg4, Vec3s* arg5, s16 arg6,
-                   f32 arg7, f32 arg8, f32 arg9);
+void func_80B45C04(EnInvadePohStructUnk324 *substruct, unkstruct_invadepoh_union *arg1, s32 arg2, unkstruct_invadepoh_union *arg3, s32 arg4, Vec3s *arg5, s16 arg6, f32 arg7, f32 arg8, f32 arg9);
 
 void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     Vec3f sp3C;
@@ -1023,7 +1484,7 @@ void func_80B4627C(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC24);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC24);
     Collider_InitCylinder(globalCtx, &this->collider);
     ActorShape_Init(&this->actor.shape, 6800.0f, func_800B4088, 150.0f);
     this->actor.shape.shadowAlpha = 0x8C;
@@ -1043,7 +1504,7 @@ void func_80B46414(EnInvadepoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80B46520(EnInvadepoh* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC34);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC34);
     this->actor.update = func_80B47FA8;
     Actor_SpawnWithParent(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_INVADEPOH, 0.0f, 0.0f, 0.0f, 0, 0, 0,
                           0x30);
@@ -1054,7 +1515,7 @@ void func_80B46520(EnInvadepoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80B465CC(EnInvadepoh* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC44);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC44);
     this->actor.update = func_80B481C4;
     this->unk2F4 = Object_GetIndex(&globalCtx->objectCtx, OBJECT_COW);
     if (this->unk2F4 < 0) {
@@ -1068,7 +1529,7 @@ void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx) {
 
     temp = (this->actor.params >> 4) & 0xF;
 
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC54);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC54);
 
     this->actor.targetMode = (temp == 7 || temp == 0xC) ? 3 : 6;
 
@@ -1123,30 +1584,35 @@ void func_80B46644(EnInvadepoh* this, GlobalContext* globalCtx) {
     }
 }
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
 void func_80B468B4(EnInvadepoh* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC68);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC68);
     this->actor.update = func_80B49B1C;
     this->actor.draw = func_80B4E3F0;
     func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
     if (D_80B4E940 == 1 || gSaveContext.time < 0x1AD8) {
         this->actor.world.pos.x += D_80B4E934.x;
-        this->actor.world.pos.y += D_80B4E934.y + D_80B4EE88;
+        this->actor.world.pos.y += D_80B4E934.y + 3000.0f;
         this->actor.world.pos.z += D_80B4E934.z;
         func_80B491EC(this);
         return;
     }
     if (D_80B4E940 == 2) {
-        this->actor.world.pos.y += D_80B4EE8C;
+        this->actor.world.pos.y += 1500.0f;
         func_80B49628(this);
         return;
     }
     Actor_MarkForDeath(&this->actor);
 }
+#else
+#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B468B4.asm")
+#endif
 
 void func_80B469C4(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC80);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC80);
     this->actor.update = func_80B4B8BC;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B4E908);
@@ -1161,7 +1627,7 @@ void func_80B469C4(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B46A80(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, &D_80B4EC98);
+    Actor_ProcessInitChain(&this->actor, D_80B4EC98);
     this->actor.update = func_80B4C3A0;
     func_800BC154(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -1651,7 +2117,7 @@ void func_80B47BAC(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetObjectSegment(globalCtx, &this->actor);
         func_80B45080();
         this->actor.update = func_80B47D30;
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, D_06004E50, D_06001D80, this->limbDrawTable,
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004E50, D_06001D80, this->limbDrawTable,
                          this->transitionDrawTable, 14);
         this->skelAnime.animCurrentFrame = (this->actor.params & 7) * this->skelAnime.animFrameCount * 0.125f;
         func_80B444BC(this, globalCtx);
@@ -1835,7 +2301,7 @@ void func_80B483CC(EnInvadepoh* this, GlobalContext* globalCtx) {
 
         this->unk34A = 2000;
         this->EnInvadePohStructUnk324.unk26.y = 0;
-        this->unk34E = 0;
+        this->unk3AE = 0;
         this->unk354 = unkFloat;
         this->unk350 = 1000;
     }
@@ -1890,7 +2356,7 @@ void func_80B484EC(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B48588(EnInvadepoh* this) {
     this->unk34A = 0;
     this->unk34C = 0;
-    this->unk34E = 0;
+    this->unk3AE = 0;
     this->unk354 = 0.24f;
     this->unk350 = 5000;
     this->unk366 = 0;
