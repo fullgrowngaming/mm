@@ -292,7 +292,7 @@ s32 func_80B43AB0(void) {
 void func_80B43AF0(s32 arg0) {
     s32 currentTime = gSaveContext.time;
 
-    if (((CURRENT_DAY == 1) && (currentTime >= 0x1AAA)) && (currentTime < 0x3800)) {
+    if (((CURRENT_DAY == 1) && (currentTime >= CLOCK_TIME(2, 30))) && (currentTime < CLOCK_TIME(5, 15))) {
         s32 new_var2 = (0xC - func_80B43A9C()) * 25.0f;
 
         func_80B439B0(arg0, currentTime + new_var2);
@@ -394,8 +394,31 @@ void func_80B4407C(EnInvadepoh* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B440B8.asm")
 
+// ISMATCHING: Move rodata once all funcs match
+#ifdef NON_MATCHING
+s32 func_80B44234(EnInvadepoh* this, Vec3f* vec) {
+    f32 distance;
+    s8 temp_s3 = this->unk308;
+    f32 min = FLT_MAX;
+    Vec3f sp48;
+    s32 i;
+    s32 ret = 0;
+    Vec3s* arr;
+
+    for (i = 0, arr = this->unk30C; i < temp_s3; i++, arr++) {
+        Math_Vec3s_ToVec3f(&sp48, arr);
+        distance = Math3D_DistanceSquared(&sp48, vec);
+        if (distance < min) {
+            min = distance;
+            ret = i;
+        }
+    }
+
+    return ret;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44234.asm")
-s32 func_80B44234(EnInvadepoh* this, Vec3f* vec);
+#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -423,7 +446,41 @@ void func_80B442E4(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B442E4.asm")
 #endif
 
+#ifdef NON_MATCHING
+// cursed
+void func_80B443A0(EnInvadepoh* this) {
+    Vec3f sp70;
+    Vec3f sp64;
+    Vec3s* arr;
+    f32 temp_f20;
+    f32 temp_f26;
+    f32 temp_f2;
+    s8 temp_s5;
+    f32 phi_f20;
+    f32* phi_s0;
+    s32 i;
+
+    arr = this->unk30C;
+    temp_s5 = this->unk308;
+    temp_f26 = 1.0f / this->unk310;
+    Math_Vec3s_ToVec3f(&sp64, arr);
+    if (temp_s5 >= 2) {
+        arr++;
+        phi_f20 = 0.0f;
+        phi_s0 = this->unk37C;
+        for (i = 1; i < temp_s5; i++) {
+            Math_Vec3f_Copy(&sp70, &sp64);
+            Math_Vec3s_ToVec3f(&sp64, &arr[i]);
+            temp_f20 = phi_f20 + Math3D_Distance(&sp70, &sp64);
+            temp_f2 = temp_f20 * temp_f26;
+            phi_s0[i] = CLAMP(temp_f2, 0.0f, 1.0f);
+            phi_f20 = temp_f20;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B443A0.asm")
+#endif
 
 void func_80B444BC(EnInvadepoh* this, GlobalContext* globalCtx) {
     func_80B44024(this, globalCtx);
@@ -447,7 +504,23 @@ void func_80B44540(EnInvadepoh* this, GlobalContext* globalCtx) {
     this->unk310 = func_80B43F70(this);
 }
 
+#ifdef NON_MATCHING
+void func_80B44570(EnInvadepoh* this) {
+    s32 temp_v0 = gSaveContext.time;
+
+    if ((temp_v0 < CLOCK_TIME(2, 0)) || (temp_v0 >= CLOCK_TIME(6, 0))) {
+        this->unk320 = 0.0f;
+    } else if ((temp_v0 >= CLOCK_TIME(2, 15)) && (temp_v0 < CLOCK_TIME(6, 0))) {
+        this->unk320 = 1.0f;
+    } else {
+        f32 new_var = (temp_v0 - 0x1555) * 0.0014641288f;
+        this->unk320 = new_var;
+        this->unk320 = CLAMP(this->unk320, 0.0f, 1.0f);
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44570.asm")
+#endif
 
 void func_80B44620(EnInvadepoh* this, GlobalContext* globalCtx) {
     func_80B44024(this, globalCtx);
@@ -478,37 +551,21 @@ void func_80B446D0(EnInvadepoh* this, GlobalContext* globalCtx) {
     this->unk310 = func_80B43F70(this);
 }
 
+// ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
-// not matching, jank code -> mtc1 zero position off
 void func_80B44700(EnInvadepoh* this) {
-    f32 temp_f0;
-    s32 new_var;
-    f32 phi_f2;
+    s32 currentTime = gSaveContext.time;
+    s32 new_var4 = 0xFFFF2AAB;
 
-    if ((gSaveContext.time < 0xD555) && (gSaveContext.time >= 0x4000)) {
+    if ((currentTime < CLOCK_TIME(20, 0)) && (currentTime >= CLOCK_TIME(6, 0))) {
         this->unk320 = 0.0f;
-        return;
-    }
-
-    if ((gSaveContext.time > 0xD7E0) || (gSaveContext.time < 0x4000)) {
+    } else if ((currentTime > 0xD7E0) || (currentTime < CLOCK_TIME(6, 0))) {
         this->unk320 = 1.0f;
-        return;
-    }
-
-    new_var = 0xFFFF2AAB;
-    temp_f0 = (gSaveContext.time + new_var) * 0.0015337423f;
-    this->unk320 = temp_f0;
-    if (this->unk320 < 0.0f) {
-        this->unk320 = 0.0f;
-        return;
-    }
-    temp_f0 = this->unk320;
-    if (this->unk320 > 1.0f) {
-        phi_f2 = 1.0f;
     } else {
-        phi_f2 = this->unk320;
+        f32 new_var = 0.0014641288f;
+        this->unk320 = (currentTime + new_var4) * new_var;
+        this->unk320 = CLAMP(this->unk320, 0.0f, 1.0f);
     }
-    this->unk320 = phi_f2;
 }
 #else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44700.asm")
@@ -539,13 +596,13 @@ void func_80B44A90(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B44B78(EnInvadepoh* this) {
 }
 
-s32 func_80B44B84(EnInvadepoh* this, GlobalContext* globalCtx, f32 arg2, f32 arg3) {
+s32 func_80B44B84(EnInvadepoh* this, GlobalContext* globalCtx, f32 speed, f32 arg3) {
     s32 pad;
     Vec3s* temp_v0_2 = &this->unk30C[this->unk309];
     s32 temp_v0;
 
     temp_v0_2++;
-    temp_v0 = func_80B450C0(&this->actor.world.pos.x, &this->actor.world.pos.z, temp_v0_2->x, temp_v0_2->z, arg2);
+    temp_v0 = func_80B450C0(&this->actor.world.pos.x, &this->actor.world.pos.z, temp_v0_2->x, temp_v0_2->z, speed);
     func_800B4AEC(globalCtx, &this->actor, arg3);
     func_80B4516C(this);
     return temp_v0;
@@ -607,7 +664,25 @@ void func_80B45080(void) {
     D_80B503FC = Lib_SegmentedToVirtual(&D_06000550);
 }
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B450C0.asm")
+s32 func_80B450C0(f32* x, f32* z, f32 otherX, f32 otherZ, f32 speed) {
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f0;
+    
+    temp_f12 = otherX - *x;
+    temp_f14 = otherZ - *z;
+    temp_f0 = Math3D_XZLength(temp_f12, temp_f14);
+    if (speed < temp_f0) {
+        f32 temp_f2 = speed / temp_f0;
+        *x += (temp_f2 * temp_f12);
+        *z += (temp_f2 * temp_f14);
+        return false;
+    } else {
+        *x = otherX;
+        *z = otherZ;
+        return true;
+    }
+}
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -1178,7 +1253,7 @@ void func_80B46DA8(EnInvadepoh* this) {
 }
 
 void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.time < CLOCK_TIME(6,0)) && (gSaveContext.time >= CLOCK_TIME(2,30))) {
+    if ((gSaveContext.time < CLOCK_TIME(6, 0)) && (gSaveContext.time >= CLOCK_TIME(2, 30))) {
         func_80B454BC(this, globalCtx);
         func_80B452EC(this, globalCtx);
         func_80B46E20(this);

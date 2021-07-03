@@ -19,10 +19,10 @@ typedef struct unkStruct_80B50350{
 } unkStruct_80B50350; // size = 0x10;
 
 typedef struct EnInvadePohStruct{
-    /* 0x000 */ s32 unk0;
+    /* 0x000 */ s32 unk0; // pointer to array
     /* 0x004 */ s8 unk4;
     /* 0x005 */ char unk5[0x3];
-    /* 0x008 */ s32 unk8;
+    /* 0x008 */ s32 unk8; // pointer to another struct
     /* 0x00C */ s8 unkC;
     /* 0x00D */ s8 unkD;
     /* 0x00E */ s8 unkE;
