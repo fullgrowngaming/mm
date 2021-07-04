@@ -9,7 +9,7 @@ typedef void (*EnInvadepohInitFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohDestroyFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*EnInvadepohActionFunc)(struct EnInvadepoh*, GlobalContext*);
 typedef void (*OtherFunc)(struct unkStruct_80B50350*);
-typedef void (*OtherSubstructFunc)(struct EnInvadePohStruct*);
+typedef void (*OtherSubstructFunc)(struct EnInvadePohStruct*, s32 arg1);
 
 typedef struct unkStruct_80B50350{
     /* 0x000 */ s8 unk0;
@@ -18,11 +18,58 @@ typedef struct unkStruct_80B50350{
     /* 0x004 */ Vec3f unk4; //boundary 
 } unkStruct_80B50350; // size = 0x10;
 
+typedef struct {
+    /* 0x00 */ s8* unk00;
+    /* 0x04 */ s8 unk04;
+} unkstruct_invadepoh_0; // size = 0x05
+
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ f32 unk04;
+} unkstruct_invadepoh_1; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ unkstruct_invadepoh_0* unk04;
+} unkstruct_invadepoh_2; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ s8 unk0;
+    /* 0x04 */ unkstruct_invadepoh_0* unk4;
+    /* 0x08 */ s8 unk8;
+    /* 0x0C */ unkstruct_invadepoh_1* unkC;
+} unkstruct_invadepoh_3; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ s8 unk00;
+    /* 0x04 */ unkstruct_invadepoh_0* unk04;
+    /* 0x08 */ s8 unk08;
+    /* 0x0C */ unkstruct_invadepoh_1* unk0C;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ s16 unk12;
+} unkstruct_invadepoh_4; // size = 0x14
+
+typedef struct {
+    /* 0x00 */ f32 unk00;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+} unkstruct_80B4EE0C; // size = 0x08
+
+typedef union unkstruct_invadepoh_union {
+    struct {
+        /* 0x0 */ s8 unk00;
+        /* 0x4 */ unkstruct_invadepoh_0* unk04;
+    } unkstruct_invadepoh_5;
+    unkstruct_invadepoh_2 unk_struct_2_elem;
+    unkstruct_invadepoh_3 unk_struct_3_elem;
+    unkstruct_invadepoh_4 unk_struct_4_elem;
+} unkstruct_invadepoh_union;
+
 typedef struct EnInvadePohStruct{
-    /* 0x000 */ s32 unk0; // pointer to array
+    /* 0x000 */ s32 unk0;
     /* 0x004 */ s8 unk4;
     /* 0x005 */ char unk5[0x3];
-    /* 0x008 */ s32 unk8; // pointer to another struct
+    /* 0x008 */ unkstruct_invadepoh_3* unk8; // pointer to another struct
     /* 0x00C */ s16 unkC;
     /* 0x00E */ s8 unkE;
     /* 0x00F */ s8 unkF;

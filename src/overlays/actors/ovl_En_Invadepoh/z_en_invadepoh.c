@@ -168,9 +168,9 @@ void func_80B46184(unkStruct_80B50350* unkStruct);
 s32 func_80B450C0(f32* arg0, f32* arg1, f32 arg2, f32 arg3, f32 arg4);
 s32 func_80B4516C(EnInvadepoh* this);
 
-void func_80B45A4C(EnInvadePohStruct* s);
-void func_80B45A94(EnInvadePohStruct* s);
-void func_80B45B1C(EnInvadePohStruct* s);
+void func_80B45A4C(EnInvadePohStruct* s, s32* u);
+void func_80B45A94(EnInvadePohStruct* s, s32* u);
+void func_80B45B1C(EnInvadePohStruct* s, s32* u);
 
 extern AnimatedMaterial* D_80B503FC;
 extern AnimatedMaterial* D_80B50400;
@@ -228,53 +228,6 @@ extern Gfx D_04029CF0[];
 extern Gfx D_0402E510[];
 
 extern Vec3s D_801D15BC;
-
-typedef struct {
-    /* 0x00 */ s8* unk00;
-    /* 0x04 */ s8 unk04;
-} unkstruct_invadepoh_0; // size = 0x05
-
-typedef struct {
-    /* 0x00 */ s8 unk00;
-    /* 0x04 */ f32 unk04;
-} unkstruct_invadepoh_1; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s8 unk00;
-    /* 0x04 */ unkstruct_invadepoh_0* unk04;
-} unkstruct_invadepoh_2; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s8 unk00;
-    /* 0x04 */ unkstruct_invadepoh_0* unk04;
-    /* 0x08 */ s8 unk08;
-    /* 0x0C */ unkstruct_invadepoh_1* unk0C;
-} unkstruct_invadepoh_3; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ s8 unk00;
-    /* 0x04 */ unkstruct_invadepoh_0* unk04;
-    /* 0x08 */ s8 unk08;
-    /* 0x0C */ unkstruct_invadepoh_1* unk0C;
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-} unkstruct_invadepoh_4; // size = 0x14
-
-typedef union unkstruct_invadepoh_union {
-    struct {
-        /* 0x0 */ s8 unk00;
-        /* 0x4 */ unkstruct_invadepoh_0* unk04;
-    } unkstruct_invadepoh_5;
-    unkstruct_invadepoh_2 unk_struct_2_elem;
-    unkstruct_invadepoh_3 unk_struct_3_elem;
-    unkstruct_invadepoh_4 unk_struct_4_elem;
-} unkstruct_invadepoh_union;
-
-typedef struct {
-    /* 0x00 */ f32 unk00;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ s16 unk06;
-} unkstruct_80B4EE0C; // size = 0x08
 
 const ActorInit En_Invadepoh_InitVars = {
     ACTOR_EN_INVADEPOH,
@@ -575,7 +528,7 @@ static unkstruct_invadepoh_2 D_80B4EC00 = { 0, &D_80B4EBF8 };
 
 static unkstruct_invadepoh_union* D_80B4EC08[] = { &D_80B4EC00 };
 
-static void* D_80B4EC0C[] = {
+static OtherSubstructFunc D_80B4EC0C[] = {
     func_80B45A4C,
     func_80B45A94,
     func_80B45B1C,
@@ -658,8 +611,8 @@ static Vec3f D_80B4ED30[] = {
 };
 
 static Vec3f D_80B4ED6C[] = {
-    { 0.0005f, 0.0279999990016f, 0.01f },    { -0.01f, 0.0f, 0.0f }, { -0.01f, 0.0f, 0.0f },
-    { 0.016f, 0.0004f, 0.01f },    { -0.01f, 0.0f, 0.0f }, { 0.0005f, 0.0005f, 0.0005f },
+    { 0.0005f, 0.0279999990016f, 0.01f }, { -0.01f, 0.0f, 0.0f }, { -0.01f, 0.0f, 0.0f },
+    { 0.016f, 0.0004f, 0.01f },           { -0.01f, 0.0f, 0.0f }, { 0.0005f, 0.0005f, 0.0005f },
     { 0.0002f, 0.0002f, 0.0002f },
 };
 
@@ -1075,7 +1028,7 @@ void func_80B44C24(EnInvadepoh* this, GlobalContext* globalCtx) {
     f32 temp = this->actor.world.pos.y;
 
     func_80B43BC8(this, &this->unk309, &this->actor.world.pos);
-    this->actor.world.pos.y = temp; // restore y pos via temp required... Maybe what above func does makes sense
+    this->actor.world.pos.y = temp;
     func_800B4AEC(globalCtx, &this->actor, 50.0f);
     func_80B4516C(this);
 }
@@ -1089,12 +1042,11 @@ void func_80B44E90(EnInvadepoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80B44EFC(EnInvadepoh* this, GlobalContext* globalCtx) {
-    // this function is a literal exact copy of func_80B44C24
     s32 pad;
     f32 temp = this->actor.world.pos.y;
 
     func_80B43BC8(this, &this->unk309, &this->actor.world.pos);
-    this->actor.world.pos.y = temp; // restore y pos via temp required... Maybe what above func does makes sense
+    this->actor.world.pos.y = temp;
     func_800B4AEC(globalCtx, &this->actor, 50.0f);
     func_80B4516C(this);
 }
@@ -1302,19 +1254,58 @@ void func_80B457A0(EnInvadepoh* this) {
 EnInvadepoh* func_80B458D8(void);
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45980.asm")
+s8 func_80B45980(unkstruct_invadepoh_1*, s8* test);
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B459E8.asm")
+void func_80B459E8(EnInvadePohStruct* s, s8* u);
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45A4C.asm")
+void func_80B45A4C(EnInvadePohStruct* s, s32* u) {
+    unkstruct_invadepoh_3* new_var = s->unk8;
+    unkstruct_invadepoh_0* temp_v1 = new_var->unk4;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45A94.asm")
+    if (s->unkE < (temp_v1->unk04 - 1)) {
+        s->unkE++;
+        s->unkF = temp_v1->unk00[s->unkE];
+    }
+}
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45B1C.asm")
+void func_80B45A94(EnInvadePohStruct* s, s32* u) {
+    unkstruct_invadepoh_0* temp_v1;
+    unkstruct_invadepoh_1* temp_a0;
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45BB8.asm")
+    temp_v1 = s->unk8->unk4;
+    if (s->unkE < (temp_v1->unk04 - 1)) {
+        s->unkE++;
+        s->unkF = temp_v1->unk00[s->unkE];
+    } else {
+        func_80B459E8(s, u[func_80B45980(s->unk8->unkC, s->unk8->unk8)]);
+    }
+}
+
+void func_80B45B1C(EnInvadePohStruct* s, s32* u) {
+    unkstruct_invadepoh_0* temp_v1;
+    unkstruct_invadepoh_1* temp_a0;
+
+    temp_v1 = s->unk8->unk4;
+    if (s->unkE < (temp_v1->unk04 - 1)) {
+        s->unkE++;
+        s->unkF = temp_v1->unk00[s->unkE];
+    } else if (s->unkC > 0) {
+        s->unkC--;
+    } else {
+        func_80B459E8(s, u[func_80B45980(s->unk8->unkC, s->unk8->unk8)]);
+    }
+}
+
+void func_80B45BB8(EnInvadePohStruct* s) {
+    if ((s->unk0 != 0) && (s->unk8 != 0)) {
+        D_80B4EC0C[s->unk4](s, s->unk0);
+    }
+}
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45C04.asm")
-void func_80B45C04(EnInvadePohStructUnk324 *substruct, unkstruct_invadepoh_union *arg1, s32 arg2, unkstruct_invadepoh_union *arg3, s32 arg4, Vec3s *arg5, s16 arg6, f32 arg7, f32 arg8, f32 arg9);
+void func_80B45C04(EnInvadePohStructUnk324* substruct, unkstruct_invadepoh_union* arg1, s32 arg2,
+                   unkstruct_invadepoh_union* arg3, s32 arg4, Vec3s* arg5, s16 arg6, f32 arg7, f32 arg8, f32 arg9);
 
 void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     Vec3f sp3C;
@@ -2500,7 +2491,6 @@ void func_80B48948(EnInvadepoh* this) {
 #endif
 
 // ISMATCHING: Move rodata once all funcs match
-// kinda cursed though still
 #ifdef NON_MATCHING
 void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx) {
     EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
@@ -2520,7 +2510,7 @@ void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx) {
             temp_v1 = Math_Vec3f_Pitch(&this->actor.focus, &player->base.focus) * 0.85f;
             temp_v1 -= this->actor.shape.rot.x;
             substruct->unk26.x = CLAMP(temp_v1, -0x9C4, 0x9C4);
-            new_var3 = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y); // this has to be a separate temp
+            new_var3 = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
             temp_v1 = new_var3 * 0.7f;
             substruct->unk26.y = CLAMP(temp_v1, -0x1F40, 0x1F40);
         }
@@ -3746,7 +3736,7 @@ void func_80B4B8BC(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.update = func_80B4BA30;
         } else {
             Actor_MarkForDeath(&this->actor);
-            if (!this) {} // required for some reasony
+            if (!this) {} // required for some reason
         }
     }
 }
@@ -3765,25 +3755,20 @@ void func_80B4BA30(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// cursed
 void func_80B4BA84(Actor* thisx, GlobalContext* globalCtx) {
-    EnInvadepoh* this = (EnInvadepoh*)thisx;
-    EnInvadepoh* new_var;
-    s32 sp34;
-    s32 sp2C;
+    EnInvadepoh* this = THIS;
     s32 temp_v0_3;
+    s32 sp34 = (this->actor.flags & 0x40) == 0x40;
     s32 temp_v1_2;
-    s8 new_var2;
-    s8 temp_v0_2;
+    s32 sp2C;
+    s32 temp_v0_2;
     s32 phi_v0;
 
-    sp34 = (this->actor.flags & 0x40) == 0x40;
     D_80B5040C = func_80B458D8();
     if (D_80B5040C == 0) {
-        temp_v0_2 = this->unk3BC;
+        temp_v0_2 = (this->unk3BC < 0) ^ 1;
         this->unk3BC = -1;
-        if (((temp_v0_2 < 0) ^ 1) != 0) {
+        if (temp_v0_2) {
             func_80B4B820(this);
         }
 
@@ -3791,18 +3776,17 @@ void func_80B4BA84(Actor* thisx, GlobalContext* globalCtx) {
         sp2C = this->unk3BC;
         this->unk3BC = func_80B44234(this, &D_80B5040C->world.pos);
         if (sp2C != this->unk3BC) {
-            phi_v0 = temp_v0_3;
             phi_v0 = this->unk309;
-            temp_v0_3 = this->unk3BC - phi_v0;
+            phi_v0 = this->unk3BC - this->unk309;
+            temp_v0_3 = phi_v0;
             if (temp_v0_3 < 0) {
-                new_var2 = this->unk308;
-                phi_v0 = temp_v0_3 + new_var2;
+                phi_v0 += this->unk308;
             }
 
-            temp_v1_2 = this->unk308 >> 1;
-            if (temp_v1_2 < phi_v0) {
+            temp_v0_3 = this->unk308 >> 1;
+            if (temp_v0_3 < phi_v0) {
                 this->unk30A = -1;
-            } else if (phi_v0 < temp_v1_2) {
+            } else if (phi_v0 < temp_v0_3) {
                 this->unk30A = 1;
             }
         }
@@ -3810,15 +3794,12 @@ void func_80B4BA84(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     this->unk29C = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (sp34 != 0 && this->actor.update != 0) {
+    if ((sp34 != 0) && (this->actor.update != 0)) {
         func_80B45CE0(&this->EnInvadePohStructUnk324);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colCheckCtx, &this->collider.base);
     }
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4BA84.asm")
-#endif
 
 // ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
@@ -4027,7 +4008,7 @@ void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
                       0.03f);
         this->actor.textId = 0x33CD;
         new_var = sp38;
-        if (sp38 = new_var < 0xD5A0) {
+        if (new_var < 0xD5A0) {
             this->unk304 = -0x8000;
             this->unk2F8 = 40.0f;
         } else if (new_var >= 0xD7D4) {
@@ -4360,14 +4341,10 @@ void func_80B4D054(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// stack, plus function looks like trash also
 void func_80B4D15C(EnInvadepoh* this) {
-    EnInvadePohStructUnk324* substruct = &this->EnInvadePohStructUnk324;
-    f32 new_var3;
-    f32 temp_f8;
+    s32 pad;
     s32 temp_v1 = this->actor.params & 7;
-    VecSph* temp_v0;
+    unkstruct_80B4EE0C* temp_v0;
 
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06001674);
     this->skelAnime.animCurrentFrame = ((this->actor.params & 7) * this->skelAnime.animFrameCount) * 0.25f;
@@ -4377,21 +4354,17 @@ void func_80B4D15C(EnInvadepoh* this) {
     this->unk38C = 0;
     this->unk38D = 0xFF;
     temp_v0 = &D_80B4EE0C[temp_v1];
-    this->unk300 = temp_v0->r;
+    this->unk300 = temp_v0->unk00;
     this->unk304 = temp_v1 * 0x5555;
     this->actor.world.pos.x = this->actor.home.pos.x + (Math_SinS(this->unk304) * 80.0f);
     this->actor.world.pos.y = this->actor.home.pos.y;
-    temp_f8 = Math_CosS(this->unk304) * 80.0f;
+    this->actor.world.pos.z = this->actor.home.pos.z + (Math_CosS(this->unk304) * 80.0f);
     this->actor.shape.rot.y = this->unk304 + 0x4000;
-    this->actor.world.pos.z = this->actor.home.pos.z + (new_var3 = temp_f8);
-    (&this->EnInvadePohStructUnk324)->unk4C = temp_v0->pitch;
-    substruct->unk4E = temp_v0->yaw;
+    this->EnInvadePohStructUnk324.unk4C = temp_v0->unk04;
+    this->EnInvadePohStructUnk324.unk4E = temp_v0->unk06;
     this->actionFunc = func_80B4D290;
     this->actor.velocity.y = 0.0f;
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4D15C.asm")
-#endif
 
 // ISMATCHING: Move rodata once all funcs match
 // JANK - fix later
