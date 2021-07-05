@@ -727,6 +727,7 @@ s32 func_80B43B80(EnInvadepoh* this) {
 }
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B43BC8.asm")
+void func_80B43BC8(EnInvadepoh* this, s8* arg1, Vec3f* arg2);
 
 void func_80B43DD4(EnInvadepoh* this, s16 arg1, s16 arg2) {
     s32 pad;
@@ -1051,28 +1052,37 @@ void func_80B44EFC(EnInvadepoh* this, GlobalContext* globalCtx) {
     func_80B4516C(this);
 }
 
-#ifdef NON_MATCHING
-// it's something similar to this
 void func_80B44F58(void) {
-    Gfx* phi_s0;
     s32 i;
-
+    Gfx** iter;
+    
     if (D_80B4E968 == 0) {
         D_80B4E968 = 1;
-        for (phi_s0 = D_80B4E944, i = 0; i < 5; i++, phi_s0++) {
-            phi_s0 = Lib_SegmentedToVirtual(phi_s0);
+        for (i = 0, iter = D_80B4E944; i < ARRAY_COUNT(D_80B4E944); i++, iter++) {
+            *iter = Lib_SegmentedToVirtual(*iter);
         }
-        for (phi_s0 = D_80B4E958, i = 0; i < 4; i++, phi_s0++) {
-            phi_s0 = Lib_SegmentedToVirtual(phi_s0);
+
+        for (i = 0, iter = D_80B4E958; i < ARRAY_COUNT(D_80B4E958); i++, iter++) {
+            *iter = Lib_SegmentedToVirtual(*iter);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44F58.asm")
-#endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44FEC.asm")
-void func_80B44FEC(void);
+void func_80B44FEC(void) {
+    s32 i;
+    Gfx** iter;
+    
+    if (D_80B4E994 == 0) {
+        D_80B4E994 = 1;
+        for (i = 0, iter = D_80B4E96C; i < ARRAY_COUNT(D_80B4E96C); i++, iter++) {
+            *iter = Lib_SegmentedToVirtual(*iter);
+        }
+
+        for (i = 0, iter = D_80B4E984; i < ARRAY_COUNT(D_80B4E984); i++, iter++) {
+            *iter = Lib_SegmentedToVirtual(*iter);
+        }
+    }
+}
 
 void func_80B45080(void) {
     D_80B50400 = Lib_SegmentedToVirtual(&D_06000560);
@@ -1114,8 +1124,6 @@ s32 func_80B4516C(EnInvadepoh* this) {
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B451A0.asm")
 
-#ifdef NON_MATCHING
-// regs
 void func_80B452EC(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 phi_s2;
     s32 i;
@@ -1125,17 +1133,13 @@ void func_80B452EC(EnInvadepoh* this, GlobalContext* globalCtx) {
     for (i = 0; i < this->unk379; i++) {
         D_80B50320[i] =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0x200, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, 0, 0, (phi_s2 & 7) | ((phi_s2 << 8) & 0x7F00) | 0x10);
-        if (1) {}
+                        this->actor.world.pos.z, 0, 0, 0, (i & 7) | ((phi_s2 << 8) & 0x7F00) | 0x10);
         if (phi_s2 != 0xFF) {
             Path* path = &globalCtx->setupPathList[phi_s2];
             phi_s2 = path->unk1;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B452EC.asm")
-#endif
 
 void func_80B453F4(EnInvadepoh* this, GlobalContext* globalCtx, s32 arg2) {
     Actor_SpawnWithParent(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_INVADEPOH, this->actor.home.pos.x,
@@ -1254,8 +1258,25 @@ void func_80B457A0(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B458D8.asm")
 EnInvadepoh* func_80B458D8(void);
 
+#ifdef NON_MATCHING
+s8 func_80B45980(unkstruct_invadepoh_1* arg0, s32 arg1) {
+    f32 rand = Rand_ZeroOne();
+    s32 i;
+    for (i = 0; i < (arg1 - 1); i++) {
+        if (!arg0) {}
+        if (arg0) {}
+        goto dummy_label_184988;
+    dummy_label_184988:;
+        if (rand <= arg0[i].unk04) {
+            break;
+        }
+    }
+
+    return arg0[i].unk00;
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45980.asm")
-s8 func_80B45980(unkstruct_invadepoh_1*, s8* test);
+#endif
 
 void func_80B459E8(EnInvadePohStruct* s, unkstruct_invadepoh_4* u) {
     s->unk4 = u->unk00;
@@ -4426,7 +4447,7 @@ void func_80B4D3E4(EnInvadepoh* this) {
 }
 
 #ifdef NON_MATCHING
-//cursed
+// cursed
 void func_80B4D480(EnInvadepoh* this, GlobalContext* globalCtx) {
     s16* new_var;
     float new_var3;
