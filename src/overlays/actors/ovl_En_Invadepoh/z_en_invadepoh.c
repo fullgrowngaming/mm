@@ -1072,6 +1072,7 @@ void func_80B44F58(void) {
 #endif
 
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B44FEC.asm")
+void func_80B44FEC(void);
 
 void func_80B45080(void) {
     D_80B50400 = Lib_SegmentedToVirtual(&D_06000560);
@@ -1256,8 +1257,15 @@ EnInvadepoh* func_80B458D8(void);
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45980.asm")
 s8 func_80B45980(unkstruct_invadepoh_1*, s8* test);
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B459E8.asm")
-void func_80B459E8(EnInvadePohStruct* s, s8* u);
+void func_80B459E8(EnInvadePohStruct* s, unkstruct_invadepoh_4* u) {
+    s->unk4 = u->unk00;
+    s->unk8 = u;
+    s->unkE = 0;
+    s->unkF = *u->unk04->unk00;
+    if (s->unk4 == 2) {
+        s->unkC = Rand_S16Offset(u->unk10, u->unk12);
+    }
+}
 
 void func_80B45A4C(EnInvadePohStruct* s, s32* u) {
     unkstruct_invadepoh_3* new_var = s->unk8;
@@ -1273,12 +1281,12 @@ void func_80B45A94(EnInvadePohStruct* s, s32* u) {
     unkstruct_invadepoh_0* temp_v1;
     unkstruct_invadepoh_1* temp_a0;
 
-    temp_v1 = s->unk8->unk4;
+    temp_v1 = s->unk8->unk04;
     if (s->unkE < (temp_v1->unk04 - 1)) {
         s->unkE++;
         s->unkF = temp_v1->unk00[s->unkE];
     } else {
-        func_80B459E8(s, u[func_80B45980(s->unk8->unkC, s->unk8->unk8)]);
+        func_80B459E8(s, u[func_80B45980(s->unk8->unk0C, s->unk8->unk08)]);
     }
 }
 
@@ -1286,14 +1294,14 @@ void func_80B45B1C(EnInvadePohStruct* s, s32* u) {
     unkstruct_invadepoh_0* temp_v1;
     unkstruct_invadepoh_1* temp_a0;
 
-    temp_v1 = s->unk8->unk4;
+    temp_v1 = s->unk8->unk04;
     if (s->unkE < (temp_v1->unk04 - 1)) {
         s->unkE++;
         s->unkF = temp_v1->unk00[s->unkE];
     } else if (s->unkC > 0) {
         s->unkC--;
     } else {
-        func_80B459E8(s, u[func_80B45980(s->unk8->unkC, s->unk8->unk8)]);
+        func_80B459E8(s, u[func_80B45980(s->unk8->unk0C, s->unk8->unk08)]);
     }
 }
 
@@ -3990,28 +3998,27 @@ void func_80B4C218(EnInvadepoh* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4C218.asm")
 #endif
 
+// ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
-// cursed
 void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
-    EnInvadepoh* this = (EnInvadepoh*)thisx;
-    s32 new_var;
+    EnInvadepoh* this = THIS;
+
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk2F4)) {
+        s32 pad[2];
         s32 sp38 = gSaveContext.time;
-        if (!gSaveContext.time) {}
 
         this->actor.objBankIndex = this->unk2F4;
         Actor_SetObjectSegment(globalCtx, &this->actor);
         func_80B44FEC();
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06015C28, &D_06016720, this->limbDrawTable,
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06015C28, &D_06016720, (0, this->limbDrawTable),
                          this->transitionDrawTable, 22);
         func_80B45C04(&this->EnInvadePohStructUnk324, D_80B4EBDC, 1, D_80B4EC08, 0, &D_801D15BC, 0x64, 0.03f, 0.3f,
                       0.03f);
         this->actor.textId = 0x33CD;
-        new_var = sp38;
-        if (new_var < 0xD5A0) {
+        if (sp38 < 0xD5A0) {
             this->unk304 = -0x8000;
             this->unk2F8 = 40.0f;
-        } else if (new_var >= 0xD7D4) {
+        } else if (sp38 >= 0xD7D4) {
             this->unk304 = -0x4800;
             this->unk2F8 = 20.0f;
         } else {
@@ -4019,10 +4026,10 @@ void func_80B4C3A0(Actor* thisx, GlobalContext* globalCtx) {
             this->unk2F8 = 40.0f;
         }
 
-        if ((new_var >= 0x4000) && (new_var < 0xD573)) {
+        if ((sp38 >= 0x4000) && (sp38 < 0xD573)) {
             this->actor.update = func_80B4C568;
             this->actor.draw = 0;
-        } else if ((new_var >= 0xD573) && (new_var < 0xD800)) {
+        } else if ((sp38 >= 0xD573) && (sp38 < 0xD800)) {
             this->actor.update = func_80B4C5C0;
             this->actor.draw = func_80B4E7BC;
             func_80B4BBE0(this);
@@ -4419,59 +4426,62 @@ void func_80B4D3E4(EnInvadepoh* this) {
 }
 
 #ifdef NON_MATCHING
-// cursed
+//cursed
 void func_80B4D480(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s16* new_var;
+    float new_var3;
     s32 sp2C;
-    float new_var2;
-    f32 new_var3;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    EnInvadepoh* new_var;
     Actor* temp_v1;
-    s32 phi_t0 = 0;
-    if (this->unk2F0 > 0) {
+    s32 temp_v0;
+    float new_var2;
+    s16 temp_v0_2;
+    s32 phi_t0;
+    new_var = &this->unk2F0;
+    phi_t0 = 0;
+    if ((*new_var) > 0) {
         this->unk2F0--;
     }
 
-    new_var = this;
-    if (this->unk2F0 > 0xA0) {
+    if ((*new_var) >= 0xA1) {
         this->actor.draw = 0;
     } else {
+        temp_v0_2 = this->unk2F0;
         this->actor.draw = func_80B4DB14;
-        if ((new_var->unk2F0 < 0x69) && (new_var->unk2F0 >= 0x64)) {
-            new_var->actor.gravity = -1.0f;
-            phi_t0 = 0;
-            Math_SmoothStepToS(&new_var->actor.shape.rot.x, 0x2000, 8, 0x320, 0x28);
+        if ((temp_v0_2 < 0x69) && (temp_v0_2 >= 0x64)) {
+            this->actor.gravity = -1.0f;
+            sp2C = 0;
+            Math_SmoothStepToS(&this->actor.shape, 0x2000, 8, 0x320, 0x28);
         } else {
-            new_var->actor.gravity = 0.7f;
-            phi_t0 = 0;
-            Math_SmoothStepToS(&new_var->actor.shape.rot.x, 0, 8, 0x320, 0x28);
+            this->actor.gravity = 0.7f;
+            sp2C = 0;
+            Math_SmoothStepToS(&this->actor.shape, 0, 8, 0x320, 0x28);
         }
 
-        new_var->actor.velocity.y += new_var->actor.gravity;
-        new_var->actor.velocity.y = new_var->actor.velocity.y * 0.92f;
-        if (new_var->unk2F0 > 0x50) {
-            new_var->actor.world.pos.y += new_var->actor.velocity.y;
+        this->actor.velocity.y += this->actor.gravity;
+        this->actor.velocity.y *= 0.92f;
+        if (this->unk2F0 >= 0x51) {
+            this->actor.world.pos.y += this->actor.velocity.y;
+            phi_t0 = sp2C;
         } else {
-            phi_t0 = Math_StepToF(&new_var->actor.world.pos.y, (0, new_var->actor.home.pos.y + 850.0f),
-                                  fabsf(new_var->actor.velocity.y));
-            if (!temp_v1) {}
+            phi_t0 =
+                Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 850.0f, fabsf(this->actor.velocity.y));
         }
 
-        temp_v1 = new_var->actor.child;
-        new_var2 = (new_var->unk304 * (-0.06f)) + new_var->unk306;
-        new_var->unk306 = new_var2 * 0.98f;
-        new_var->actor.shape.rot.y += new_var->unk306;
+        temp_v1 = this->actor.child;
+        new_var3 = (new_var2 = this->unk304 * (-0.06f)) + this->unk306;
+        new_var3 = new_var3 * 0.98f;
+        this->unk306 = new_var3;
+        this->actor.shape.rot.y += this->unk306;
         if (temp_v1 != 0) {
-            temp_v1->world.pos.x = (new_var3 = new_var->actor.world.pos.x);
-            temp_v1->world.pos.y = new_var->actor.world.pos.y - 30.0f;
-            temp_v1->world.pos.z = new_var->actor.world.pos.z;
-            temp_v1->shape.rot.y = new_var->actor.shape.rot.y;
+            temp_v1->world.pos.x = this->actor.world.pos.x;
+            temp_v1->world.pos.y = this->actor.world.pos.y - 30.0f;
+            temp_v1->world.pos.z = this->actor.world.pos.z;
+            temp_v1->shape.rot.y = this->actor.shape.rot.y;
         }
     }
 
-    if ((new_var->unk2F0 <= 0) || (phi_t0 != 0)) {
-        Actor_MarkForDeath(&this->actor);
+    if ((this->unk2F0 <= 0) || (phi_t0 != 0)) {
+        Actor_MarkForDeath(this);
     }
 }
 #else
