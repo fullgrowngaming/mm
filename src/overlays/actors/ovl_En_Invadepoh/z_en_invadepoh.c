@@ -1055,7 +1055,7 @@ void func_80B44EFC(EnInvadepoh* this, GlobalContext* globalCtx) {
 void func_80B44F58(void) {
     s32 i;
     Gfx** iter;
-    
+
     if (D_80B4E968 == 0) {
         D_80B4E968 = 1;
         for (i = 0, iter = D_80B4E944; i < ARRAY_COUNT(D_80B4E944); i++, iter++) {
@@ -1071,7 +1071,7 @@ void func_80B44F58(void) {
 void func_80B44FEC(void) {
     s32 i;
     Gfx** iter;
-    
+
     if (D_80B4E994 == 0) {
         D_80B4E994 = 1;
         for (i = 0, iter = D_80B4E96C; i < ARRAY_COUNT(D_80B4E96C); i++, iter++) {
@@ -1122,7 +1122,45 @@ s32 func_80B4516C(EnInvadepoh* this) {
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B4516C.asm")
 #endif
 
-#pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B451A0.asm")
+void func_80B451A0(EnInvadepoh* this, GlobalContext* globalCtx) {
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 i;
+    s32 phi_s1_3;
+
+    if (D_80B4E940 == 0) {
+        if (CURRENT_DAY <= 0) {
+            D_80B4E940 = 1;
+        } else if (CURRENT_DAY == 1) {
+            temp_v0 = gSaveContext.time;
+            if ((temp_v0 < 0x1AAA) || (temp_v0 >= 0x4000)) {
+                D_80B4E940 = 1;
+            } else if (temp_v0 < 0x3800) {
+                phi_s1_3 = 0x3800;
+                for (i = 0; i < this->unk379; i++) {
+                    temp_v0_2 = func_80B43A24(i);
+                    if (temp_v0_2 < phi_s1_3) {
+                        phi_s1_3 = temp_v0_2;
+                    }
+                }
+
+                if (temp_v0 < (phi_s1_3 + 0xE11)) {
+                    D_80B4E940 = 2;
+                }
+
+                if (i) {} // required
+            }
+        }
+
+        if (D_80B4E940 == 0) {
+            if (gSaveContext.weekEventReg[22] & 1) {
+                D_80B4E940 = 3;
+            } else {
+                D_80B4E940 = 4;
+            }
+        }
+    }
+}
 
 void func_80B452EC(EnInvadepoh* this, GlobalContext* globalCtx) {
     s32 phi_s2;
