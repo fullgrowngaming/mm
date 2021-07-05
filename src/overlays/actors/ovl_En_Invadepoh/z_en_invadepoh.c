@@ -1235,25 +1235,24 @@ void func_80B45648(EnInvadepoh* this) {
     }
 }
 
-// cursed
+// ISMATCHING: Move rodata once all funcs match
 #ifdef NON_MATCHING
 s32 func_80B456A8(GlobalContext* globalCtx, Vec3f* vec) {
     Vec3f multDest;
     f32 wDest;
-    int new_var;
+    
     func_800B4EDC(globalCtx, vec, &multDest, &wDest);
     if (((multDest.z > 1.0f) && (fabsf(multDest.x * wDest) < 1.0f)) && (fabsf(multDest.y * wDest) < 1.0f)) {
-        f32 wX = ((multDest.x * wDest) * 160.0f) + 160.0f;
-        f32 wY = ((multDest.y * wDest) * (-120.0f)) + 120.0f;
-        f32 wZ = ((multDest.z * ((0, wDest))) * 16352.0f) + 16352.0f;
-        new_var = wZ;
-        new_var = new_var < func_80178A94(wX, wY);
-        if (new_var) {
-            return 1;
+        s32 wX = (multDest.x * wDest * 160.0f) + 160.0f;
+        s32 wY = (multDest.y * wDest * -120.0f) + 120.0f;
+        s32 wZ = (s32)(multDest.z * wDest * 16352.0f) + 0x3FE0;
+        s32 zBuf = func_80178A94(wX, wY);
+        if (wZ < zBuf) {
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 #else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B456A8.asm")
@@ -4800,7 +4799,7 @@ void func_80B4E3F0(Actor* thisx, GlobalContext* globalCtx) {
     SysMatrix_InsertMatrix(&globalCtx->unk187FC, MTXMODE_NEW);
     SysMatrix_GetStateTranslationAndScaledZ(200.0f, &sp5C);
     Matrix_Pop();
-    if (0) {} // required to match
+    if (0) {} // required 
     sp5C.x += thisx->world.pos.x;
     sp5C.y += thisx->world.pos.y;
     sp5C.z += thisx->world.pos.z;
