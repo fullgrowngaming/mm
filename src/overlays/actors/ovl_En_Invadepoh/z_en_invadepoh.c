@@ -9,30 +9,11 @@ void EnInvadepoh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInvadepoh_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B46DA8(EnInvadepoh* this);
-void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B46E20(EnInvadepoh* this);
-void func_80B46E44(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B46EC0(EnInvadepoh* this);
-void func_80B46EE8(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B46F88(EnInvadepoh* this);
-void func_80B46FA8(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47064(EnInvadepoh* this);
-void func_80B47084(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B470E0(EnInvadepoh* this);
-void func_80B47108(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B471C0(EnInvadepoh* this);
-void func_80B471E0(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47248(EnInvadepoh* this);
-void func_80B47268(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47298(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47304(EnInvadepoh* this);
-void func_80B47324(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B473E4(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B474DC(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47600(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B477B4(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4A5E4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4A67C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4A81C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4A350(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4A570(EnInvadepoh* this);
 void func_80B4ACF0(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4AD3C(EnInvadepoh* this);
 void func_80B4AD60(EnInvadepoh* this, GlobalContext* globalCtx);
@@ -51,49 +32,68 @@ void func_80B4B724(EnInvadepoh* this);
 void func_80B4B768(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4B820(EnInvadepoh* this);
 void func_80B4B864(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B48374(EnInvadepoh* this);
-void func_80B483CC(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49A00(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4994C(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B497EC(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49628(EnInvadepoh* this);
-void func_80B49670(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49454(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4934C(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B491EC(EnInvadepoh* this);
-void func_80B49228(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49C38(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49DFC(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4A350(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4A5E4(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4A67C(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4A81C(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4BC4C(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4C058(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4C1BC(EnInvadepoh* this);
 void func_80B4C218(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4C730(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4CB0C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4CC70(EnInvadepoh* this);
 void func_80B4CCCC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4D290(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4D480(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47568(EnInvadepoh* this);
+void func_80B46DA8(EnInvadepoh* this);
+void func_80B46DC8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46E20(EnInvadepoh* this);
+void func_80B46E44(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46EC0(EnInvadepoh* this);
+void func_80B46EE8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B46F88(EnInvadepoh* this);
+void func_80B46FA8(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48E4C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B49A00(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B49C38(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B49DFC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B470E0(EnInvadepoh* this);
+void func_80B471C0(EnInvadepoh* this);
+void func_80B471E0(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B473E4(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B474DC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B477B4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B478F4(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47938(EnInvadepoh* this);
 void func_80B479E8(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4843C(EnInvadepoh* this);
+void func_80B483CC(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B484EC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B491EC(EnInvadepoh* this);
+void func_80B497EC(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4770C(EnInvadepoh* this);
+void func_80B4843C(EnInvadepoh* this);
+void func_80B4934C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B4994C(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47064(EnInvadepoh* this);
+void func_80B47084(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47108(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47248(EnInvadepoh* this);
+void func_80B47268(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47278(EnInvadepoh* this);
+void func_80B47298(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47304(EnInvadepoh* this);
+void func_80B47324(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47568(EnInvadepoh* this);
+void func_80B47600(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B47938(EnInvadepoh* this);
+void func_80B48324(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B48374(EnInvadepoh* this);
 void func_80B48588(EnInvadepoh* this);
 void func_80B48610(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B48848(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B47278(EnInvadepoh* this);
-void func_80B48AD4(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B48E4C(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B49404(EnInvadepoh* this);
-void func_80B4A570(EnInvadepoh* this);
-void func_80B4C1BC(EnInvadepoh* this);
-void func_80B4D290(EnInvadepoh* this, GlobalContext* globalCtx);
-void func_80B4CC70(EnInvadepoh* this);
-void func_80B4770C(EnInvadepoh* this);
 void func_80B48948(EnInvadepoh* this);
+void func_80B49228(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B49404(EnInvadepoh* this);
+void func_80B49454(EnInvadepoh* this, GlobalContext* globalCtx);
+void func_80B49628(EnInvadepoh* this);
+void func_80B49670(EnInvadepoh* this, GlobalContext* globalCtx);
 
 void func_80B468B4(EnInvadepoh* this, GlobalContext* globalCtx);
 void func_80B4D670(Actor* thisx, GlobalContext* globalCtx);
@@ -1477,6 +1477,7 @@ void func_80B457A0(EnInvadepoh* this) {
 EnInvadepoh* func_80B458D8(void);
 
 #ifdef NON_MATCHING
+//cursed
 s8 func_80B45980(unkstruct_invadepoh_1* arg0, s32 arg1) {
     f32 rand = Rand_ZeroOne();
     s32 i;
@@ -1550,9 +1551,40 @@ void func_80B45BB8(EnInvadePohStruct* s) {
     }
 }
 
+// cursed
+#ifdef NON_MATCHING
+void func_80B45C04(EnInvadePohStructUnk324* substruct, unkstruct_invadepoh_union* arg1, s32 arg2, unkstruct_invadepoh_union* arg3, s32 arg4, Vec3s* arg5, s16 arg6, f32 arg7, f32 arg8, f32 arg9) {
+    unkstruct_invadepoh_4* temp_v0;
+    unkstruct_invadepoh_4* temp_v0_2;
+
+    Math_Vec3s_Copy(&substruct->unk26, arg5);
+    substruct->unk2C = arg6;
+    substruct->unk30 = arg7;
+    substruct->unk38 = arg8;
+    substruct->unk3C = arg9;
+    if (arg1 != 0) {
+        temp_v0 = &arg1[arg2].unk_struct_4_elem;
+        substruct->unk0.unk4 = temp_v0->unk00;
+        substruct->unk0.unk0 = arg1;
+        substruct->unk0.unk8 = temp_v0;
+        substruct->unk0.unkC = 0;
+        substruct->unk0.unkE = 0;
+        substruct->unk0.unkF = *temp_v0->unk04->unk00;
+    }
+    if (arg3 != 0) {
+        temp_v0_2 = &arg3[arg4].unk_struct_4_elem;
+        substruct->unk10.unk4 = temp_v0_2->unk00;
+        substruct->unk10.unk0 = arg3;
+        substruct->unk10.unk8 = temp_v0_2;
+        substruct->unk10.unkC = 0;
+        substruct->unk10.unkE = 0;
+        substruct->unk10.unkF = *temp_v0_2->unk04->unk00;
+    }
+}
+#else
 #pragma GLOBAL_ASM("./asm/non_matchings/overlays/ovl_En_Invadepoh_0x80B439B0/func_80B45C04.asm")
-void func_80B45C04(EnInvadePohStructUnk324* substruct, unkstruct_invadepoh_union* arg1, s32 arg2,
-                   unkstruct_invadepoh_union* arg3, s32 arg4, Vec3s* arg5, s16 arg6, f32 arg7, f32 arg8, f32 arg9);
+#endif
+
 
 void func_80B45CE0(EnInvadePohStructUnk324* substruct) {
     Vec3f sp3C;
@@ -3443,7 +3475,7 @@ void func_80B4A350(EnInvadepoh* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer < 300.0f) {
         player = PLAYER;
 
-        temp_v1_2 = Math_Vec3f_Pitch(&this->actor.focus.pos, &player->base.focus);
+        temp_v1_2 = Math_Vec3f_Pitch(&this->actor.focus.pos, &player->base.focus.pos);
         temp_v1_2 *= 0.85f;
         temp_v1_2 -= this->actor.shape.rot.x;
         substruct->unk26.x = CLAMP(temp_v1_2, -0x9C4, 0x9C4);
